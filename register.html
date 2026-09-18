@@ -103,6 +103,38 @@
         }
         .auth-status.error { color: var(--danger); }
         .auth-status.success { color: var(--accent); }
+        .field-row {
+            display: flex;
+            gap: 0.75rem;
+        }
+        .field-row .field { flex: 1; }
+        .avatar-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .avatar-preview {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: var(--bg);
+            border: 1.5px solid var(--border-input);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .avatar-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .avatar-preview .lucide {
+            width: 22px !important;
+            height: 22px !important;
+            color: var(--text-ghost);
+        }
         .divider {
             display: flex;
             align-items: center;
@@ -232,6 +264,30 @@
                         <input type="email" id="regEmail" placeholder="you@example.com" required autocomplete="email">
                     </div>
                     <div class="field">
+                        <label for="regAvatar">Avatar URL <span style="font-weight:400;color:var(--text-ghost)">(optional)</span></label>
+                        <div class="avatar-row">
+                            <div class="avatar-preview" id="avatarPreview">
+                                <i data-lucide="user"></i>
+                            </div>
+                            <input type="url" id="regAvatar" placeholder="https://example.com/photo.jpg" autocomplete="url" style="flex:1">
+                        </div>
+                        <span class="field-hint" id="avatarHint">Link to your profile picture.</span>
+                    </div>
+                    <div class="field-row">
+                        <div class="field">
+                            <label for="regSchool">School <span style="font-weight:400;color:var(--text-ghost)">(optional)</span></label>
+                            <input type="text" id="regSchool" placeholder="e.g. Parklands High">
+                        </div>
+                        <div class="field">
+                            <label for="regCity">City <span style="font-weight:400;color:var(--text-ghost)">(optional)</span></label>
+                            <input type="text" id="regCity" placeholder="e.g. Johannesburg">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="regUniversity">University <span style="font-weight:400;color:var(--text-ghost)">(optional)</span></label>
+                        <input type="text" id="regUniversity" placeholder="e.g. University of Cape Town">
+                    </div>
+                    <div class="field">
                         <label for="regPassword">Password</label>
                         <input type="password" id="regPassword" placeholder="At least 6 characters" required minlength="6" autocomplete="new-password">
                         <span class="field-hint" id="pwHint">Use 6+ characters.</span>
@@ -325,12 +381,38 @@
             var nameIn   = document.getElementById('regName');
             var handleIn = document.getElementById('regHandle');
             var emailIn  = document.getElementById('regEmail');
+            var avatarIn = document.getElementById('regAvatar');
+            var schoolIn = document.getElementById('regSchool');
+            var uniIn    = document.getElementById('regUniversity');
+            var cityIn   = document.getElementById('regCity');
             var pwIn     = document.getElementById('regPassword');
             var confirmIn= document.getElementById('regConfirm');
             var termsIn  = document.getElementById('terms');
             var handleHint = document.getElementById('handleHint');
             var pwHint      = document.getElementById('pwHint');
             var confirmHint = document.getElementById('confirmHint');
+            var avatarPreview = document.getElementById('avatarPreview');
+
+            avatarIn.addEventListener('input', function () {
+                var url = avatarIn.value.trim();
+                if (url) {
+                    var img = avatarPreview.querySelector('img');
+                    if (!img) {
+                        img = document.createElement('img');
+                        avatarPreview.innerHTML = '';
+                        avatarPreview.appendChild(img);
+                    }
+                    img.src = url;
+                    img.alt = 'Avatar preview';
+                    img.onerror = function () {
+                        avatarPreview.innerHTML = '<i data-lucide="user"></i>';
+                        lucide.createIcons({ nodes: [avatarPreview] });
+                    };
+                } else {
+                    avatarPreview.innerHTML = '<i data-lucide="user"></i>';
+                    lucide.createIcons({ nodes: [avatarPreview] });
+                }
+            });
 
             function validEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
 
@@ -382,9 +464,13 @@
                 statusEl.textContent = '';
                 statusEl.className = 'auth-status';
 
-                var name    = nameIn.value.trim();
-                var handle  = handleIn.value.trim().toLowerCase();
-                var email   = emailIn.value.trim().toLowerCase();
+                var name     = nameIn.value.trim();
+                var handle   = handleIn.value.trim().toLowerCase();
+                var email    = emailIn.value.trim().toLowerCase();
+                var avatar   = avatarIn.value.trim();
+                var school   = schoolIn.value.trim();
+                var university = uniIn.value.trim();
+                var city     = cityIn.value.trim();
                 var password = pwIn.value;
                 var confirm  = confirmIn.value;
                 var termsOk  = termsIn.checked;
@@ -404,7 +490,16 @@
                     var res = await fetch(API_BASE + '/api/auth/register', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ name: name, email: email, password: password, handle: handle })
+                        body: JSON.stringify({
+                            name: name,
+                            email: email,
+                            password: password,
+                            handle: handle,
+                            avatar: avatar || null,
+                            school: school || null,
+                            university: university || null,
+                            city: city || null
+                        })
                     });
 
                     var data = await res.json();
@@ -423,6 +518,10 @@
                         email: data.user.email,
                         name: data.user.name,
                         handle: data.user.handle,
+                        avatar: data.user.avatar,
+                        school: data.user.school,
+                        university: data.user.university,
+                        city: data.user.city,
                         token: data.sessionId,
                         sessionId: data.sessionId,
                         iat: Date.now(),
