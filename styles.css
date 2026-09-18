@@ -20,6 +20,9 @@
     --accent-soft-hover: rgba(107, 186, 239, 0.06);
     --danger:      #e05a5a;
     --overlay:     rgba(0, 0, 0, 0.55);
+    --btn-bg:      #6bbaef;
+    --btn-text:    #212121;
+    --btn-hover:   #8ecbf5;
 }
 
 [data-theme="light"] {
@@ -40,6 +43,9 @@
     --accent-soft-hover: rgba(58, 158, 224, 0.06);
     --danger:      #d64545;
     --overlay:     rgba(0, 0, 0, 0.35);
+    --btn-bg:      #ffffff;
+    --btn-text:    #212121;
+    --btn-hover:   #f0f0f0;
 }
 
 /* ---------- RESET ---------- */
@@ -278,25 +284,6 @@ a {
 .mobile-theme-toggle .lucide {
     width: 16px !important;
     height: 16px !important;
-}
-
-.auth-field .lucide {
-    width: 15px !important;
-    height: 15px !important;
-    position: absolute;
-    left: 0.85rem;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--text-ghost);
-    pointer-events: none;
-}
-
-.auth-field {
-    position: relative;
-}
-
-.auth-field input {
-    padding-left: 2.6rem;
 }
 
 .content-list li .lucide {
@@ -586,8 +573,13 @@ a {
 
 /* ---------- HERO ---------- */
 .hero {
-    padding: 5rem 0 5rem;
+    min-height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
+    padding: 2rem 0;
 }
 
 .hero h1 {
@@ -618,9 +610,9 @@ a {
     font-family: 'Archivo', sans-serif;
     font-size: 1rem;
     font-weight: 600;
-    color: #212121;
-    background-color: var(--accent);
-    border: 1px solid var(--accent);
+    color: var(--btn-text);
+    background-color: var(--btn-bg);
+    border: 1px solid var(--btn-bg);
     border-radius: 8px;
     padding: 1rem 1.5rem;
     cursor: pointer;
@@ -629,15 +621,13 @@ a {
 }
 
 .waitlist-btn:hover {
-    background-color: var(--accent-hover);
-    border-color: var(--accent-hover);
+    background-color: var(--btn-hover);
+    border-color: var(--btn-hover);
     transform: translateY(-2px);
-    filter: blur(0.5px);
 }
 
 .waitlist-btn:active {
     transform: translateY(0);
-    filter: none;
 }
 
 .waitlist-form {
@@ -675,9 +665,9 @@ a {
     font-family: 'Archivo', sans-serif;
     font-size: 1rem;
     font-weight: 600;
-    color: #ffffff;
-    background-color: #212121;
-    border: 1px solid #212121;
+    color: var(--btn-text);
+    background-color: var(--btn-bg);
+    border: 1px solid var(--btn-bg);
     border-radius: 8px;
     padding: 1rem 1.5rem;
     cursor: pointer;
@@ -686,8 +676,8 @@ a {
 }
 
 .waitlist-form button:hover {
-    background-color: #333333;
-    border-color: #333333;
+    background-color: var(--btn-hover);
+    border-color: var(--btn-hover);
 }
 
 .waitlist-success {
@@ -786,6 +776,7 @@ a {
     flex-direction: column;
     gap: 0.4rem;
     margin-bottom: 1rem;
+    position: relative;
 }
 
 .auth-field label {
@@ -801,7 +792,7 @@ a {
     background-color: var(--bg);
     border: 1.5px solid var(--border-input);
     border-radius: 8px;
-    padding: 0.85rem 1rem;
+    padding: 0.85rem 1rem 0.85rem 2.6rem;
     outline: none;
     transition: border-color 0.2s ease;
 }
@@ -814,14 +805,25 @@ a {
     border-color: var(--accent);
 }
 
+.auth-field .lucide {
+    width: 15px !important;
+    height: 15px !important;
+    position: absolute;
+    left: 0.85rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-ghost);
+    pointer-events: none;
+}
+
 .auth-submit {
     width: 100%;
     font-family: 'Archivo', sans-serif;
     font-size: 1rem;
     font-weight: 600;
-    color: #ffffff;
-    background-color: #212121;
-    border: 1px solid #212121;
+    color: var(--btn-text);
+    background-color: var(--btn-bg);
+    border: 1px solid var(--btn-bg);
     border-radius: 8px;
     padding: 0.95rem 1.5rem;
     cursor: pointer;
@@ -831,8 +833,8 @@ a {
 }
 
 .auth-submit:hover {
-    background-color: #333333;
-    border-color: #333333;
+    background-color: var(--btn-hover);
+    border-color: var(--btn-hover);
 }
 
 .auth-footer {
@@ -982,16 +984,15 @@ a {
 }
 
 .pricing-btn.primary {
-    color: #ffffff;
-    background-color: #212121;
-    border: 1px solid #212121;
+    color: var(--btn-text);
+    background-color: var(--btn-bg);
+    border: 1px solid var(--btn-bg);
 }
 
 .pricing-btn.primary:hover {
-    background-color: #333333;
-    border-color: #333333;
+    background-color: var(--btn-hover);
+    border-color: var(--btn-hover);
     transform: translateY(-2px);
-    filter: blur(0.5px);
 }
 
 .pricing-btn.ghost {
@@ -1001,16 +1002,16 @@ a {
 }
 
 .pricing-btn.ghost:hover {
-    color: var(--accent);
-    border-color: var(--accent);
-    background-color: var(--accent-soft-hover);
+    color: var(--btn-text);
+    background-color: var(--btn-hover);
+    border-color: var(--btn-hover);
     transform: translateY(-1px);
 }
 
 /* ---------- FOOTER ---------- */
 .site-footer {
     border-top: 1px solid var(--border-soft);
-    padding: 2.5rem 1.5rem 1.5rem;
+    padding: 2.5rem 0 1.5rem;
     background-color: var(--bg-elev-2);
     transition: background-color 0.25s ease, border-color 0.25s ease;
 }
@@ -1022,11 +1023,12 @@ a {
     justify-content: space-between;
     align-items: flex-start;
     gap: 3rem;
+    padding: 0;
 }
 
 .footer-brand {
     flex: 1;
-    max-width: 320px;
+    max-width: 400px;
 }
 
 .footer-brand .logo {
@@ -1082,7 +1084,7 @@ a {
 .footer-bottom {
     max-width: 1000px;
     margin: 2rem auto 0;
-    padding-top: 1.25rem;
+    padding: 1.25rem 0 0;
     border-top: 1px solid var(--border-soft);
     display: flex;
     flex-wrap: wrap;

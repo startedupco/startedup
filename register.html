@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Register — Foundable</title>
-    <meta name="description" content="Create your Foundable account.">
+    <title>Register — startedup.co</title>
+    <meta name="description" content="Create your startedup.co account.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -52,17 +52,17 @@
             font-family: 'Archivo', sans-serif;
             font-size: 1rem;
             font-weight: 600;
-            color: #ffffff;
-            background-color: #212121;
-            border: 1px solid #212121;
+            color: var(--btn-text);
+            background-color: var(--btn-bg);
+            border: 1px solid var(--btn-bg);
             border-radius: 8px;
             padding: 0.95rem 1.5rem;
             cursor: pointer;
             transition: all 0.2s ease;
         }
         .btn-auth:hover:not(:disabled) {
-            background-color: #333333;
-            border-color: #333333;
+            background-color: var(--btn-hover);
+            border-color: var(--btn-hover);
         }
         .btn-auth:disabled { opacity: 0.5; cursor: not-allowed; }
         .auth-footer {
@@ -132,7 +132,7 @@
 </head>
 <body data-page="register">
     <header class="site-header">
-        <a href="index.html" class="logo">Found<span>able</span></a>
+        <a href="index.html" class="logo">startedup<span>.co</span></a>
 
         <ul class="nav-desktop">
             <li><a href="index.html" data-page="start">Start</a></li>
@@ -225,7 +225,7 @@
     <main class="container">
         <div class="auth-wrap">
                 <h2>Create your account</h2>
-                <p class="auth-sub">Join Foundable in seconds</p>
+                <p class="auth-sub">Join startedup.co in seconds</p>
 
                 <form id="registerForm" novalidate>
                     <div class="field">
@@ -295,10 +295,10 @@
     <footer class="site-footer">
         <div class="footer-inner">
             <div class="footer-brand">
-                <a href="index.html" class="logo">Found<span>able</span></a>
+                <a href="index.html" class="logo">startedup<span>.co</span></a>
                 <p>
                     Tools to help you turn an idea into a business that runs on its own.
-                    Built in South Africa. © 2026 Foundable. All rights reserved.
+                    Built in South Africa. © 2026 startedup.co. All rights reserved.
                 </p>
             </div>
             <div class="footer-links">
@@ -330,7 +330,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <span>&copy; 2026 Foundable. All rights reserved.</span>
+            <span>&copy; 2026 startedup.co. All rights reserved.</span>
             <span>
                 <a href="index.html" data-page="start">Privacy</a> &nbsp;&middot;&nbsp;
                 <a href="index.html" data-page="start">Terms</a>
