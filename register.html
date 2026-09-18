@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Register — Foundable</title>
+    <meta name="description" content="Create your Foundable account.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .auth-wrap { max-width: 440px; margin: 2rem auto 4rem; }
+        .auth-card {
+            background-color: var(--bg-elev);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 2.25rem 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .auth-card h2 {
+            text-align: center;
+            margin-bottom: 0.35rem;
+            font-size: 1.4rem;
+        }
+        .auth-card .auth-sub {
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            margin-bottom: 1.75rem;
+        }
+        .field { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
+        .field label { font-size: 0.82rem; color: var(--text-muted); font-weight: 500; }
+        .field input {
+            font-family: 'Archivo', sans-serif;
+            font-size: 0.95rem;
+            color: var(--text);
+            background-color: var(--bg);
+            border: 1.5px solid var(--border-input);
+            border-radius: 8px;
+            padding: 0.85rem 1rem;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .field input::placeholder { color: var(--text-ghost); }
+        .field input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(107, 186, 239, 0.12);
+        }
+        .field-hint {
+            font-size: 0.75rem;
+            color: var(--text-faint);
+            margin-top: 0.15rem;
+        }
+        .field-hint.ok { color: var(--accent); }
+        .field-hint.bad { color: var(--danger); }
+        .auth-check {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            font-size: 0.82rem;
+            color: var(--text-dim);
+            cursor: pointer;
+            margin-bottom: 1.25rem;
+        }
+        .auth-check input { margin-top: 0.2rem; accent-color: var(--accent); }
+        .auth-check a { color: var(--accent); text-decoration: none; }
+        .auth-check a:hover { text-decoration: underline; }
+        .btn-auth {
+            width: 100%;
+            font-family: 'Archivo', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #212121;
+            background-color: var(--accent);
+            border: 1px solid var(--accent);
+            border-radius: 8px;
+            padding: 0.95rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(107, 186, 239, 0.25);
+        }
+        .btn-auth:hover:not(:disabled) {
+            background-color: var(--accent-hover);
+            border-color: var(--accent-hover);
+            box-shadow: 0 4px 16px rgba(107, 186, 239, 0.35);
+        }
+        .btn-auth:disabled { opacity: 0.5; cursor: not-allowed; }
+        .auth-footer {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            margin-top: 1.25rem;
+        }
+        .auth-footer a { color: var(--accent); }
+        .auth-footer a:hover { text-decoration: underline; }
+        .auth-status {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            margin-top: 1rem;
+            min-height: 1.2em;
+            text-align: center;
+        }
+        .auth-status.error { color: var(--danger); }
+        .auth-status.success { color: var(--accent); }
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin: 1.25rem 0;
+            color: var(--text-ghost);
+            font-size: 0.8rem;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+    </style>
+</head>
+<body data-page="register">
+    <header class="site-header">
+        <a href="index.html" class="logo">Found<span>able</span></a>
+
+        <ul class="nav-desktop">
+            <li><a href="index.html" data-page="start">Start</a></li>
+            <li class="has-dropdown">
+                <button class="nav-trigger" type="button">Product <i data-lucide="chevron-down"></i></button>
+                <ul class="dropdown">
+                    <li><a href="features.html" data-page="features">Features</a></li>
+                    <li><a href="pricing.html" data-page="pricing">Pricing</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown">
+                <button class="nav-trigger lang-trigger" type="button">
+                    <i data-lucide="globe"></i>
+                    <span class="code" id="currentLangDesktop">EN</span>
+                    <i data-lucide="chevron-down"></i>
+                </button>
+                <ul class="dropdown lang-dropdown" id="langMenuDesktop">
+                    <li class="active" data-lang="en"><button type="button">EN — English <i data-lucide="check"></i></button></li>
+                    <li data-lang="af"><button type="button">AF — Afrikaans <i data-lucide="check"></i></button></li>
+                    <li data-lang="zu"><button type="button">ZU — isiZulu <i data-lucide="check"></i></button></li>
+                    <li data-lang="xh"><button type="button">XH — isiXhosa <i data-lucide="check"></i></button></li>
+                    <li data-lang="fr"><button type="button">FR — Français <i data-lucide="check"></i></button></li>
+                    <li data-lang="es"><button type="button">ES — Español <i data-lucide="check"></i></button></li>
+                    <li data-lang="pt"><button type="button">PT — Português <i data-lucide="check"></i></button></li>
+                    <li data-lang="de"><button type="button">DE — Deutsch <i data-lucide="check"></i></button></li>
+                    <li data-lang="nl"><button type="button">NL — Nederlands <i data-lucide="check"></i></button></li>
+                    <li data-lang="sw"><button type="button">SW — Kiswahili <i data-lucide="check"></i></button></li>
+                </ul>
+            </li>
+            <li>
+                <button class="theme-toggle" id="themeToggleDesktop" aria-label="Toggle theme">
+                    <i data-lucide="sun" class="icon-sun"></i>
+                    <i data-lucide="moon" class="icon-moon"></i>
+                </button>
+            </li>
+            <li><a href="login.html" data-page="login" class="login-link">Log in</a></li>
+        </ul>
+
+        <button class="hamburger" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">
+            <span></span>
+        </button>
+    </header>
+
+    <ul class="nav-mobile" id="mobileNav">
+        <li><a href="index.html" data-page="start">Start</a></li>
+        <li>
+            <button class="mobile-dropdown-toggle" type="button" id="mobileProductToggle">
+                Product <i data-lucide="chevron-down"></i>
+            </button>
+            <ul class="mobile-dropdown" id="mobileProduct">
+                <li><a href="features.html" data-page="features">Features</a></li>
+                <li><a href="pricing.html" data-page="pricing">Pricing</a></li>
+            </ul>
+        </li>
+        <li>
+            <button class="mobile-dropdown-toggle" type="button" id="mobileLangToggle">
+                <span style="display:flex;align-items:center;gap:0.5rem;">
+                    <i data-lucide="globe"></i>
+                    <span id="currentLangMobile">EN</span>
+                </span>
+                <i data-lucide="chevron-down"></i>
+            </button>
+            <ul class="mobile-dropdown" id="mobileLang">
+                <li class="active" data-lang="en"><button type="button">EN — English <i data-lucide="check"></i></button></li>
+                <li data-lang="af"><button type="button">AF — Afrikaans <i data-lucide="check"></i></button></li>
+                <li data-lang="zu"><button type="button">ZU — isiZulu <i data-lucide="check"></i></button></li>
+                <li data-lang="xh"><button type="button">XH — isiXhosa <i data-lucide="check"></i></button></li>
+                <li data-lang="fr"><button type="button">FR — Français <i data-lucide="check"></i></button></li>
+                <li data-lang="es"><button type="button">ES — Español <i data-lucide="check"></i></button></li>
+                <li data-lang="pt"><button type="button">PT — Português <i data-lucide="check"></i></button></li>
+                <li data-lang="de"><button type="button">DE — Deutsch <i data-lucide="check"></i></button></li>
+                <li data-lang="nl"><button type="button">NL — Nederlands <i data-lucide="check"></i></button></li>
+                <li data-lang="sw"><button type="button">SW — Kiswahili <i data-lucide="check"></i></button></li>
+            </ul>
+        </li>
+        <li>
+            <button class="mobile-theme-toggle" id="themeToggleMobile" type="button">
+                <span>Theme</span>
+                <span class="theme-toggle" aria-hidden="true">
+                    <i data-lucide="sun" class="icon-sun"></i>
+                    <i data-lucide="moon" class="icon-moon"></i>
+                </span>
+            </button>
+        </li>
+        <li><a href="login.html" data-page="login" class="login-link">Log in</a></li>
+    </ul>
+
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <main class="container">
+        <div class="auth-wrap">
+            <div class="auth-card">
+                <h2>Create your account</h2>
+                <p class="auth-sub">Join Foundable in seconds</p>
+
+                <form id="registerForm" novalidate>
+                    <div class="field">
+                        <label for="regName">Full name</label>
+                        <input type="text" id="regName" placeholder="Jane Doe" required autocomplete="name">
+                    </div>
+                    <div class="field">
+                        <label for="regHandle">Handle</label>
+                        <input type="text" id="regHandle" placeholder="janedoe" required autocomplete="username" minlength="3" maxlength="30" pattern="[a-zA-Z0-9_-]+">
+                        <span class="field-hint" id="handleHint">Letters, numbers, underscores, and dashes only.</span>
+                    </div>
+                    <div class="field">
+                        <label for="regEmail">Email</label>
+                        <input type="email" id="regEmail" placeholder="you@example.com" required autocomplete="email">
+                    </div>
+                    <div class="field">
+                        <label for="regPassword">Password</label>
+                        <input type="password" id="regPassword" placeholder="At least 6 characters" required minlength="6" autocomplete="new-password">
+                        <span class="field-hint" id="pwHint">Use 6+ characters.</span>
+                    </div>
+                    <div class="field">
+                        <label for="regConfirm">Confirm password</label>
+                        <input type="password" id="regConfirm" placeholder="Repeat your password" required autocomplete="new-password">
+                        <span class="field-hint" id="confirmHint"></span>
+                    </div>
+                    <label class="auth-check">
+                        <input type="checkbox" id="terms" required>
+                        <span>I agree to the <a href="#">Terms</a> and <a href="#">Privacy Policy</a></span>
+                    </label>
+                    <button type="submit" class="btn-auth" id="registerBtn">Create account</button>
+                </form>
+
+                <p class="auth-status" id="registerStatus"></p>
+
+                <div class="divider">or</div>
+
+                <p class="auth-footer">
+                    Already have an account? <a href="login.html" data-page="login">Sign in</a>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <a href="index.html" class="logo">Found<span>able</span></a>
+                <p>
+                    Tools to help you turn an idea into a business that runs on its own.
+                    Built in South Africa.
+                </p>
+                <div class="brand-logos">
+                    <img src="https://svgl.app/vercel.svg" alt="Vercel" loading="lazy">
+                    <img src="https://svgl.app/github.svg" alt="GitHub" loading="lazy">
+                    <img src="https://svgl.app/stripe.svg" alt="Stripe" loading="lazy">
+                </div>
+            </div>
+            <div class="footer-links">
+                <div class="footer-col">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="features.html" data-page="features">Features</a></li>
+                        <li><a href="pricing.html" data-page="pricing">Pricing</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="index.html" data-page="start">About</a></li>
+                        <li><a href="index.html" data-page="start">Contact</a></li>
+                        <li><a href="index.html" data-page="start">Careers</a></li>
+                        <li><a href="index.html" data-page="start">Press</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="index.html" data-page="start">Privacy</a></li>
+                        <li><a href="index.html" data-page="start">Terms</a></li>
+                        <li><a href="index.html" data-page="start">Cookies</a></li>
+                        <li><a href="index.html" data-page="start">POPIA</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 Foundable. All rights reserved.</span>
+            <span>
+                <a href="index.html" data-page="start">Privacy</a> &nbsp;&middot;&nbsp;
+                <a href="index.html" data-page="start">Terms</a>
+            </span>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="app.js"></script>
+    <script>
+        lucide.createIcons();
+
+        (function () {
+            var API_BASE = 'http://localhost:3000';
+            var SESSION_KEY = 'foundable.session';
+
+            var form     = document.getElementById('registerForm');
+            var statusEl = document.getElementById('registerStatus');
+            var btn      = document.getElementById('registerBtn');
+            var nameIn   = document.getElementById('regName');
+            var handleIn = document.getElementById('regHandle');
+            var emailIn  = document.getElementById('regEmail');
+            var pwIn     = document.getElementById('regPassword');
+            var confirmIn= document.getElementById('regConfirm');
+            var termsIn  = document.getElementById('terms');
+            var handleHint = document.getElementById('handleHint');
+            var pwHint      = document.getElementById('pwHint');
+            var confirmHint = document.getElementById('confirmHint');
+
+            function validEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
+
+            function passwordStrength(p) {
+                if (!p) return { score: 0, label: '' };
+                var s = 0;
+                if (p.length >= 6) s++;
+                if (p.length >= 10) s++;
+                if (/[A-Z]/.test(p)) s++;
+                if (/[0-9]/.test(p)) s++;
+                if (/[^A-Za-z0-9]/.test(p)) s++;
+                var labels = ['Very weak','Weak','Okay','Good','Strong','Excellent'];
+                return { score: s, label: labels[s] };
+            }
+
+            pwIn.addEventListener('input', function () {
+                var v = pwIn.value;
+                if (!v) { pwHint.textContent = 'Use 6+ characters.'; pwHint.className = 'field-hint'; return; }
+                var s = passwordStrength(v);
+                pwHint.textContent = s.label + (v.length < 6 ? ' (min 6)' : '');
+                pwHint.className = 'field-hint ' + (s.score >= 3 ? 'ok' : 'bad');
+            });
+
+            confirmIn.addEventListener('input', function () {
+                if (!confirmIn.value) { confirmHint.textContent = ''; confirmHint.className = 'field-hint'; return; }
+                if (confirmIn.value === pwIn.value) {
+                    confirmHint.textContent = 'Passwords match';
+                    confirmHint.className = 'field-hint ok';
+                } else {
+                    confirmHint.textContent = 'Passwords do not match';
+                    confirmHint.className = 'field-hint bad';
+                }
+            });
+
+            handleIn.addEventListener('input', function () {
+                var v = handleIn.value.trim();
+                if (!v) { handleHint.textContent = 'Letters, numbers, underscores, and dashes only.'; handleHint.className = 'field-hint'; return; }
+                if (/^[a-zA-Z][a-zA-Z0-9_-]{2,29}$/.test(v)) {
+                    handleHint.textContent = 'Looks good!';
+                    handleHint.className = 'field-hint ok';
+                } else {
+                    handleHint.textContent = 'Must start with a letter, 3-30 chars, a-z 0-9 _ -';
+                    handleHint.className = 'field-hint bad';
+                }
+            });
+
+            form.addEventListener('submit', async function (e) {
+                e.preventDefault();
+                statusEl.textContent = '';
+                statusEl.className = 'auth-status';
+
+                var name    = nameIn.value.trim();
+                var handle  = handleIn.value.trim().toLowerCase();
+                var email   = emailIn.value.trim().toLowerCase();
+                var password = pwIn.value;
+                var confirm  = confirmIn.value;
+                var termsOk  = termsIn.checked;
+
+                if (!name) { statusEl.textContent = 'Please enter your name.'; statusEl.className = 'auth-status error'; nameIn.focus(); return; }
+                if (!handle || handle.length < 3) { statusEl.textContent = 'Handle must be at least 3 characters.'; statusEl.className = 'auth-status error'; handleIn.focus(); return; }
+                if (!/^[a-zA-Z][a-zA-Z0-9_-]+$/.test(handle)) { statusEl.textContent = 'Handle can only contain letters, numbers, underscores, and dashes.'; statusEl.className = 'auth-status error'; handleIn.focus(); return; }
+                if (!validEmail(email)) { statusEl.textContent = 'Please enter a valid email address.'; statusEl.className = 'auth-status error'; emailIn.focus(); return; }
+                if (password.length < 6) { statusEl.textContent = 'Password must be at least 6 characters.'; statusEl.className = 'auth-status error'; pwIn.focus(); return; }
+                if (password !== confirm) { statusEl.textContent = 'Passwords do not match.'; statusEl.className = 'auth-status error'; confirmIn.focus(); return; }
+                if (!termsOk) { statusEl.textContent = 'Please accept the Terms and Privacy Policy.'; statusEl.className = 'auth-status error'; return; }
+
+                btn.disabled = true;
+                btn.textContent = 'Creating account...';
+
+                try {
+                    var res = await fetch(API_BASE + '/api/auth/register', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ name: name, email: email, password: password, handle: handle })
+                    });
+
+                    var data = await res.json();
+
+                    if (!res.ok) {
+                        statusEl.textContent = data.error || 'Registration failed. Please try again.';
+                        statusEl.className = 'auth-status error';
+                        btn.disabled = false;
+                        btn.textContent = 'Create account';
+                        return;
+                    }
+
+                    var session = {
+                        provider: 'email',
+                        sub: data.user.id,
+                        email: data.user.email,
+                        name: data.user.name,
+                        handle: data.user.handle,
+                        token: data.sessionId,
+                        sessionId: data.sessionId,
+                        iat: Date.now(),
+                        exp: Date.now() + 1000 * 60 * 60 * 24 * 30
+                    };
+
+                    try { localStorage.setItem(SESSION_KEY, JSON.stringify(session)); } catch (e) {}
+
+                    statusEl.textContent = 'Account created! Redirecting...';
+                    statusEl.className = 'auth-status success';
+
+                    setTimeout(function () {
+                        window.location.href = 'index.html';
+                    }, 1200);
+
+                } catch (err) {
+                    statusEl.textContent = 'Network error. Please check your connection and try again.';
+                    statusEl.className = 'auth-status error';
+                    btn.disabled = false;
+                    btn.textContent = 'Create account';
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
