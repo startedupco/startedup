@@ -9,6 +9,132 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/splitting@1.0.6/dist/splitting.min.js"></script>
+    <style>
+        .hero .splitting { cursor: pointer; }
+
+        /* Animations for hero text only */
+        .hero .blur-it .char { color: rgba(255,255,255,1); transition: opacity 0.2s linear; }
+        .hero .blur-it .char:before, .hero .blur-it .char:after { visibility: visible; opacity: 0; }
+        .hero .blur-it:hover .char { color: rgba(255,255,255,0.5); }
+        .hero .blur-it:hover .char:before, .hero .blur-it:hover .char:after { opacity: 0.8; animation: blur 0.6s linear infinite alternate; animation-delay: calc( -0.2s * var(--distance-percent) ); }
+        .hero .blur-it:hover .char:after { animation-delay: calc( 0.3s + (-0.2s * var(--distance-percent)) ); }
+        @keyframes blur { 0% { transform: translate(-0.1em, 0) scale(0.9) rotate(-2deg); } 50% { transform: translate(0,0) scale(1.1) rotate(0deg); } 100% { transform: translate(0.1em, 0) scale(0.9) rotate(2deg); } }
+
+        .hero .plop-it { perspective: 500px; transform-style: preserve-3d; }
+        .hero .plop-it:hover .char { animation: plop 2s ease-out infinite both; animation-delay: calc( 0.05s * var(--char-index) ); }
+        @keyframes plop { 0% { opacity: 0; transform: translate3d(0px, 10px, 400px) rotate(180deg); animation-timing-function: cubic-bezier(.5,0,.8,.25); } 20% { transform: translate3d(0px, -20px, 200px) rotate(90deg); animation-timing-function: cubic-bezier(0,.5,.5,1.1); } 40%, 70% { opacity: 1; transform: translate3d(0px, 0px, 0px) rotate(0deg); } 90%, 100% { opacity: 0; transform: translate3d(0px, 10px, -200px) rotate(-90deg); animation-timing-function: cubic-bezier(.5,0,.8,.25); } }
+
+        .hero .stagger-it .char { transition: color 0.5s linear; transition-delay: calc( 0.04s * var(--char-index) ); }
+        .hero .stagger-it:hover { color: #00C9B1; }
+
+        .hero .stretch-it .char { transition: transform 0.5s cubic-bezier(.8,0,0,.9); }
+        .hero .stretch-it:hover .char { transform: scale(0.8, 0.8); }
+        .hero .stretch-it .char:hover { transform: scale(0.9,1.5); transition-duration: 0.3s; }
+
+        .hero .slide-vertical .char, .hero .slide-horizontal .char { overflow: hidden; color: transparent; }
+        .hero .slide-vertical .char:before, .hero .slide-vertical .char:after, .hero .slide-horizontal .char:before, .hero .slide-horizontal .char:after { visibility: visible; color: #FFF; transition: transform 0.5s cubic-bezier(0.9,0,.2,1); transition-delay: calc( 0.2s + ( 0.02s * ( var(--char-index)) ) ); }
+        .hero .slide-vertical .char:before, .hero .slide-horizontal .char:before { color: #00C9B1; transition-delay: calc( 0.02s * ( var(--char-index)) ); }
+        .hero .slide-vertical:hover .char:before, .hero .slide-horizontal:hover .char:before { transition-delay: calc( 0.2s + ( 0.02s * ( var(--char-index)) ) ); }
+        .hero .slide-vertical:hover .char:after, .hero .slide_horizontal:hover .char:after { transition-delay: calc( 0.02s * ( var(--char-index)) ); }
+        .hero .slide-vertical .char:before { transform: translateY(-100%); }
+        .hero .slide-vertical:hover .char:before { transform: translateY(0%); }
+        .hero .slide-vertical:hover .char:after { transform: translateY(100%); }
+        .hero .slide-horizontal .char:before { transform: translateX(110%); }
+        .hero .slide-horizontal:hover .char:before { transform: translateX(0%); }
+        .hero .slide-horizontal:hover .char:after { transform: translateX(-110%); }
+
+        .hero .fall-out .char { transition: transform 0.5s cubic-bezier(.86,.01,.14,.98); color: transparent; }
+        .hero .fall-out .char:before, .hero .fall-out .char:after { visibility: visible; color: #FFF; animation-timing-function: cubic-bezier(.77,.02,.11,.97); animation-fill-mode: both; animation-delay: calc(0.75s + (0.05s * var(--char-index)) ); animation-duration: 1s; }
+        .hero .fall-out .char:after { animation-delay: calc(0.05s * var(--char-index) ); }
+        .hero .fall-out:hover .char:before { animation-name: fall-in; }
+        .hero .fall-out:hover .char:after { animation-name: fall-out; }
+        @keyframes fall-in { 0% { transform: translateY(-150%) rotate(-120deg); opacity: 0; } 20% { opacity: 0; } 100% { transform: translateY(0%) rotate(0deg); opacity: 1; } }
+        @keyframes fall-out { 50% { transform: translateY(10%) rotate(15deg); transform-origin: bottom left; opacity: 1; } 100% { transform: translateY(250%) rotate(120deg); transform-origin: center center; opacity: 0; } }
+
+        .hero .wiggle-it:hover .char { transform-origin: center 50%; animation: wiggle-char 0.25s linear infinite both; animation-delay: calc(-0.02s * var(--char-index) ); }
+        @keyframes wiggle-char { 0%, 50%, 100% { transform: rotate(0deg); } 25% { transform: rotate(6deg); } 75% { transform: rotate(-6deg); } }
+
+        .hero .color-cycle:hover .char { animation: color-cycle 1s cubic-bezier(.5,0,.5,1) infinite alternate; animation-delay: calc( 0.03s * var(--char-index) ); animation-duration: calc( 0.04s * calc( var(--char-total) ) ); }
+        @keyframes color-cycle { 25% { color: #FEFF89 } 50% { color: #FF9F68 } 75% { color: #F85959 } 100% { color: #AC005D } }
+
+        .hero .rainbow-it .char { transition: color 0.6s linear; transition-delay: calc( 0.2s * (1 - var(--distance-percent)) ); }
+        .hero .rainbow-it:hover .char { color: hsl( calc(260 * ( var(--char-index) / var(--char-total) ) ), 90%, 70% ); }
+
+        .hero .plump-it, .hero .pinch-it { perspective: 300px; transform-style: preserve-3d; }
+        .hero .plump-it .char, .hero .pinch-it .char { transition: transform 0.4s cubic-bezier(.8,0,0,.8); transition-delay: calc(0.06s * var(--distance-percent)); }
+        .hero .plump-it:hover .char { transform: translateX( calc( -0.5em * var(--distance-sine) ) ) translateZ( calc( 100px * (1 - var(--distance-percent) ) ) ) rotateY( calc( 40deg * var(--distance-sine) ) ); }
+        .hero .pinch-it:hover .char { transform: translateX( calc( -1em * var(--distance-sine) ) ) translateZ( calc( -150px * (1 - var(--distance-percent) ) ) ) rotateY( calc( -60deg * var(--distance-sine) ) ); }
+
+        .hero .run-out { width: 100%; overflow: hidden; pointer-events: none; }
+        .hero .run-out .word { pointer-events: auto; }
+        .hero .run-out .char { color: transparent; }
+        .hero .run-out .char:before, .hero .run-out .char:after { visibility: visible; color: #FFF; transition: transform 1.2s cubic-bezier(.77,.02,.11,.97); transition-delay: calc( 0.04s * var(--char-total) + (0.08s * var(--char-index)) ); }
+        .hero .run-out .char:before { transform: translateX(-100vw) rotate(-35deg); transition-delay: calc(0.04s * var(--char-index) ); }
+        .hero .run-out:hover .char:before { transform: translateX(0) rotate(0deg); transition-delay: calc( 0.04s * var(--char-total) + (0.08s * (var(--char-total) - var(--char-index))) ); }
+        .hero .run-out:hover .char:after { transform: translateX(100vw) rotate(35deg); transition-delay: calc( (0.04s * (var(--char-total) - var(--char-index))) ); }
+
+        .hero .shift-right:before { content: '>'; font: inherit; vertical-align: 0.1em; display: inline-block; transform: scaleY(0) translateX(-1em); margin-right: -0.25em; }
+        .hero .shift-right:before, .hero .shift-right .char { transition: transform 0.8s cubic-bezier(.75,0,.24,.98); transition-delay: calc( 0.015s * var(--char-index) ); }
+        .hero .shift-right .char { transform: translateX(-0.15em); }
+        .hero .shift-right:hover:before { transform: scaleY(1) translateX(0em); }
+        .hero .shift-right:hover .char { transform: translateX(1em); transform: translateX(0.5em) translateX( calc(0.1em * var(--char-index)) ); }
+
+        .hero .spread-out .char { transition: transform 1s cubic-bezier(.8,0,.2,1); transition-delay: calc( 0.2s * var(--distance-percent) ); }
+        .hero .spread-out:hover .char { transition-delay: calc( 0.2s * ( 1 - var(--distance-percent) ) ); transform: scale(0.6) translateX( calc(1.25em * var(--distance-sine)) ); }
+
+        .hero .pull-in .char { transition: transform 1s cubic-bezier(.8,0,.2,1); transition-delay: calc( 0.2s * ( 1 - var(--distance-percent) ) ); }
+        .hero .pull-in:hover .char { transition-delay: calc( 0.2s * var(--distance-percent) ); transform: scale(0.5) translateX( calc(-1.5em * var(--distance-sine)) ); }
+
+        .hero .inflate-it .char { transform: scale(1) translateX(0em); text-shadow: 0 0 5px rgba(0,0,0,0); transition: transform 0.8s cubic-bezier(.75,0,.24,.98), text-shadow 0.8s linear; transition-delay: calc( 0.18s * var(--distance-percent) ); }
+        .hero .inflate-it:hover .char { text-shadow: 0 0 5px rgba(0,0,0,0.3); transform: scale( calc( 1 + ( 0.7 * ( 1 - var(--distance-percent) ) ) ) ) translateX( calc(-0.12em * var(--distance-sine)) ); transition-delay: calc( 0.08s * var(--distance-percent) ); }
+
+        .hero .bounce-it .char { line-height: 1; transform-origin: center bottom; animation-timing-function: cubic-bezier(.77,.02,.11,.97); animation-iteration-count: infinite; animation-fill-mode: both; animation-delay: calc(0.05s * var(--char-index) ); animation-duration: calc( 0.2s + ( 0.03s * var(--char-total)) ); }
+        .hero .bounce-it:hover .char { animation-name: bounce-char; }
+        @keyframes bounce-char { 20% { transform: translateY(0%) scale(1.3, .8); } 70% { transform: translateY(-40%) scale(.8, 1.2); } }
+
+        .hero .zip-it, .hero .split-it { .char { color: #00C9B1; } .char, .char:before, .char:after { transition: transform 0.8s cubic-bezier(.75,0,.25,1); transition-delay: calc( 0.2s * var(--distance-percent) ); } .char:before, .char:after { visibility: visible; color: #FFF; } .char:before { clip-path: polygon(0 0, 100% 0, 100% 54%, 0 54%); } .char:after { clip-path: polygon(0 46%, 100% 46%, 100% 100%, 0 100%); } &:hover .char:before { transform: translateY(-45%) scaleY(0); } &:hover .char:after { transform: translateY(45%) scaleY(0); } }
+        .hero .zip-it .char, .hero .zip-it .char:before, .hero .zip-it .char:after { transition-delay: calc( 0.5s * ( 1 - var(--char-percent) ) ); }
+        .hero .zip-it:hover .char, .hero .zip-it:hover .char:before, .hero .zip-it:hover .char:after { transition-delay: calc( 0.5s * var(--char-percent) ); }
+
+        .hero .glitch-it .char, .hero .glitch-it .char:before, .hero .glitch-it .char:after { transition: color 0.2s linear; animation-duration: 0.6s, 0.4s; animation-iteration-count: infinite; animation-timing-function: steps(1); animation-delay: calc( -0.1s * var(--char-index) ); }
+        .hero .glitch-it .char:before, .hero .glitch-it .char:after { visibility: visible; opacity: 0; mix-blend-mode: overlay; transition-property: opacity; animation-name: glitch-anim, glitch-bounce; animation-play-state: paused; }
+        .hero .glitch-it .char:before { color: #F85959; animation-delay: calc( -0.02s * var(--char-index) ); }
+        .hero .glitch-it .char:after { color: #B7F5DE; animation-delay: calc( -.5s * var(--char-index) ); }
+        .hero .glitch-it:hover .char { color: rgba(255,255,255,0.3); animation-name: glitch-bounce; }
+        .hero .glitch-it:hover .char:before, .hero .glitch-it:hover .char:after { opacity: 1; animation-play-state: running; }
+        @keyframes glitch-bounce { 20% { transform: translate(-1%,0%); } 40% { transform: translate(14%,-2%); } 50% { transform: translate(-5%,5%); } 65% { transform: translate(1%,-2%); } 80% { transform: translate(-3%,2%); } }
+        @keyframes glitch-anim { 0% { clip-path: polygon(0 70%, 100% 70%, 100% 75%, 0 75%); } 20% { clip-path: polygon(0 10%, 100% 10%, 100% 20%, 0 20%); } 40% { clip-path: polygon(0 33%, 100% 33%, 100% 33%, 0 33%); } 60% { clip-path: polygon(0 50%, 100% 50%, 100% 20%, 0 20%); } 80% { clip-path: polygon(0 80%, 100% 80%, 100% 80%, 0 80%); } 100% { clip-path: polygon(0 70%, 100% 70%, 100% 80%, 0 80%); } }
+
+        .hero .frown-it .char, .hero .smile-it .char { transition: transform 1s cubic-bezier(.75,0,.25,1); transition-duration: calc( 0.3s + ( 0.03s * var(--distance-percent)) ); }
+        .hero .frown-it:hover .char { transform: translateY( calc( 1.2em * var(--distance-percent) ) ) rotate( calc( 30deg * var(--distance-sine) ) ); }
+        .hero .smile-it:hover .char { transform: translateY( calc( -1em * var(--distance-percent) ) ) rotate( calc( -35deg * var(--distance-sine) ) ); }
+
+        .hero .flip-it .char, .hero .flip-3d .char { transition: transform 0.6s cubic-bezier(.6,0,0,.6); transition-delay: calc( 0.3s * var(--distance-percent) ); }
+        .hero .flip-it:hover .char, .hero .flip-3d:hover .char { transform: rotateX(-1turn); transition-duration: 1s; transition-delay: calc( 0.3s * ( 1 - var(--distance-percent)) ); }
+        .hero .flip-3d { perspective: 200px; transform-style: preserve-3d; }
+
+        .hero .elevate-it { perspective: 400px; transform-style: preserve-3d; }
+        .hero .elevate-it .char { transition: transform 0.8s cubic-bezier(.5,0,0,.9); transition-delay: calc( 0.1s * (1 - var(--distance-percent)) ); color: transparent; }
+        .hero .elevate-it .char:before, .hero .elevate-it .char:after { visibility: visible; }
+        .hero .elevate-it .char:before { color: #000; opacity: 0.85; transform: translateY(0%) rotateX(45deg) scale(1,0); transform-origin: center 80%; }
+        .hero .elevate-it .char:after { color: #FFF; }
+        .hero .elevate-it:hover .char:before { transform: translateY(0%) rotateX(55deg) scale(0.8, calc( 0.4 + (0.4 * ( 1 - var(--distance-percent))) ) ); }
+        .hero .elevate-it:hover .char:after { transform: translateY(-50%) translateY( calc(30% * var(--distance-percent) ) ) rotateX(55deg); }
+
+        .hero .pop-out .char { color: #00C9B1; }
+        .hero .pop-out .char:after { visibility: visible; color: #FFF; z-index: 2; animation-timing-function: cubic-bezier(.5,0.5,1), linear; animation-iteration-count: infinite; animation-duration: calc( 0.08s * calc( var(--char-total) ) ); animation-delay: calc( 0.08s * var(--char-index) ); }
+        .hero .pop-out:hover .char:after { animation-name: pop-char-out; }
+        @keyframes pop-char-out { 0%, 70%, 100% { transform: translate(0em, 0em); } 35% { transform: translate( 0.05em, -0.1em); } }
+
+        .hero .pop-out-color .char { color: #000; animation-timing-function: cubic-bezier(.5,0,.5,1), linear; animation-iteration-count: infinite; animation-duration: calc( 0.08s * calc( var(--char-total) ) ); animation-delay: calc( 0.08s * var(--char-index) ); }
+        .hero .pop-out-color .char:before, .hero .pop-out-color .char:after { visibility: visible; color: #FFF; z-index: 1; animation: inherit; }
+        .hero .pop-out-color .char:after { color: #FFF; z-index: 2; }
+        .hero .pop-out-color:hover .char { animation-name: color-cycle; }
+        .hero .pop-out-color:hover .char:after { animation-name: pop-char-out }
+        .hero .pop-out-color:hover .char:before { animation-name: pop-char-out2, color-cycle; }
+        @keyframes pop-char-out2 { 0%, 70%, 100% { transform: translate(0em, 0em); } 35% { transform: translate( 0.025em, -0.05em); } }
+    </style>
 </head>
 <body data-page="start">
     <header class="site-header">
@@ -104,7 +230,7 @@
 
     <main class="container">
             <div class="hero" id="start">
-                <h1>
+                <h1 class="splitting" data-splitting>
                     Go to sleep with an idea, wake up to a <span class="jordy">business that runs on its own.</span>
                 </h1>
 
@@ -160,9 +286,26 @@
     </footer>
 
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/splitting@1.0.6/dist/splitting.min.js"></script>
     <script src="app.js"></script>
     <script>
         if (window.lucide) lucide.createIcons();
+
+        const animations = [
+            'blur-it', 'plop-it', 'plump-it', 'pinch-it', 'stagger-it',
+            'stretch-it', 'slide-vertical', 'slide-horizontal', 'fall-out',
+            'run-out', 'shift-right', 'spread-out', 'pull-in', 'inflate-it',
+            'bounce-it', 'wiggle-it', 'zip-it', 'split-it', 'glitch-it',
+            'frown-it', 'smile-it', 'flip-it', 'flip-3d', 'elevate-it',
+            'color-cycle', 'rainbow-it', 'pop-out', 'pop-out-color'
+        ];
+
+        const randomAnimation = animations[Math.floor(Math.random() * animations.length)];
+        const h1 = document.querySelector('.hero h1[data-splitting]');
+        if (h1) {
+            h1.classList.add(randomAnimation);
+            Splitting();
+        }
     </script>
 </body>
 </html>

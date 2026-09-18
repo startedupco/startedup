@@ -202,23 +202,7 @@
                         <input type="email" id="regEmail" placeholder="you@example.com" required autocomplete="email">
                         <span class="field-hint" id="emailHint"></span>
                     </div>
-                    <div class="field-row">
-                        <div class="field">
-                            <label for="regSchool">School <span style="font-weight:400;color:var(--text-ghost)">(optional)</span></label>
-                            <input type="text" id="regSchool" placeholder="e.g. Parklands High" maxlength="120">
-                            <span class="field-hint" id="schoolHint">Optional.</span>
-                        </div>
-                        <div class="field">
-                            <label for="regCity">City <span style="font-weight:400;color:var(--text-ghost)">(optional)</span></label>
-                            <input type="text" id="regCity" placeholder="e.g. Johannesburg" maxlength="120">
-                            <span class="field-hint" id="cityHint">Optional.</span>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label for="regUniversity">University <span style="font-weight:400;color:var(--text-ghost)">(optional)</span></label>
-                        <input type="text" id="regUniversity" placeholder="e.g. University of Cape Town" maxlength="120">
-                        <span class="field-hint" id="uniHint">Optional.</span>
-                    </div>
+                    
                     <div class="field">
                         <label for="regPassword">Password</label>
                         <input type="password" id="regPassword" placeholder="At least 6 characters" required minlength="6" autocomplete="new-password">
@@ -305,9 +289,7 @@
             var nameIn   = document.getElementById('regName');
             var handleIn = document.getElementById('regHandle');
             var emailIn  = document.getElementById('regEmail');
-            var schoolIn = document.getElementById('regSchool');
-            var uniIn    = document.getElementById('regUniversity');
-            var cityIn   = document.getElementById('regCity');
+            
             var pwIn     = document.getElementById('regPassword');
             var confirmIn= document.getElementById('regConfirm');
             var termsIn  = document.getElementById('terms');
@@ -435,9 +417,6 @@
                 var name     = nameIn.value.trim();
                 var handle   = handleIn.value.trim().toLowerCase();
                 var email    = emailIn.value.trim().toLowerCase();
-                var school   = schoolIn.value.trim();
-                var university = uniIn.value.trim();
-                var city     = cityIn.value.trim();
                 var password = pwIn.value;
                 var confirm  = confirmIn.value;
                 var termsOk  = termsIn.checked;
@@ -463,10 +442,7 @@
                             name: name,
                             email: email,
                             password: password,
-                            handle: handle,
-                            school: school || null,
-                            university: university || null,
-                            city: city || null
+                            handle: handle
                         })
                     });
 
@@ -496,9 +472,6 @@
                         name: data.user.name,
                         handle: data.user.handle,
                         avatar: data.user.avatar,
-                        school: data.user.school,
-                        university: data.user.university,
-                        city: data.user.city,
                         token: data.sessionId,
                         sessionId: data.sessionId,
                         iat: Date.now(),
