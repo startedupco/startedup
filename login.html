@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Log in — Foundable</title>
+    <meta name="description" content="Welcome back to Foundable.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="login">
+    <header class="site-header">
+        <a href="index.html" class="logo">Found<span>able</span></a>
+
+        <ul class="nav-desktop">
+            <li><a href="index.html" data-page="start">Start</a></li>
+            <li class="has-dropdown">
+                <button class="nav-trigger" type="button">Product <span class="caret"></span></button>
+                <ul class="dropdown">
+                    <li><a href="features.html" data-page="features">Features</a></li>
+                    <li><a href="pricing.html" data-page="pricing">Pricing</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown">
+                <button class="nav-trigger lang-trigger" type="button">
+                    <span class="world-icon" aria-hidden="true">🌐</span>
+                    <span class="code" id="currentLangDesktop">EN</span>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown lang-dropdown" id="langMenuDesktop">
+                    <li class="active" data-lang="en"><button type="button">EN — English <span class="check">✓</span></button></li>
+                    <li data-lang="af"><button type="button">AF — Afrikaans <span class="check">✓</span></button></li>
+                    <li data-lang="zu"><button type="button">ZU — isiZulu <span class="check">✓</span></button></li>
+                    <li data-lang="xh"><button type="button">XH — isiXhosa <span class="check">✓</span></button></li>
+                    <li data-lang="fr"><button type="button">FR — Français <span class="check">✓</span></button></li>
+                    <li data-lang="es"><button type="button">ES — Español <span class="check">✓</span></button></li>
+                    <li data-lang="pt"><button type="button">PT — Português <span class="check">✓</span></button></li>
+                    <li data-lang="de"><button type="button">DE — Deutsch <span class="check">✓</span></button></li>
+                    <li data-lang="nl"><button type="button">NL — Nederlands <span class="check">✓</span></button></li>
+                    <li data-lang="sw"><button type="button">SW — Kiswahili <span class="check">✓</span></button></li>
+                </ul>
+            </li>
+            <li>
+                <button class="theme-toggle" id="themeToggleDesktop" aria-label="Toggle theme">
+                    <span class="icon-sun" aria-hidden="true">☀</span>
+                    <span class="icon-moon" aria-hidden="true">☾</span>
+                </button>
+            </li>
+            <li><a href="login.html" data-page="login" class="login-link">Log in</a></li>
+        </ul>
+
+        <button class="hamburger" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">
+            <span></span>
+        </button>
+    </header>
+
+    <ul class="nav-mobile" id="mobileNav">
+        <li><a href="index.html" data-page="start">Start</a></li>
+        <li>
+            <button class="mobile-dropdown-toggle" type="button" id="mobileProductToggle">
+                Product <span class="caret"></span>
+            </button>
+            <ul class="mobile-dropdown" id="mobileProduct">
+                <li><a href="features.html" data-page="features">Features</a></li>
+                <li><a href="pricing.html" data-page="pricing">Pricing</a></li>
+            </ul>
+        </li>
+        <li>
+            <button class="mobile-dropdown-toggle" type="button" id="mobileLangToggle">
+                <span style="display:flex;align-items:center;gap:0.5rem;">
+                    <span aria-hidden="true">🌐</span>
+                    <span id="currentLangMobile">EN</span>
+                </span>
+                <span class="caret"></span>
+            </button>
+            <ul class="mobile-dropdown" id="mobileLang">
+                <li class="active" data-lang="en"><button type="button">EN — English <span class="check">✓</span></button></li>
+                <li data-lang="af"><button type="button">AF — Afrikaans <span class="check">✓</span></button></li>
+                <li data-lang="zu"><button type="button">ZU — isiZulu <span class="check">✓</span></button></li>
+                <li data-lang="xh"><button type="button">XH — isiXhosa <span class="check">✓</span></button></li>
+                <li data-lang="fr"><button type="button">FR — Français <span class="check">✓</span></button></li>
+                <li data-lang="es"><button type="button">ES — Español <span class="check">✓</span></button></li>
+                <li data-lang="pt"><button type="button">PT — Português <span class="check">✓</span></button></li>
+                <li data-lang="de"><button type="button">DE — Deutsch <span class="check">✓</span></button></li>
+                <li data-lang="nl"><button type="button">NL — Nederlands <span class="check">✓</span></button></li>
+                <li data-lang="sw"><button type="button">SW — Kiswahili <span class="check">✓</span></button></li>
+            </ul>
+        </li>
+        <li>
+            <button class="mobile-theme-toggle" id="themeToggleMobile" type="button">
+                <span>Theme</span>
+                <span class="theme-toggle" aria-hidden="true">
+                    <span class="icon-sun">☀</span>
+                    <span class="icon-moon">☾</span>
+                </span>
+            </button>
+        </li>
+        <li><a href="login.html" data-page="login" class="login-link">Log in</a></li>
+    </ul>
+
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <main class="container">
+        <div class="page-header">
+            <h1>Log in</h1>
+            <p>Welcome back to Foundable.</p>
+        </div>
+
+        <div class="auth-wrap">
+            <h2>Sign in</h2>
+            <p class="auth-sub">Enter your details to access your workspace.</p>
+
+            <form id="loginForm" novalidate>
+                <div class="auth-field">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" placeholder="you@example.com" required>
+                </div>
+                <div class="auth-field">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="auth-submit">Log in</button>
+            </form>
+
+            <p class="auth-footer">
+                Don't have an account? <a href="index.html" data-page="start">Join the waitlist</a>
+            </p>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <a href="index.html" class="logo">Found<span>able</span></a>
+                <p>
+                    Tools to help you turn an idea into a business that runs on its own.
+                    Built in South Africa.
+                </p>
+            </div>
+            <div class="footer-col">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="features.html" data-page="features">Features</a></li>
+                    <li><a href="pricing.html" data-page="pricing">Pricing</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="index.html" data-page="start">About</a></li>
+                    <li><a href="index.html" data-page="start">Contact</a></li>
+                    <li><a href="index.html" data-page="start">Careers</a></li>
+                    <li><a href="index.html" data-page="start">Press</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="index.html" data-page="start">Privacy</a></li>
+                    <li><a href="index.html" data-page="start">Terms</a></li>
+                    <li><a href="index.html" data-page="start">Cookies</a></li>
+                    <li><a href="index.html" data-page="start">POPIA</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 Foundable. All rights reserved.</span>
+            <span>
+                <a href="index.html" data-page="start">Privacy</a> &nbsp;&middot;&nbsp;
+                <a href="index.html" data-page="start">Terms</a>
+            </span>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        (function () {
+            var loginForm = document.getElementById('loginForm');
+            if (loginForm) {
+                loginForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    var loginEmail = document.getElementById('loginEmail');
+                    var loginPassword = document.getElementById('loginPassword');
+
+                    var email = loginEmail.value.trim();
+                    var pass = loginPassword.value.trim();
+
+                    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                        loginEmail.style.borderColor = 'var(--danger)';
+                        loginEmail.focus();
+                        return;
+                    }
+                    if (!pass) {
+                        loginPassword.style.borderColor = 'var(--danger)';
+                        loginPassword.focus();
+                        return;
+                    }
+
+                    loginEmail.style.borderColor = '';
+                    loginPassword.style.borderColor = '';
+                    console.log('Login submitted:', email);
+                });
+            }
+        })();
+    </script>
+</body>
+</html>
