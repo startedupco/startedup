@@ -118,6 +118,9 @@
                     <i data-lucide="lock"></i>
                     <input type="password" id="loginPassword" placeholder="••••••••" required>
                 </div>
+                <p class="auth-forgot">
+                    <a href="forgot-password.html">Forgot password?</a>
+                </p>
                 <button type="submit" class="auth-submit">Log in</button>
             </form>
 
@@ -130,12 +133,12 @@
     </main>
 
     <footer class="site-footer">
-        <div class="footer-inner">
+        <div class="footer-top">
             <div class="footer-brand">
                 <a href="index.html" class="logo">startedup<span>.co</span></a>
                 <p>
                     Tools to help you turn an idea into a business that runs on its own.
-                    Built in South Africa. © 2026 startedup.co. All rights reserved.
+                    Built in South Africa.
                 </p>
             </div>
             <div class="footer-links">
@@ -182,18 +185,21 @@
             var SESSION_KEY = 'foundable_session';
             var API_BASE = 'http://localhost:3000';
 
-            lucide.createIcons();
+            if (window.lucide) lucide.createIcons();
 
             var loginForm = document.getElementById('loginForm');
             var statusEl  = document.getElementById('loginStatus');
+            if (!loginForm || !statusEl) return;
 
             if (loginForm) {
                 loginForm.addEventListener('submit', async function (e) {
                     e.preventDefault();
+                    if (loginForm.dataset.busy === '1') return;
                     var loginEmail = document.getElementById('loginEmail');
                     var loginPassword = document.getElementById('loginPassword');
+                    var submitBtn = loginForm.querySelector('.auth-submit');
 
-                    var email = loginEmail.value.trim();
+                    var email = loginEmail.value.trim().toLowerCase();
                     var pass  = loginPassword.value;
 
                     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -211,6 +217,13 @@
                     loginPassword.style.borderColor = '';
                     statusEl.textContent = '';
                     statusEl.className = 'auth-status';
+                    loginForm.dataset.busy = '1';
+                    if (submitBtn) submitBtn.disabled = true;
+
+                    function release() {
+                        loginForm.dataset.busy = '';
+                        if (submitBtn) submitBtn.disabled = false;
+                    }
 
                     try {
                         var res = await fetch(API_BASE + '/api/auth/login', {
@@ -218,11 +231,20 @@
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ email: email, password: pass })
                         });
-                        var data = await res.json();
+                        var data = null;
+                        try { data = await res.json(); } catch (e) { data = null; }
 
                         if (!res.ok) {
-                            statusEl.textContent = data.error || 'Login failed';
+                            statusEl.textContent = (data && data.error) || 'Login failed';
                             statusEl.className = 'auth-status error';
+                            release();
+                            return;
+                        }
+
+                        if (!data || !data.user || !data.sessionId) {
+                            statusEl.textContent = 'Unexpected server response. Try again.';
+                            statusEl.className = 'auth-status error';
+                            release();
                             return;
                         }
 
@@ -232,13 +254,16 @@
                             email: data.user.email,
                             name: data.user.name,
                             handle: data.user.handle,
+                            avatar: data.user.avatar,
                             token: data.sessionId,
                             sessionId: data.sessionId,
                             iat: Date.now(),
                             exp: Date.now() + 1000 * 60 * 60 * 24 * 30
                         };
-                        sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
-                        localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+                        try {
+                            sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
+                            localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+                        } catch (storeErr) { /* private mode etc — session just won't persist */ }
 
                         statusEl.textContent = 'Logged in! Redirecting...';
                         statusEl.className = 'auth-status success';
@@ -246,6 +271,7 @@
                     } catch (err) {
                         statusEl.textContent = 'Could not reach server. Is it running?';
                         statusEl.className = 'auth-status error';
+                        release();
                     }
                 });
             }

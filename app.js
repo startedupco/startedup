@@ -56,6 +56,7 @@
     var overlay   = document.getElementById('navOverlay');
 
     function openMenu() {
+        if (!hamburger || !mobileNav || !overlay) return;
         hamburger.classList.add('open');
         mobileNav.classList.add('open');
         overlay.classList.add('open');
@@ -64,6 +65,7 @@
     }
 
     function closeMenu() {
+        if (!hamburger || !mobileNav || !overlay) return;
         hamburger.classList.remove('open');
         mobileNav.classList.remove('open');
         overlay.classList.remove('open');
@@ -71,7 +73,7 @@
         document.body.style.overflow = '';
     }
 
-    if (hamburger) {
+    if (hamburger && mobileNav) {
         hamburger.addEventListener('click', function (e) {
             e.stopPropagation();
             if (mobileNav.classList.contains('open')) {
@@ -106,7 +108,7 @@
     function bindMobileToggle(toggleId, menuId) {
         var toggle = document.getElementById(toggleId);
         var menu   = document.getElementById(menuId);
-        if (!toggle || !menu) return;
+        if (!toggle || !menu || !mobileNav) return;
 
         toggle.addEventListener('click', function (e) {
             e.preventDefault();
@@ -147,8 +149,10 @@
     };
 
     function setLanguage(lang) {
-        if (currentLangDesktop) currentLangDesktop.textContent = codeMap[lang] || lang.toUpperCase();
-        if (currentLangMobile) currentLangMobile.textContent = codeMap[lang] || lang.toUpperCase();
+        if (!codeMap[lang]) return;
+        if (currentLangDesktop) currentLangDesktop.textContent = codeMap[lang];
+        if (currentLangMobile) currentLangMobile.textContent = codeMap[lang];
+        try { localStorage.setItem('foundable-lang', lang); } catch (e) {}
 
         ['langMenuDesktop', 'mobileLang'].forEach(function (menuId) {
             var menu = document.getElementById(menuId);
@@ -161,9 +165,12 @@
                 }
             });
         });
-
-        console.log('Language changed to:', lang);
     }
+
+    try {
+        var savedLang = localStorage.getItem('foundable-lang');
+        if (savedLang && codeMap[savedLang]) setLanguage(savedLang);
+    } catch (e) {}
 
     var langMenuDesktop = document.getElementById('langMenuDesktop');
     if (langMenuDesktop) {

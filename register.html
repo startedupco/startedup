@@ -87,47 +87,6 @@
             gap: 0.75rem;
         }
         .field-row .field { flex: 1; }
-        .avatar-row {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        .avatar-preview {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background-color: var(--bg);
-            border: 1.5px solid var(--border-input);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-        .avatar-preview img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .avatar-preview .lucide {
-            width: 22px !important;
-            height: 22px !important;
-            color: var(--text-ghost);
-        }
-        .divider {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin: 1.25rem 0;
-            color: var(--text-ghost);
-            font-size: 0.8rem;
-        }
-        .divider::before, .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--border);
-        }
     </style>
 </head>
 <body data-page="register">
@@ -230,40 +189,35 @@
                 <form id="registerForm" novalidate>
                     <div class="field">
                         <label for="regName">Full name</label>
-                        <input type="text" id="regName" placeholder="Jane Doe" required autocomplete="name">
+                        <input type="text" id="regName" placeholder="Jane Doe" required autocomplete="name" maxlength="120">
+                        <span class="field-hint" id="nameHint">First and last name.</span>
                     </div>
                     <div class="field">
                         <label for="regHandle">Handle</label>
-                        <input type="text" id="regHandle" placeholder="janedoe" required autocomplete="username" minlength="3" maxlength="30" pattern="[a-zA-Z0-9_-]+">
+                        <input type="text" id="regHandle" placeholder="janedoe" required autocomplete="username" minlength="3" maxlength="30" pattern="[a-zA-Z][a-zA-Z0-9_-]{2,29}">
                         <span class="field-hint" id="handleHint">Letters, numbers, underscores, and dashes only.</span>
                     </div>
                     <div class="field">
                         <label for="regEmail">Email</label>
                         <input type="email" id="regEmail" placeholder="you@example.com" required autocomplete="email">
-                    </div>
-                    <div class="field">
-                        <label for="regAvatar">Avatar URL <span style="font-weight:400;color:var(--text-ghost)">(optional)</span></label>
-                        <div class="avatar-row">
-                            <div class="avatar-preview" id="avatarPreview">
-                                <i data-lucide="user"></i>
-                            </div>
-                            <input type="url" id="regAvatar" placeholder="https://example.com/photo.jpg" autocomplete="url" style="flex:1">
-                        </div>
-                        <span class="field-hint" id="avatarHint">Link to your profile picture.</span>
+                        <span class="field-hint" id="emailHint"></span>
                     </div>
                     <div class="field-row">
                         <div class="field">
                             <label for="regSchool">School <span style="font-weight:400;color:var(--text-ghost)">(optional)</span></label>
-                            <input type="text" id="regSchool" placeholder="e.g. Parklands High">
+                            <input type="text" id="regSchool" placeholder="e.g. Parklands High" maxlength="120">
+                            <span class="field-hint" id="schoolHint">Optional.</span>
                         </div>
                         <div class="field">
                             <label for="regCity">City <span style="font-weight:400;color:var(--text-ghost)">(optional)</span></label>
-                            <input type="text" id="regCity" placeholder="e.g. Johannesburg">
+                            <input type="text" id="regCity" placeholder="e.g. Johannesburg" maxlength="120">
+                            <span class="field-hint" id="cityHint">Optional.</span>
                         </div>
                     </div>
                     <div class="field">
                         <label for="regUniversity">University <span style="font-weight:400;color:var(--text-ghost)">(optional)</span></label>
-                        <input type="text" id="regUniversity" placeholder="e.g. University of Cape Town">
+                        <input type="text" id="regUniversity" placeholder="e.g. University of Cape Town" maxlength="120">
+                        <span class="field-hint" id="uniHint">Optional.</span>
                     </div>
                     <div class="field">
                         <label for="regPassword">Password</label>
@@ -284,8 +238,6 @@
 
                 <p class="auth-status" id="registerStatus"></p>
 
-                <div class="divider">or</div>
-
                 <p class="auth-footer">
                     Already have an account? <a href="login.html" data-page="login">Sign in</a>
                 </p>
@@ -293,12 +245,12 @@
     </main>
 
     <footer class="site-footer">
-        <div class="footer-inner">
+        <div class="footer-top">
             <div class="footer-brand">
                 <a href="index.html" class="logo">startedup<span>.co</span></a>
                 <p>
                     Tools to help you turn an idea into a business that runs on its own.
-                    Built in South Africa. © 2026 startedup.co. All rights reserved.
+                    Built in South Africa.
                 </p>
             </div>
             <div class="footer-links">
@@ -341,11 +293,11 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="app.js"></script>
     <script>
-        lucide.createIcons();
+        if (window.lucide) lucide.createIcons();
 
         (function () {
             var API_BASE = 'http://localhost:3000';
-            var SESSION_KEY = 'foundable.session';
+            var SESSION_KEY = 'foundable_session';
 
             var form     = document.getElementById('registerForm');
             var statusEl = document.getElementById('registerStatus');
@@ -353,7 +305,6 @@
             var nameIn   = document.getElementById('regName');
             var handleIn = document.getElementById('regHandle');
             var emailIn  = document.getElementById('regEmail');
-            var avatarIn = document.getElementById('regAvatar');
             var schoolIn = document.getElementById('regSchool');
             var uniIn    = document.getElementById('regUniversity');
             var cityIn   = document.getElementById('regCity');
@@ -361,30 +312,28 @@
             var confirmIn= document.getElementById('regConfirm');
             var termsIn  = document.getElementById('terms');
             var handleHint = document.getElementById('handleHint');
+            var emailHint  = document.getElementById('emailHint');
             var pwHint      = document.getElementById('pwHint');
             var confirmHint = document.getElementById('confirmHint');
-            var avatarPreview = document.getElementById('avatarPreview');
+            if (!form || !statusEl || !btn) return;
 
-            avatarIn.addEventListener('input', function () {
-                var url = avatarIn.value.trim();
-                if (url) {
-                    var img = avatarPreview.querySelector('img');
-                    if (!img) {
-                        img = document.createElement('img');
-                        avatarPreview.innerHTML = '';
-                        avatarPreview.appendChild(img);
-                    }
-                    img.src = url;
-                    img.alt = 'Avatar preview';
-                    img.onerror = function () {
-                        avatarPreview.innerHTML = '<i data-lucide="user"></i>';
-                        lucide.createIcons({ nodes: [avatarPreview] });
-                    };
-                } else {
-                    avatarPreview.innerHTML = '<i data-lucide="user"></i>';
-                    lucide.createIcons({ nodes: [avatarPreview] });
-                }
-            });
+            var checkSeq = 0;
+            async function checkAvailability(kind, value) {
+                var mySeq = ++checkSeq;
+                try {
+                    var res = await fetch(API_BASE + '/api/auth/check?' + kind + '=' + encodeURIComponent(value));
+                    var data = null;
+                    try { data = await res.json(); } catch (e) { data = null; }
+                    if (mySeq !== checkSeq || !res.ok || !data) return null;
+                    if (kind === 'handle') return data.handleTaken === true;
+                    return data.emailTaken === true;
+                } catch (e) { return null; }
+            }
+
+            var handleTimer = null;
+            var emailTimer = null;
+            var handleTakenNow = false;
+            var emailTakenNow = false;
 
             function validEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
 
@@ -420,15 +369,62 @@
             });
 
             handleIn.addEventListener('input', function () {
-                var v = handleIn.value.trim();
+                var v = handleIn.value.trim().toLowerCase();
+                if (handleTimer) clearTimeout(handleTimer);
+                handleTakenNow = false;
                 if (!v) { handleHint.textContent = 'Letters, numbers, underscores, and dashes only.'; handleHint.className = 'field-hint'; return; }
-                if (/^[a-zA-Z][a-zA-Z0-9_-]{2,29}$/.test(v)) {
-                    handleHint.textContent = 'Looks good!';
-                    handleHint.className = 'field-hint ok';
-                } else {
+                if (!/^[a-zA-Z][a-zA-Z0-9_-]{2,29}$/.test(v)) {
                     handleHint.textContent = 'Must start with a letter, 3-30 chars, a-z 0-9 _ -';
                     handleHint.className = 'field-hint bad';
+                    return;
                 }
+                handleHint.textContent = 'Checking availability...';
+                handleHint.className = 'field-hint';
+                handleTimer = setTimeout(function () {
+                    checkAvailability('handle', v).then(function (taken) {
+                        if (handleIn.value.trim().toLowerCase() !== v) return;
+                        if (taken === null) {
+                            handleHint.textContent = 'Looks good!';
+                            handleHint.className = 'field-hint ok';
+                            return;
+                        }
+                        handleTakenNow = taken;
+                        if (taken) {
+                            handleHint.textContent = 'That handle is taken. Try another.';
+                            handleHint.className = 'field-hint bad';
+                        } else {
+                            handleHint.textContent = 'Available!';
+                            handleHint.className = 'field-hint ok';
+                        }
+                    });
+                }, 400);
+            });
+
+            emailIn.addEventListener('input', function () {
+                var v = emailIn.value.trim().toLowerCase();
+                if (emailTimer) clearTimeout(emailTimer);
+                emailTakenNow = false;
+                if (!v) { emailHint.textContent = ''; emailHint.className = 'field-hint'; return; }
+                if (!validEmail(v)) {
+                    emailHint.textContent = 'Enter a valid email address.';
+                    emailHint.className = 'field-hint bad';
+                    return;
+                }
+                emailHint.textContent = 'Checking availability...';
+                emailHint.className = 'field-hint';
+                emailTimer = setTimeout(function () {
+                    checkAvailability('email', v).then(function (taken) {
+                        if (emailIn.value.trim().toLowerCase() !== v) return;
+                        if (taken === true) {
+                            emailTakenNow = true;
+                            emailHint.textContent = 'That email is already registered. Try logging in.';
+                            emailHint.className = 'field-hint bad';
+                        } else if (taken === false) {
+                            emailHint.textContent = 'Available!';
+                            emailHint.className = 'field-hint ok';
+                        }
+                    });
+                }, 400);
             });
 
             form.addEventListener('submit', async function (e) {
@@ -439,7 +435,6 @@
                 var name     = nameIn.value.trim();
                 var handle   = handleIn.value.trim().toLowerCase();
                 var email    = emailIn.value.trim().toLowerCase();
-                var avatar   = avatarIn.value.trim();
                 var school   = schoolIn.value.trim();
                 var university = uniIn.value.trim();
                 var city     = cityIn.value.trim();
@@ -449,8 +444,10 @@
 
                 if (!name) { statusEl.textContent = 'Please enter your name.'; statusEl.className = 'auth-status error'; nameIn.focus(); return; }
                 if (!handle || handle.length < 3) { statusEl.textContent = 'Handle must be at least 3 characters.'; statusEl.className = 'auth-status error'; handleIn.focus(); return; }
-                if (!/^[a-zA-Z][a-zA-Z0-9_-]+$/.test(handle)) { statusEl.textContent = 'Handle can only contain letters, numbers, underscores, and dashes.'; statusEl.className = 'auth-status error'; handleIn.focus(); return; }
+                if (!/^[a-zA-Z][a-zA-Z0-9_-]{2,29}$/.test(handle)) { statusEl.textContent = 'Handle must start with a letter, 3-30 chars (a-z 0-9 _ -).'; statusEl.className = 'auth-status error'; handleIn.focus(); return; }
                 if (!validEmail(email)) { statusEl.textContent = 'Please enter a valid email address.'; statusEl.className = 'auth-status error'; emailIn.focus(); return; }
+                if (emailTakenNow && emailIn.value.trim().toLowerCase() === email) { statusEl.textContent = 'That email is already registered. Try logging in.'; statusEl.className = 'auth-status error'; emailIn.focus(); return; }
+                if (handleTakenNow && handleIn.value.trim().toLowerCase() === handle) { statusEl.textContent = 'That handle is taken. Try another.'; statusEl.className = 'auth-status error'; handleIn.focus(); return; }
                 if (password.length < 6) { statusEl.textContent = 'Password must be at least 6 characters.'; statusEl.className = 'auth-status error'; pwIn.focus(); return; }
                 if (password !== confirm) { statusEl.textContent = 'Passwords do not match.'; statusEl.className = 'auth-status error'; confirmIn.focus(); return; }
                 if (!termsOk) { statusEl.textContent = 'Please accept the Terms and Privacy Policy.'; statusEl.className = 'auth-status error'; return; }
@@ -467,17 +464,25 @@
                             email: email,
                             password: password,
                             handle: handle,
-                            avatar: avatar || null,
                             school: school || null,
                             university: university || null,
                             city: city || null
                         })
                     });
 
-                    var data = await res.json();
+                    var data = null;
+                    try { data = await res.json(); } catch (e) { data = null; }
 
                     if (!res.ok) {
-                        statusEl.textContent = data.error || 'Registration failed. Please try again.';
+                        statusEl.textContent = (data && data.error) || 'Registration failed. Please try again.';
+                        statusEl.className = 'auth-status error';
+                        btn.disabled = false;
+                        btn.textContent = 'Create account';
+                        return;
+                    }
+
+                    if (!data || !data.user || !data.sessionId) {
+                        statusEl.textContent = 'Unexpected server response. Try again.';
                         statusEl.className = 'auth-status error';
                         btn.disabled = false;
                         btn.textContent = 'Create account';
