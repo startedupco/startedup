@@ -1,0 +1,20 @@
+{
+  "name": "foundable",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "user-app",
+    "core-app"
+  ],
+  "scripts": {
+    "dev:user": "npm run dev --workspace=user-app",
+    "dev:core": "npm run dev --workspace=core-app",
+    "build:user": "npm run build --workspace=user-app",
+    "build:core": "npm run build --workspace=core-app",
+    "build": "npm run build:user && npm run build:core",
+    "install:all": "npm install && npm install --workspace=user-app && npm install --workspace=core-app"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0"
+  }
+}
