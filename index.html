@@ -136,13 +136,8 @@
                 <a href="index.html" class="logo">Found<span>able</span></a>
                 <p>
                     Tools to help you turn an idea into a business that runs on its own.
-                    Built in South Africa.
+                    Built in South Africa. © 2026 Foundable. All rights reserved.
                 </p>
-                <div class="brand-logos">
-                    <img src="https://svgl.app/vercel.svg" alt="Vercel" loading="lazy">
-                    <img src="https://svgl.app/github.svg" alt="GitHub" loading="lazy">
-                    <img src="https://svgl.app/stripe.svg" alt="Stripe" loading="lazy">
-                </div>
             </div>
             <div class="footer-links">
                 <div class="footer-col">
@@ -181,15 +176,12 @@
         </div>
     </footer>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="app.js"></script>
     <script>
         (function () {
             lucide.createIcons();
 
-            /* Waitlist */
             var waitlistBtn  = document.getElementById('waitlistBtn');
             var waitlistForm = document.getElementById('waitlistForm');
             var emailInput   = document.getElementById('emailInput');
@@ -224,57 +216,6 @@
                     waitlistForm.classList.remove('show');
                     success.classList.add('show');
                 });
-            }
-
-            /* Map */
-            if (typeof L !== 'undefined') {
-                var map = L.map('map', {
-                    center: [-26.2041, 28.0473],
-                    zoom: 11,
-                    scrollWheelZoom: true
-                });
-
-                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    maxZoom: 19,
-                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors'
-                }).addTo(map);
-
-                var drawnItems = new L.FeatureGroup();
-                map.addLayer(drawnItems);
-
-                var drawControl = new L.Control.Draw({
-                    position: 'topleft',
-                    draw: {
-                        polyline: { shapeOptions: { color: '#6bbaef', weight: 3 } },
-                        polygon: { allowIntersection: false, shapeOptions: { color: '#6bbaef', weight: 2, fillOpacity: 0.15 } },
-                        rectangle: { shapeOptions: { color: '#6bbaef', weight: 2, fillOpacity: 0.15 } },
-                        circle: { shapeOptions: { color: '#6bbaef', weight: 2, fillOpacity: 0.15 } },
-                        marker: true
-                    },
-                    edit: { featureGroup: drawnItems, remove: true }
-                });
-                map.addControl(drawControl);
-
-                var statusEl = document.getElementById('mapStatus');
-                function updateStatus(msg) { if (statusEl) statusEl.innerHTML = msg; }
-
-                map.on(L.Draw.Event.CREATED, function (e) {
-                    drawnItems.addLayer(e.layer);
-                    updateStatus('<strong>Saved.</strong> You added a ' + e.layerType + '. Total items: ' + drawnItems.getLayers().length);
-                });
-                map.on(L.Draw.Event.EDITED, function (e) {
-                    updateStatus('<strong>Updated.</strong> ' + e.layers.getLayers().length + ' item(s) edited. Total items: ' + drawnItems.getLayers().length);
-                });
-                map.on(L.Draw.Event.DELETED, function () {
-                    updateStatus('<strong>Removed.</strong> Total items: ' + drawnItems.getLayers().length);
-                });
-
-                document.getElementById('mapClear').addEventListener('click', function () {
-                    drawnItems.clearLayers();
-                    updateStatus('<strong>Cleared.</strong> Use the toolbar to draw a marker, line, polygon, or circle.');
-                });
-
-                setTimeout(function () { map.invalidateSize(); }, 150);
             }
         })();
     </script>

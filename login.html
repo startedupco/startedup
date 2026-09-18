@@ -126,6 +126,8 @@
                 <button type="submit" class="auth-submit">Log in</button>
             </form>
 
+            <p class="auth-status" id="loginStatus"></p>
+
             <p class="auth-footer">
                 Don't have an account? <a href="register.html" data-page="register">Create one</a>
             </p>
@@ -138,13 +140,8 @@
                 <a href="index.html" class="logo">Found<span>able</span></a>
                 <p>
                     Tools to help you turn an idea into a business that runs on its own.
-                    Built in South Africa.
+                    Built in South Africa. © 2026 Foundable. All rights reserved.
                 </p>
-                <div class="brand-logos">
-                    <img src="https://svgl.app/vercel.svg" alt="Vercel" loading="lazy">
-                    <img src="https://svgl.app/github.svg" alt="GitHub" loading="lazy">
-                    <img src="https://svgl.app/stripe.svg" alt="Stripe" loading="lazy">
-                </div>
             </div>
             <div class="footer-links">
                 <div class="footer-col">
@@ -186,18 +183,23 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="app.js"></script>
     <script>
-        lucide.createIcons();
-
         (function () {
+            var SESSION_KEY = 'foundable_session';
+            var API_BASE = 'http://localhost:3000';
+
+            lucide.createIcons();
+
             var loginForm = document.getElementById('loginForm');
+            var statusEl  = document.getElementById('loginStatus');
+
             if (loginForm) {
-                loginForm.addEventListener('submit', function (e) {
+                loginForm.addEventListener('submit', async function (e) {
                     e.preventDefault();
                     var loginEmail = document.getElementById('loginEmail');
                     var loginPassword = document.getElementById('loginPassword');
 
                     var email = loginEmail.value.trim();
-                    var pass = loginPassword.value.trim();
+                    var pass  = loginPassword.value;
 
                     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
                         loginEmail.style.borderColor = 'var(--danger)';
@@ -212,7 +214,44 @@
 
                     loginEmail.style.borderColor = '';
                     loginPassword.style.borderColor = '';
-                    console.log('Login submitted:', email);
+                    statusEl.textContent = '';
+                    statusEl.className = 'auth-status';
+
+                    try {
+                        var res = await fetch(API_BASE + '/api/auth/login', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ email: email, password: pass })
+                        });
+                        var data = await res.json();
+
+                        if (!res.ok) {
+                            statusEl.textContent = data.error || 'Login failed';
+                            statusEl.className = 'auth-status error';
+                            return;
+                        }
+
+                        var session = {
+                            provider: 'email',
+                            sub: data.user.id,
+                            email: data.user.email,
+                            name: data.user.name,
+                            handle: data.user.handle,
+                            token: data.sessionId,
+                            sessionId: data.sessionId,
+                            iat: Date.now(),
+                            exp: Date.now() + 1000 * 60 * 60 * 24 * 30
+                        };
+                        sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
+                        localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+
+                        statusEl.textContent = 'Logged in! Redirecting...';
+                        statusEl.className = 'auth-status success';
+                        setTimeout(function () { window.location.href = 'index.html'; }, 600);
+                    } catch (err) {
+                        statusEl.textContent = 'Could not reach server. Is it running?';
+                        statusEl.className = 'auth-status error';
+                    }
                 });
             }
         })();

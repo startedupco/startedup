@@ -11,24 +11,6 @@
     <link rel="stylesheet" href="styles.css">
     <style>
         .auth-wrap { max-width: 440px; margin: 2rem auto 4rem; }
-        .auth-card {
-            background-color: var(--bg-elev);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 2.25rem 2rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-        }
-        .auth-card h2 {
-            text-align: center;
-            margin-bottom: 0.35rem;
-            font-size: 1.4rem;
-        }
-        .auth-card .auth-sub {
-            text-align: center;
-            color: var(--text-dim);
-            font-size: 0.9rem;
-            margin-bottom: 1.75rem;
-        }
         .field { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
         .field label { font-size: 0.82rem; color: var(--text-muted); font-weight: 500; }
         .field input {
@@ -40,12 +22,11 @@
             border-radius: 8px;
             padding: 0.85rem 1rem;
             outline: none;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            transition: border-color 0.2s ease;
         }
         .field input::placeholder { color: var(--text-ghost); }
         .field input:focus {
             border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(107, 186, 239, 0.12);
         }
         .field-hint {
             font-size: 0.75rem;
@@ -71,19 +52,17 @@
             font-family: 'Archivo', sans-serif;
             font-size: 1rem;
             font-weight: 600;
-            color: #212121;
-            background-color: var(--accent);
-            border: 1px solid var(--accent);
+            color: #ffffff;
+            background-color: #212121;
+            border: 1px solid #212121;
             border-radius: 8px;
             padding: 0.95rem 1.5rem;
             cursor: pointer;
             transition: all 0.2s ease;
-            box-shadow: 0 2px 8px rgba(107, 186, 239, 0.25);
         }
         .btn-auth:hover:not(:disabled) {
-            background-color: var(--accent-hover);
-            border-color: var(--accent-hover);
-            box-shadow: 0 4px 16px rgba(107, 186, 239, 0.35);
+            background-color: #333333;
+            border-color: #333333;
         }
         .btn-auth:disabled { opacity: 0.5; cursor: not-allowed; }
         .auth-footer {
@@ -245,7 +224,6 @@
 
     <main class="container">
         <div class="auth-wrap">
-            <div class="auth-card">
                 <h2>Create your account</h2>
                 <p class="auth-sub">Join Foundable in seconds</p>
 
@@ -311,7 +289,6 @@
                 <p class="auth-footer">
                     Already have an account? <a href="login.html" data-page="login">Sign in</a>
                 </p>
-            </div>
         </div>
     </main>
 
@@ -321,13 +298,8 @@
                 <a href="index.html" class="logo">Found<span>able</span></a>
                 <p>
                     Tools to help you turn an idea into a business that runs on its own.
-                    Built in South Africa.
+                    Built in South Africa. © 2026 Foundable. All rights reserved.
                 </p>
-                <div class="brand-logos">
-                    <img src="https://svgl.app/vercel.svg" alt="Vercel" loading="lazy">
-                    <img src="https://svgl.app/github.svg" alt="GitHub" loading="lazy">
-                    <img src="https://svgl.app/stripe.svg" alt="Stripe" loading="lazy">
-                </div>
             </div>
             <div class="footer-links">
                 <div class="footer-col">
