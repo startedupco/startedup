@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Dashboard — startedup.co</title>
+    <meta name="description" content="Your startedup.co dashboard.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .dashboard-layout { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+        .sidebar { background: var(--bg-elev); border-right: 1px solid var(--border); display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+        .sidebar-header { padding: 1.5rem; border-bottom: 1px solid var(--border); }
+        .sidebar-header h2 { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.03em; margin: 0; }
+        .sidebar-header h2 span { color: var(--accent); }
+        .sidebar-nav { flex: 1; padding: 1rem; display: flex; flex-direction: column; gap: 0.25rem; }
+        .nav-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; border-radius: 8px; color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: all 0.15s ease; }
+        .nav-item:hover { background: var(--bg-elev-2); color: var(--text); }
+        .nav-item.active { background: var(--accent-soft); color: var(--accent); }
+        .nav-icon { font-size: 1.1rem; }
+        .sidebar-footer { padding: 1rem; border-top: 1px solid var(--border); }
+        .user-info { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+        .user-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: var(--btn-text); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem; }
+        .user-details { display: flex; flex-direction: column; min-width: 0; }
+        .user-name { font-weight: 600; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .user-handle { font-size: 0.75rem; color: var(--text-dim); }
+        .logout-btn { width: 100%; padding: 0.6rem; border: 1px solid var(--border-input); border-radius: 8px; background: transparent; color: var(--text-muted); font-family: 'Archivo', sans-serif; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.2s ease; }
+        .logout-btn:hover { border-color: var(--danger); color: var(--danger); }
+        .main-content { display: flex; flex-direction: column; min-height: 100vh; }
+        .top-bar { padding: 1.5rem 2rem; border-bottom: 1px solid var(--border); background: var(--bg-elev); }
+        .top-bar h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.03em; }
+        .content-area { flex: 1; padding: 2rem; max-width: 1200px; width: 100%; margin: 0 auto; }
+        .dashboard-page { display: flex; flex-direction: column; gap: 2rem; }
+        .welcome-section h2 { font-size: 1.75rem; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: -0.03em; }
+        .welcome-section p { color: var(--text-muted); font-size: 1rem; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+        .stat-card { background: var(--bg-elev); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; transition: all 0.2s ease; }
+        .stat-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+        .stat-value { font-size: 2rem; font-weight: 700; color: var(--text); line-height: 1.2; }
+        .stat-label { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem; }
+        .stat-change { font-size: 0.8rem; color: var(--accent); margin-top: 0.5rem; font-weight: 500; }
+        .section { background: var(--bg-elev); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        .section-header h3 { font-size: 1.1rem; font-weight: 600; }
+        .activity-list { display: flex; flex-direction: column; gap: 0.75rem; }
+        .activity-item { display: flex; align-items: center; gap: 1rem; padding: 0.75rem; background: var(--bg); border-radius: 8px; transition: all 0.15s ease; }
+        .activity-item:hover { background: var(--bg-elev-2); }
+        .activity-icon { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; background: var(--accent-soft); }
+        .activity-icon.idea { background: rgba(107, 186, 239, 0.15); }
+        .activity-icon.project { background: rgba(76, 175, 80, 0.15); }
+        .activity-icon.milestone { background: rgba(255, 193, 7, 0.15); }
+        .activity-content { flex: 1; display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; }
+        .activity-title { font-weight: 500; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .activity-time { font-size: 0.75rem; color: var(--text-dim); }
+        .action-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; }
+        .action-btn { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; padding: 1.5rem; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; cursor: pointer; transition: all 0.2s ease; font-family: 'Archivo', sans-serif; color: var(--text); }
+        .action-btn:hover { border-color: var(--accent); background: var(--accent-soft); transform: translateY(-2px); }
+        .action-icon { font-size: 1.75rem; }
+        .action-btn span:last-child { font-size: 0.9rem; font-weight: 500; }
+        .form-section { background: var(--bg-elev); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; }
+        .form-section h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); }
+        .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
+        .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+        .form-group label { font-size: 0.85rem; font-weight: 500; color: var(--text-muted); }
+        .form-group input, .form-group textarea { font-family: 'Archivo', sans-serif; font-size: 1rem; color: var(--text); background: var(--bg); border: 1.5px solid var(--border-input); border-radius: 8px; padding: 0.85rem 1rem; outline: none; transition: border-color 0.2s ease; }
+        .form-group input:focus, .form-group textarea:focus { border-color: var(--accent); }
+        .form-group input::placeholder { color: var(--text-ghost); }
+        .form-hint { font-size: 0.75rem; color: var(--text-ghost); }
+        .form-actions { display: flex; justify-content: flex-end; gap: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); margin-top: 1.5rem; }
+        .btn { font-family: 'Archivo', sans-serif; font-size: 0.9rem; font-weight: 600; border-radius: 8px; padding: 0.75rem 1.5rem; cursor: pointer; transition: all 0.2s ease; border: 1px solid transparent; }
+        .btn-primary { color: var(--btn-text); background: var(--btn-bg); border-color: var(--btn-bg); }
+        .btn-primary:hover { background: var(--btn-hover); border-color: var(--btn-hover); }
+        .btn-ghost { color: var(--text); background: transparent; border-color: var(--border-input); }
+        .btn-ghost:hover { background: var(--bg-elev-2); border-color: var(--accent); color: var(--accent); }
+        .btn-danger { color: white; background: var(--danger); border-color: var(--danger); }
+        .btn-danger:hover { opacity: 0.9; }
+        .avatar-upload { display: flex; align-items: center; gap: 1rem; }
+        .avatar-preview { width: 80px; height: 80px; border-radius: 50%; background: var(--accent); color: var(--btn-text); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 2rem; overflow: hidden; }
+        .avatar-preview img { width: 100%; height: 100%; object-fit: cover; }
+        .avatar-upload input { display: none; }
+        .avatar-upload label { cursor: pointer; color: var(--accent); font-weight: 500; }
+        .avatar-upload label:hover { text-decoration: underline; }
+        .danger-zone { border-color: var(--danger) !important; }
+        .danger-zone h3 { color: var(--danger); border-bottom-color: var(--danger) !important; }
+        .settings-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; flex-wrap: wrap; }
+        .tab-btn { display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.25rem; border: 1px solid var(--border-input); border-radius: 8px; background: var(--bg); color: var(--text-muted); font-family: 'Archivo', sans-serif; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.15s ease; }
+        .tab-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .tab-btn.active { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+        .auth-error { padding: 0.75rem 1rem; background: rgba(224, 90, 90, 0.1); border: 1px solid var(--danger); border-radius: 8px; color: var(--danger); font-size: 0.85rem; }
+        .auth-error.success { background: rgba(76, 175, 80, 0.15); border-color: #4caf50; color: #4caf50; }
+        @media (max-width: 768px) {
+            .dashboard-layout { grid-template-columns: 1fr; }
+            .sidebar { position: fixed; left: -100%; width: 280px; z-index: 100; transition: left 0.3s ease; }
+        }
+    </style>
+</head>
+<body data-page="dashboard">
+    <header class="site-header">
+        <a href="index.html" class="logo">startedup<span>.co</span></a>
+        <ul class="nav-desktop">
+            <li><a href="index.html" data-page="start">Start</a></li>
+            <li class="has-dropdown">
+                <button class="nav-trigger" type="button">Product <i data-lucide="chevron-down"></i></button>
+                <ul class="dropdown">
+                    <li><a href="features.html" data-page="features">Features</a></li>
+                    <li><a href="pricing.html" data-page="pricing">Pricing</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown">
+                <button class="nav-trigger lang-trigger" type="button">
+                    <i data-lucide="globe"></i>
+                    <span class="code" id="currentLangDesktop">EN</span>
+                    <i data-lucide="chevron-down"></i>
+                </button>
+                <ul class="dropdown lang-dropdown" id="langMenuDesktop">
+                    <li class="active" data-lang="en"><button type="button">EN — English <i data-lucide="check"></i></button></li>
+                    <li data-lang="af"><button type="button">AF — Afrikaans <i data-lucide="check"></i></button></li>
+                    <li data-lang="zu"><button type="button">ZU — isiZulu <i data-lucide="check"></i></button></li>
+                    <li data-lang="xh"><button type="button">XH — isiXhosa <i data-lucide="check"></i></button></li>
+                    <li data-lang="fr"><button type="button">FR — Français <i data-lucide="check"></i></button></li>
+                    <li data-lang="es"><button type="button">ES — Español <i data-lucide="check"></i></button></li>
+                    <li data-lang="pt"><button type="button">PT — Português <i data-lucide="check"></i></button></li>
+                    <li data-lang="de"><button type="button">DE — Deutsch <i data-lucide="check"></i></button></li>
+                    <li data-lang="nl"><button type="button">NL — Nederlands <i data-lucide="check"></i></button></li>
+                    <li data-lang="sw"><button type="button">SW — Kiswahili <i data-lucide="check"></i></button></li>
+                </ul>
+            </li>
+            <li>
+                <button class="theme-toggle" id="themeToggleDesktop" aria-label="Toggle theme">
+                    <i data-lucide="sun" class="icon-sun"></i>
+                    <i data-lucide="moon" class="icon-moon"></i>
+                </button>
+            </li>
+            <li><a href="login.html" data-page="login" class="login-link">Log in</a></li>
+        </ul>
+        <button class="hamburger" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">
+            <span></span>
+        </button>
+    </header>
+
+    <ul class="nav-mobile" id="mobileNav">
+        <li><a href="index.html" data-page="start">Start</a></li>
+        <li>
+            <button class="mobile-dropdown-toggle" type="button" id="mobileProductToggle">
+                Product <i data-lucide="chevron-down"></i>
+            </button>
+            <ul class="mobile-dropdown" id="mobileProduct">
+                <li><a href="features.html" data-page="features">Features</a></li>
+                <li><a href="pricing.html" data-page="pricing">Pricing</a></li>
+            </ul>
+        </li>
+        <li>
+            <button class="mobile-dropdown-toggle" type="button" id="mobileLangToggle">
+                <span style="display:flex;align-items:center;gap:0.5rem;">
+                    <i data-lucide="globe"></i>
+                    <span id="currentLangMobile">EN</span>
+                </span>
+                <i data-lucide="chevron-down"></i>
+            </button>
+            <ul class="mobile-dropdown" id="mobileLang">
+                <li class="active" data-lang="en"><button type="button">EN — English <i data-lucide="check"></i></button></li>
+                <li data-lang="af"><button type="button">AF — Afrikaans <i data-lucide="check"></i></button></li>
+                <li data-lang="zu"><button type="button">ZU — isiZulu <i data-lucide="check"></i></button></li>
+                <li data-lang="xh"><button type="button">XH — isiXhosa <i data-lucide="check"></i></button></li>
+                <li data-lang="fr"><button type="button">FR — Français <i data-lucide="check"></i></button></li>
+                <li data-lang="es"><button type="button">ES — Español <i data-lucide="check"></i></button></li>
+                <li data-lang="pt"><button type="button">PT — Português <i data-lucide="check"></i></button></li>
+                <li data-lang="de"><button type="button">DE — Deutsch <i data-lucide="check"></i></button></li>
+                <li data-lang="nl"><button type="button">NL — Nederlands <i data-lucide="check"></i></button></li>
+                <li data-lang="sw"><button type="button">SW — Kiswahili <i data-lucide="check"></i></button></li>
+            </ul>
+        </li>
+        <li>
+            <button class="mobile-theme-toggle" id="themeToggleMobile" type="button">
+                <span>Theme</span>
+                <span class="theme-toggle" aria-hidden="true">
+                    <i data-lucide="sun" class="icon-sun"></i>
+                    <i data-lucide="moon" class="icon-moon"></i>
+                </span>
+            </button>
+        </li>
+        <li><a href="login.html" data-page="login" class="login-link">Log in</a></li>
+    </ul>
+
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>startedup<span>.co</span></h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-page="overview">
+                    <span class="nav-icon">📊</span>
+                    <span>Overview</span>
+                </a>
+                <a href="#" class="nav-item" data-page="profile">
+                    <span class="nav-icon">👤</span>
+                    <span>Profile</span>
+                </a>
+                <a href="#" class="nav-item" data-page="settings">
+                    <span class="nav-icon">⚙️</span>
+                    <span>Settings</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar" id="sidebarAvatar">J</div>
+                    <div class="user-details">
+                        <span class="user-name" id="sidebarName">John Doe</span>
+                        <span class="user-handle" id="sidebarHandle">@johndoe</span>
+                    </div>
+                </div>
+                <button class="logout-btn" id="logoutBtn">Sign out</button>
+            </div>
+        </aside>
+        <main class="main-content">
+            <header class="top-bar">
+                <h1 id="pageTitle">Overview</h1>
+            </header>
+            <div class="content-area">
+                <div class="dashboard-page" id="pageContent">
+                    <!-- Overview -->
+                    <div class="page" id="overviewPage">
+                        <div class="welcome-section">
+                            <h2>Welcome back, <span id="welcomeName">John</span>! 👋</h2>
+                            <p>Here's what's happening with your business ideas.</p>
+                        </div>
+                        <div class="stats-grid">
+                            <div class="stat-card"><div class="stat-value">12</div><div class="stat-label">Ideas</div><div class="stat-change">+3 this week</div></div>
+                            <div class="stat-card"><div class="stat-value">5</div><div class="stat-label">Projects</div><div class="stat-change">+1 this week</div></div>
+                            <div class="stat-card"><div class="stat-value">$2.4k</div><div class="stat-label">Revenue</div><div class="stat-change">+18% this month</div></div>
+                            <div class="stat-card"><div class="stat-value">1.2k</div><div class="stat-label">Followers</div><div class="stat-change">+45 this week</div></div>
+                        </div>
+                        <div class="section">
+                            <h3>Recent Activity</h3>
+                            <div class="activity-list">
+                                <div class="activity-item"><div class="activity-icon idea">💡</div><div class="activity-content"><span class="activity-title">AI-powered task manager</span><span class="activity-time">2 hours ago</span></div></div>
+                                <div class="activity-item"><div class="activity-icon project">🚀</div><div class="activity-content"><span class="activity-title">Launched landing page</span><span class="activity-time">Yesterday</span></div></div>
+                                <div class="activity-item"><div class="activity-icon milestone">🏆</div><div class="activity-content"><span class="activity-title">Hit 1000 followers!</span><span class="activity-time">3 days ago</span></div></div>
+                                <div class="activity-item"><div class="activity-icon idea">💡</div><div class="activity-content"><span class="activity-title">Micro-SaaS for freelancers</span><span class="activity-time">5 days ago</span></div></div>
+                            </div>
+                        </div>
+                        <div class="section">
+                            <div class="section-header"><h3>Quick Actions</h3></div>
+                            <div class="action-grid">
+                                <button class="action-btn"><span class="action-icon">➕</span><span>New Idea</span></button>
+                                <button class="action-btn"><span class="action-icon">📝</span><span>New Project</span></button>
+                                <button class="action-btn"><span class="action-icon">📊</span><span>View Analytics</span></button>
+                                <button class="action-btn"><span class="action-icon">👥</span><span>Invite Team</span></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profile -->
+                    <div class="page" id="profilePage" style="display:none;">
+                        <div class="form-section">
+                            <h3>Profile Picture</h3>
+                            <div class="avatar-upload">
+                                <div class="avatar-preview" id="avatarPreview">J</div>
+                                <div>
+                                    <label for="avatarInput">Upload new avatar</label>
+                                    <input type="file" id="avatarInput" accept="image/*">
+                                    <p class="form-hint">JPG, PNG up to 2MB</p>
+                                </div>
+                            </div>
+                        </div>
+                        <form id="profileForm">
+                            <div class="form-section">
+                                <h3>Basic Information</h3>
+                                <div class="form-row">
+                                    <div class="form-group"><label for="name">Full Name</label><input type="text" id="name" value="John Doe" required></div>
+                                    <div class="form-group"><label for="email">Email</label><input type="email" id="email" value="john@example.com" required></div>
+                                </div>
+                                <div class="form-group"><label for="handle">Handle</label><input type="text" id="handle" value="johndoe" required pattern="[a-zA-Z][a-zA-Z0-9_-]{2,29}"><span class="form-hint">@startedup.co/johndoe</span></div>
+                            </div>
+                            <div class="form-section">
+                                <h3>About</h3>
+                                <div class="form-group"><label for="bio">Bio</label><textarea id="bio" rows="4" placeholder="Tell us about yourself..."></textarea></div>
+                                <div class="form-row">
+                                    <div class="form-group"><label for="website">Website</label><input type="url" id="website" placeholder="https://example.com"></div>
+                                    <div class="form-group"><label for="twitter">Twitter</label><input type="text" id="twitter" placeholder="@username"></div>
+                                </div>
+                            </div>
+                            <div class="form-actions"><button type="submit" class="btn btn-primary">Save Changes</button></div>
+                        </form>
+                    </div>
+
+                    <!-- Settings -->
+                    <div class="page" id="settingsPage" style="display:none;">
+                        <div class="settings-tabs">
+                            <button class="tab-btn active" data-tab="account"><span>👤</span><span>Account</span></button>
+                            <button class="tab-btn" data-tab="security"><span>🔒</span><span>Security</span></button>
+                            <button class="tab-btn" data-tab="notifications"><span>🔔</span><span>Notifications</span></button>
+                            <button class="tab-btn" data-tab="danger"><span>⚠️</span><span>Danger Zone</span></button>
+                        </div>
+                        <div id="settingsMessage"></div>
+                        <form id="settingsForm">
+                            <div class="tab-panel" id="accountPanel">
+                                <div class="form-section">
+                                    <h3>Account Settings</h3>
+                                    <div class="form-group"><label>Email</label><input type="email" value="john@example.com" disabled><span class="form-hint">Email cannot be changed. Contact support if needed.</span></div>
+                                    <div class="form-group"><label>Member since</label><input type="text" value="January 15, 2024" disabled></div>
+                                    <div class="form-group"><label class="checkbox"><input type="checkbox" checked> Email me product updates</label></div>
+                                    <div class="form-group"><label class="checkbox"><input type="checkbox"> Email me security alerts</label></div>
+                                </div>
+                            </div>
+                            <div class="tab-panel" id="securityPanel" style="display:none;">
+                                <div class="form-section"><h3>Password</h3><div class="form-group"><label for="currentPassword">Current Password</label><input type="password" id="currentPassword" placeholder="••••••••"></div><div class="form-row"><div class="form-group"><label for="newPassword">New Password</label><input type="password" id="newPassword" placeholder="••••••••" minlength="6"></div><div class="form-group"><label for="confirmPassword">Confirm New Password</label><input type="password" id="confirmPassword" placeholder="••••••••"></div></div><div class="form-actions"><button type="button" class="btn btn-primary" id="updatePasswordBtn">Update Password</button></div></div>
+                                <div class="form-section" style="margin-top:1.5rem;"><h3>Two-Factor Authentication</h3><p style="color:var(--text-muted);margin-bottom:1rem;">Add an extra layer of security to your account.</p><button type="button" class="btn btn-ghost">Enable 2FA</button></div>
+                                <div class="form-section" style="margin-top:1.5rem;"><h3>Active Sessions</h3><div class="activity-list"><div class="activity-item"><div class="activity-icon security">💻</div><div class="activity-content"><span class="activity-title">Current Session</span><span class="activity-time">Chrome on Windows • Active now</span></div><span style="font-size:0.7rem;color:var(--accent);font-weight:600;">This device</span></div></div><button type="button" class="btn btn-ghost" style="margin-top:1rem;">Revoke All Other Sessions</button></div>
+                            </div>
+                            <div class="tab-panel" id="notificationsPanel" style="display:none;">
+                                <div class="form-section"><h3>Notification Preferences</h3>
+                                    <div class="form-group"><label class="checkbox"><input type="checkbox" checked> New follower</label></div>
+                                    <div class="form-group"><label class="checkbox"><input type="checkbox" checked> New idea comment</label></div>
+                                    <div class="form-group"><label class="checkbox"><input type="checkbox" checked> Project updates</label></div>
+                                    <div class="form-group"><label class="checkbox"><input type="checkbox"> Weekly digest</label></div>
+                                    <div class="form-group"><label class="checkbox"><input type="checkbox"> Marketing emails</label></div>
+                                </div>
+                            </div>
+                            <div class="tab-panel" id="dangerPanel" style="display:none;">
+                                <div class="form-section danger-zone"><h3>Delete Account</h3><p style="color:var(--text-muted);margin-bottom:1.5rem;">Once you delete your account, there is no going back. All your data, ideas, projects, and followers will be permanently removed.</p><div class="form-group"><label for="confirmDelete">Type "DELETE" to confirm</label><input type="text" id="confirmDelete" placeholder="DELETE"></div><div class="form-actions"><button type="button" class="btn btn-danger">Delete Account Permanently</button></div></div>
+                                <div class="form-section danger-zone" style="margin-top:1.5rem;"><h3>Export Data</h3><p style="color:var(--text-muted);margin-bottom:1rem;">Download a copy of all your data in JSON format.</p><button type="button" class="btn btn-ghost">Export My Data</button></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-top">
+            <div class="footer-brand"><a href="index.html" class="logo">startedup<span>.co</span></a><p>Tools to help you turn an idea into a business that runs on its own. Built in South Africa.</p></div>
+            <div class="footer-links">
+                <div class="footer-col"><h4>Product</h4><ul><li><a href="features.html">Features</a></li><li><a href="pricing.html">Pricing</a></li></ul></div>
+                <div class="footer-col"><h4>Company</h4><ul><li><a href="index.html">About</a></li><li><a href="index.html">Contact</a></li><li><a href="index.html">Careers</a></li><li><a href="index.html">Press</a></li></ul></div>
+                <div class="footer-col"><h4>Legal</h4><ul><li><a href="index.html">Privacy</a></li><li><a href="index.html">Terms</a></li><li><a href="index.html">Cookies</a></li><li><a href="index.html">POPIA</a></li></ul></div>
+            </div>
+        </div>
+        <div class="footer-bottom"><span>&copy; 2026 startedup.co. All rights reserved.</span><span><a href="index.html">Privacy</a> &nbsp;&middot;&nbsp; <a href="index.html">Terms</a></span></div>
+    </footer>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="app.js"></script>
+    <script>
+        if (window.lucide) lucide.createIcons();
+
+        // Check session
+        const session = JSON.parse(localStorage.getItem('foundable_session') || sessionStorage.getItem('foundable_session') || 'null');
+        if (!session) { window.location.href = 'login.html'; }
+
+        // Populate user info
+        document.getElementById('sidebarName').textContent = session.name;
+        document.getElementById('sidebarHandle').textContent = '@' + session.handle;
+        document.getElementById('sidebarAvatar').textContent = session.name[0].toUpperCase();
+        document.getElementById('welcomeName').textContent = session.name.split(' ')[0];
+
+        // Navigation
+        document.querySelectorAll('.nav-item[data-page]').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                showPage(item.dataset.page);
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+            });
+        });
+
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-panel').forEach(p => p.style.display = 'none');
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.tab + 'Panel').style.display = 'block';
+            });
+        });
+
+        function showPage(page) {
+            document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+            document.getElementById(page + 'Page').style.display = 'block';
+            document.getElementById('pageTitle').textContent = page.charAt(0).toUpperCase() + page.slice(1);
+        }
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            localStorage.removeItem('foundable_session');
+            sessionStorage.removeItem('foundable_session');
+            window.location.href = 'login.html';
+        });
+
+        // Avatar upload
+        document.getElementById('avatarInput').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (evt) => document.getElementById('avatarPreview').innerHTML = '<img src="' + evt.target.result + '" alt="Avatar">';
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Forms
+        document.getElementById('profileForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            showMessage('Profile updated successfully!', 'success');
+        });
+
+        document.getElementById('settingsForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            showMessage('Settings saved!', 'success');
+        });
+
+        function showMessage(text, type) {
+            const msg = document.getElementById('settingsMessage');
+            msg.innerHTML = '<div class="auth-error ' + (type === 'success' ? 'success' : '') + '">' + text + '</div>';
+            setTimeout(() => msg.innerHTML = '', 3000);
+        }
+    </script>
+</body>
+</html>
