@@ -274,6 +274,92 @@ a {
 [data-theme="dark"] .theme-toggle .icon-sun  { display: inline; }
 [data-theme="light"] .theme-toggle .icon-moon { display: inline; }
 
+/* ---------- LUCIDE ICONS ---------- */
+.lucide {
+    width: 18px;
+    height: 18px;
+    stroke-width: 1.75;
+    flex-shrink: 0;
+}
+
+.nav-desktop .lucide {
+    width: 16px;
+    height: 16px;
+}
+
+.theme-toggle .lucide {
+    width: 18px;
+    height: 18px;
+}
+
+.lang-trigger .lucide-globe {
+    width: 15px;
+    height: 15px;
+}
+
+.mobile-theme-toggle .lucide {
+    width: 18px;
+    height: 18px;
+}
+
+.auth-field .lucide {
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    left: 0.85rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-ghost);
+    pointer-events: none;
+}
+
+.auth-field {
+    position: relative;
+}
+
+.auth-field input {
+    padding-left: 2.6rem;
+}
+
+.content-list li .lucide {
+    width: 16px;
+    height: 16px;
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+}
+
+.pricing-features li .lucide {
+    width: 15px;
+    height: 15px;
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+}
+
+.pricing-features li.muted .lucide {
+    color: var(--text-ghost);
+}
+
+/* ---------- MAP SECTION ---------- */
+.map-section {
+    padding: 1rem 0 4rem;
+}
+
+.map-wrap {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+#map {
+    width: 100%;
+    height: 460px;
+    background-color: var(--map-bg);
+}
+
 /* ---------- DROPDOWNS ---------- */
 .dropdown {
     position: absolute;
@@ -729,13 +815,6 @@ a {
     line-height: 1.6;
 }
 
-.content-list li::before {
-    content: '\2192';
-    color: var(--accent);
-    font-weight: 700;
-    flex-shrink: 0;
-}
-
 /* ---------- AUTH FORM ---------- */
 .auth-wrap {
     max-width: 400px;
@@ -930,19 +1009,7 @@ a {
     line-height: 1.45;
 }
 
-.pricing-features li::before {
-    content: '\2713';
-    color: var(--accent);
-    font-weight: 700;
-    flex-shrink: 0;
-}
-
 .pricing-features li.muted {
-    color: var(--text-ghost);
-}
-
-.pricing-features li.muted::before {
-    content: '\2014';
     color: var(--text-ghost);
 }
 
@@ -1121,12 +1188,35 @@ a {
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
 }
 
 .map-clear:hover {
     color: var(--accent);
     border-color: var(--accent);
     background-color: var(--accent-soft-hover);
+}
+
+/* ---------- BRAND LOGOS ---------- */
+.brand-logos {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+}
+
+.brand-logos img {
+    height: 26px;
+    width: auto;
+    opacity: 0.45;
+    transition: opacity 0.2s ease;
+}
+
+.brand-logos img:hover {
+    opacity: 0.75;
 }
 
 /* ---------- FOOTER ---------- */

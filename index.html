@@ -8,6 +8,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
     <link rel="stylesheet" href="styles.css">
 </head>
 <body data-page="start">
@@ -17,7 +19,7 @@
         <ul class="nav-desktop">
             <li><a href="index.html" data-page="start" class="active">Start</a></li>
             <li class="has-dropdown">
-                <button class="nav-trigger" type="button">Product <span class="caret"></span></button>
+                <button class="nav-trigger" type="button">Product <i data-lucide="chevron-down"></i></button>
                 <ul class="dropdown">
                     <li><a href="features.html" data-page="features">Features</a></li>
                     <li><a href="pricing.html" data-page="pricing">Pricing</a></li>
@@ -25,27 +27,27 @@
             </li>
             <li class="has-dropdown">
                 <button class="nav-trigger lang-trigger" type="button">
-                    <span class="world-icon" aria-hidden="true">🌐</span>
+                    <i data-lucide="globe"></i>
                     <span class="code" id="currentLangDesktop">EN</span>
-                    <span class="caret"></span>
+                    <i data-lucide="chevron-down"></i>
                 </button>
                 <ul class="dropdown lang-dropdown" id="langMenuDesktop">
-                    <li class="active" data-lang="en"><button type="button">EN — English <span class="check">✓</span></button></li>
-                    <li data-lang="af"><button type="button">AF — Afrikaans <span class="check">✓</span></button></li>
-                    <li data-lang="zu"><button type="button">ZU — isiZulu <span class="check">✓</span></button></li>
-                    <li data-lang="xh"><button type="button">XH — isiXhosa <span class="check">✓</span></button></li>
-                    <li data-lang="fr"><button type="button">FR — Français <span class="check">✓</span></button></li>
-                    <li data-lang="es"><button type="button">ES — Español <span class="check">✓</span></button></li>
-                    <li data-lang="pt"><button type="button">PT — Português <span class="check">✓</span></button></li>
-                    <li data-lang="de"><button type="button">DE — Deutsch <span class="check">✓</span></button></li>
-                    <li data-lang="nl"><button type="button">NL — Nederlands <span class="check">✓</span></button></li>
-                    <li data-lang="sw"><button type="button">SW — Kiswahili <span class="check">✓</span></button></li>
+                    <li class="active" data-lang="en"><button type="button">EN — English <i data-lucide="check"></i></button></li>
+                    <li data-lang="af"><button type="button">AF — Afrikaans <i data-lucide="check"></i></button></li>
+                    <li data-lang="zu"><button type="button">ZU — isiZulu <i data-lucide="check"></i></button></li>
+                    <li data-lang="xh"><button type="button">XH — isiXhosa <i data-lucide="check"></i></button></li>
+                    <li data-lang="fr"><button type="button">FR — Français <i data-lucide="check"></i></button></li>
+                    <li data-lang="es"><button type="button">ES — Español <i data-lucide="check"></i></button></li>
+                    <li data-lang="pt"><button type="button">PT — Português <i data-lucide="check"></i></button></li>
+                    <li data-lang="de"><button type="button">DE — Deutsch <i data-lucide="check"></i></button></li>
+                    <li data-lang="nl"><button type="button">NL — Nederlands <i data-lucide="check"></i></button></li>
+                    <li data-lang="sw"><button type="button">SW — Kiswahili <i data-lucide="check"></i></button></li>
                 </ul>
             </li>
             <li>
                 <button class="theme-toggle" id="themeToggleDesktop" aria-label="Toggle theme">
-                    <span class="icon-sun" aria-hidden="true">☀</span>
-                    <span class="icon-moon" aria-hidden="true">☾</span>
+                    <i data-lucide="sun" class="icon-sun"></i>
+                    <i data-lucide="moon" class="icon-moon"></i>
                 </button>
             </li>
             <li><a href="login.html" data-page="login" class="login-link">Log in</a></li>
@@ -60,40 +62,40 @@
         <li><a href="index.html" data-page="start" class="active">Start</a></li>
         <li>
             <button class="mobile-dropdown-toggle" type="button" id="mobileProductToggle">
-                Product <span class="caret"></span>
+                Product <i data-lucide="chevron-down"></i>
             </button>
             <ul class="mobile-dropdown" id="mobileProduct">
-                    <li><a href="features.html" data-page="features">Features</a></li>
-                    <li><a href="pricing.html" data-page="pricing">Pricing</a></li>
+                <li><a href="features.html" data-page="features">Features</a></li>
+                <li><a href="pricing.html" data-page="pricing">Pricing</a></li>
             </ul>
         </li>
         <li>
             <button class="mobile-dropdown-toggle" type="button" id="mobileLangToggle">
                 <span style="display:flex;align-items:center;gap:0.5rem;">
-                    <span aria-hidden="true">🌐</span>
+                    <i data-lucide="globe"></i>
                     <span id="currentLangMobile">EN</span>
                 </span>
-                <span class="caret"></span>
+                <i data-lucide="chevron-down"></i>
             </button>
             <ul class="mobile-dropdown" id="mobileLang">
-                <li class="active" data-lang="en"><button type="button">EN — English <span class="check">✓</span></button></li>
-                <li data-lang="af"><button type="button">AF — Afrikaans <span class="check">✓</span></button></li>
-                <li data-lang="zu"><button type="button">ZU — isiZulu <span class="check">✓</span></button></li>
-                <li data-lang="xh"><button type="button">XH — isiXhosa <span class="check">✓</span></button></li>
-                <li data-lang="fr"><button type="button">FR — Français <span class="check">✓</span></button></li>
-                <li data-lang="es"><button type="button">ES — Español <span class="check">✓</span></button></li>
-                <li data-lang="pt"><button type="button">PT — Português <span class="check">✓</span></button></li>
-                <li data-lang="de"><button type="button">DE — Deutsch <span class="check">✓</span></button></li>
-                <li data-lang="nl"><button type="button">NL — Nederlands <span class="check">✓</span></button></li>
-                <li data-lang="sw"><button type="button">SW — Kiswahili <span class="check">✓</span></button></li>
+                <li class="active" data-lang="en"><button type="button">EN — English <i data-lucide="check"></i></button></li>
+                <li data-lang="af"><button type="button">AF — Afrikaans <i data-lucide="check"></i></button></li>
+                <li data-lang="zu"><button type="button">ZU — isiZulu <i data-lucide="check"></i></button></li>
+                <li data-lang="xh"><button type="button">XH — isiXhosa <i data-lucide="check"></i></button></li>
+                <li data-lang="fr"><button type="button">FR — Français <i data-lucide="check"></i></button></li>
+                <li data-lang="es"><button type="button">ES — Español <i data-lucide="check"></i></button></li>
+                <li data-lang="pt"><button type="button">PT — Português <i data-lucide="check"></i></button></li>
+                <li data-lang="de"><button type="button">DE — Deutsch <i data-lucide="check"></i></button></li>
+                <li data-lang="nl"><button type="button">NL — Nederlands <i data-lucide="check"></i></button></li>
+                <li data-lang="sw"><button type="button">SW — Kiswahili <i data-lucide="check"></i></button></li>
             </ul>
         </li>
         <li>
             <button class="mobile-theme-toggle" id="themeToggleMobile" type="button">
                 <span>Theme</span>
                 <span class="theme-toggle" aria-hidden="true">
-                    <span class="icon-sun">☀</span>
-                    <span class="icon-moon">☾</span>
+                    <i data-lucide="sun" class="icon-sun"></i>
+                    <i data-lucide="moon" class="icon-moon"></i>
                 </span>
             </button>
         </li>
@@ -127,6 +129,17 @@
                 <p class="waitlist-note">No spam. Just one email when we launch.</p>
             </div>
         </div>
+
+        <!-- MAP SECTION -->
+        <section class="map-section">
+            <div class="map-wrap">
+                <div id="map"></div>
+                <div class="map-info">
+                    <span id="mapStatus"><strong>Ready.</strong> Use the toolbar to draw a marker, line, polygon, or circle.</span>
+                    <button type="button" class="map-clear" id="mapClear"><i data-lucide="trash-2"></i> Clear all</button>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer class="site-footer">
@@ -137,6 +150,11 @@
                     Tools to help you turn an idea into a business that runs on its own.
                     Built in South Africa.
                 </p>
+                <div class="brand-logos">
+                    <img src="https://svgl.app/vercel.svg" alt="Vercel" loading="lazy">
+                    <img src="https://svgl.app/github.svg" alt="GitHub" loading="lazy">
+                    <img src="https://svgl.app/stripe.svg" alt="Stripe" loading="lazy">
+                </div>
             </div>
             <div class="footer-col">
                 <h4>Product</h4>
@@ -173,9 +191,15 @@
         </div>
     </footer>
 
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <script src="app.js"></script>
     <script>
         (function () {
+            lucide.createIcons();
+
+            /* Waitlist */
             var waitlistBtn  = document.getElementById('waitlistBtn');
             var waitlistForm = document.getElementById('waitlistForm');
             var emailInput   = document.getElementById('emailInput');
@@ -210,6 +234,57 @@
                     waitlistForm.classList.remove('show');
                     success.classList.add('show');
                 });
+            }
+
+            /* Map */
+            if (typeof L !== 'undefined') {
+                var map = L.map('map', {
+                    center: [-26.2041, 28.0473],
+                    zoom: 11,
+                    scrollWheelZoom: true
+                });
+
+                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors'
+                }).addTo(map);
+
+                var drawnItems = new L.FeatureGroup();
+                map.addLayer(drawnItems);
+
+                var drawControl = new L.Control.Draw({
+                    position: 'topleft',
+                    draw: {
+                        polyline: { shapeOptions: { color: '#6bbaef', weight: 3 } },
+                        polygon: { allowIntersection: false, shapeOptions: { color: '#6bbaef', weight: 2, fillOpacity: 0.15 } },
+                        rectangle: { shapeOptions: { color: '#6bbaef', weight: 2, fillOpacity: 0.15 } },
+                        circle: { shapeOptions: { color: '#6bbaef', weight: 2, fillOpacity: 0.15 } },
+                        marker: true
+                    },
+                    edit: { featureGroup: drawnItems, remove: true }
+                });
+                map.addControl(drawControl);
+
+                var statusEl = document.getElementById('mapStatus');
+                function updateStatus(msg) { if (statusEl) statusEl.innerHTML = msg; }
+
+                map.on(L.Draw.Event.CREATED, function (e) {
+                    drawnItems.addLayer(e.layer);
+                    updateStatus('<strong>Saved.</strong> You added a ' + e.layerType + '. Total items: ' + drawnItems.getLayers().length);
+                });
+                map.on(L.Draw.Event.EDITED, function (e) {
+                    updateStatus('<strong>Updated.</strong> ' + e.layers.getLayers().length + ' item(s) edited. Total items: ' + drawnItems.getLayers().length);
+                });
+                map.on(L.Draw.Event.DELETED, function () {
+                    updateStatus('<strong>Removed.</strong> Total items: ' + drawnItems.getLayers().length);
+                });
+
+                document.getElementById('mapClear').addEventListener('click', function () {
+                    drawnItems.clearLayers();
+                    updateStatus('<strong>Cleared.</strong> Use the toolbar to draw a marker, line, polygon, or circle.');
+                });
+
+                setTimeout(function () { map.invalidateSize(); }, 150);
             }
         })();
     </script>
