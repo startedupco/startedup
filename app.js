@@ -42,7 +42,8 @@
        ACTIVE NAV LINK
        ============================================================ */
     var currentPage = document.body.getAttribute('data-page');
-    document.querySelectorAll('[data-page]').forEach(function (link) {
+    document.querySelectorAll('.nav-desktop [data-page], .nav-mobile [data-page]').forEach(function (link) {
+        link.classList.remove('active');
         if (link.getAttribute('data-page') === currentPage) {
             link.classList.add('active');
         }

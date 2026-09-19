@@ -364,14 +364,15 @@ a {
     color: var(--accent);
 }
 
-.dropdown .check {
+.dropdown .lucide-check {
     margin-left: auto;
     color: var(--accent);
     opacity: 0;
-    font-size: 0.75rem;
+    width: 14px !important;
+    height: 14px !important;
 }
 
-.dropdown li.active .check {
+.dropdown li.active .lucide-check {
     opacity: 1;
 }
 
@@ -537,14 +538,15 @@ a {
     color: var(--accent);
 }
 
-.mobile-dropdown .check {
+.mobile-dropdown .lucide-check {
     margin-left: auto;
     color: var(--accent);
     opacity: 0;
-    font-size: 0.75rem;
+    width: 14px !important;
+    height: 14px !important;
 }
 
-.mobile-dropdown li.active .check {
+.mobile-dropdown li.active .lucide-check {
     opacity: 1;
 }
 
@@ -698,6 +700,9 @@ a {
     flex-direction: column;
     gap: 0.4rem;
     margin-bottom: 1rem;
+}
+
+.auth-field-input {
     position: relative;
 }
 
@@ -717,6 +722,7 @@ a {
     padding: 0.85rem 1rem 0.85rem 2.6rem;
     outline: none;
     transition: border-color 0.2s ease;
+    width: 100%;
 }
 
 .auth-field input::placeholder {
@@ -727,12 +733,13 @@ a {
     border-color: var(--accent);
 }
 
-.auth-field .lucide {
+.auth-field-input .lucide {
     width: 15px !important;
     height: 15px !important;
     position: absolute;
     left: 0.85rem;
-    bottom: 0.95rem;
+    top: 50%;
+    transform: translateY(-50%);
     color: var(--text-ghost);
     pointer-events: none;
 }

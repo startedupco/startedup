@@ -9,6 +9,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <script>
+        try {
+            var t = localStorage.getItem('foundable-theme');
+            if (t) document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {}
+    </script>
 </head>
 <body data-page="pricing">
     <header class="site-header">
@@ -191,7 +197,6 @@
                     <a href="https://github.com/NeoNomadFinance/bank-logos" target="_blank" rel="noopener"><img src="https://raw.githubusercontent.com/NeoNomadFinance/bank-logos/main/Sasfin.svg" alt="Sasfin" loading="lazy" onerror="this.closest('a').remove()"></a>
                     <a href="https://github.com/NeoNomadFinance/bank-logos" target="_blank" rel="noopener"><img src="https://raw.githubusercontent.com/NeoNomadFinance/bank-logos/main/Standard%20charted%20bank.svg" alt="Standard Chartered" loading="lazy" onerror="this.closest('a').remove()"></a>
                 </div>
-                <p class="bank-credit">Bank logos via <a href="https://github.com/NeoNomadFinance/bank-logos" target="_blank" rel="noopener">NeoNomadFinance/bank-logos</a> on GitHub.</p>
             </div>
         </div>
     </main>

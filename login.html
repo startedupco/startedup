@@ -9,6 +9,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <script>
+        try {
+            var t = localStorage.getItem('foundable-theme');
+            if (t) document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {}
+    </script>
 </head>
 <body data-page="login">
     <header class="site-header">
@@ -48,7 +54,7 @@
                     <i data-lucide="moon" class="icon-moon"></i>
                 </button>
             </li>
-            <li><a href="login.html" data-page="login" class="login-link">Log in</a></li>
+            <li><a href="register.html" data-page="register" class="login-link">Sign up</a></li>
         </ul>
 
         <button class="hamburger" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">
@@ -97,7 +103,7 @@
                 </span>
             </button>
         </li>
-        <li><a href="login.html" data-page="login" class="login-link">Log in</a></li>
+        <li><a href="register.html" data-page="register" class="login-link">Sign up</a></li>
     </ul>
 
     <div class="nav-overlay" id="navOverlay"></div>
@@ -110,13 +116,17 @@
             <form id="loginForm" novalidate>
                 <div class="auth-field">
                     <label for="loginEmail">Email</label>
-                    <i data-lucide="mail"></i>
-                    <input type="email" id="loginEmail" placeholder="you@example.com" required>
+                    <div class="auth-field-input">
+                        <i data-lucide="mail" aria-hidden="true"></i>
+                        <input type="email" id="loginEmail" placeholder="you@example.com" required>
+                    </div>
                 </div>
                 <div class="auth-field">
                     <label for="loginPassword">Password</label>
-                    <i data-lucide="lock"></i>
-                    <input type="password" id="loginPassword" placeholder="••••••••" required>
+                    <div class="auth-field-input">
+                        <i data-lucide="lock" aria-hidden="true"></i>
+                        <input type="password" id="loginPassword" placeholder="••••••••" required>
+                    </div>
                 </div>
                 <p class="auth-forgot">
                     <a href="forgot-password.html">Forgot password?</a>
@@ -179,102 +189,66 @@
     </footer>
 
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="supabase-client.js"></script>
     <script src="app.js"></script>
     <script>
         (function () {
-            var SESSION_KEY = 'foundable_session';
-            var API_BASE = 'http://localhost:3000';
-
             if (window.lucide) lucide.createIcons();
+            if (!supabase) return;
 
             var loginForm = document.getElementById('loginForm');
             var statusEl  = document.getElementById('loginStatus');
             if (!loginForm || !statusEl) return;
 
-            if (loginForm) {
-                loginForm.addEventListener('submit', async function (e) {
-                    e.preventDefault();
-                    if (loginForm.dataset.busy === '1') return;
-                    var loginEmail = document.getElementById('loginEmail');
-                    var loginPassword = document.getElementById('loginPassword');
-                    var submitBtn = loginForm.querySelector('.auth-submit');
+            loginForm.addEventListener('submit', async function (e) {
+                e.preventDefault();
+                if (loginForm.dataset.busy === '1') return;
+                var loginEmail = document.getElementById('loginEmail');
+                var loginPassword = document.getElementById('loginPassword');
+                var submitBtn = loginForm.querySelector('.auth-submit');
 
-                    var email = loginEmail.value.trim().toLowerCase();
-                    var pass  = loginPassword.value;
+                var email = loginEmail.value.trim().toLowerCase();
+                var pass  = loginPassword.value;
 
-                    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                        loginEmail.style.borderColor = 'var(--danger)';
-                        loginEmail.focus();
-                        return;
-                    }
-                    if (!pass) {
-                        loginPassword.style.borderColor = 'var(--danger)';
-                        loginPassword.focus();
-                        return;
-                    }
+                if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    loginEmail.style.borderColor = 'var(--danger)';
+                    loginEmail.focus();
+                    return;
+                }
+                if (!pass) {
+                    loginPassword.style.borderColor = 'var(--danger)';
+                    loginPassword.focus();
+                    return;
+                }
 
+                loginEmail.style.borderColor = '';
+                loginPassword.style.borderColor = '';
+                statusEl.textContent = '';
+                statusEl.className = 'auth-status';
+                loginForm.dataset.busy = '1';
+                if (submitBtn) submitBtn.disabled = true;
+
+                function release() {
+                    loginForm.dataset.busy = '';
+                    if (submitBtn) submitBtn.disabled = false;
                     loginEmail.style.borderColor = '';
                     loginPassword.style.borderColor = '';
-                    statusEl.textContent = '';
-                    statusEl.className = 'auth-status';
-                    loginForm.dataset.busy = '1';
-                    if (submitBtn) submitBtn.disabled = true;
+                }
 
-                    function release() {
-                        loginForm.dataset.busy = '';
-                        if (submitBtn) submitBtn.disabled = false;
-                    }
+                var result = await supabase.auth.signInWithPassword({ email: email, password: pass });
 
-                    try {
-                        var res = await fetch(API_BASE + '/api/auth/login', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ email: email, password: pass })
-                        });
-                        var data = null;
-                        try { data = await res.json(); } catch (e) { data = null; }
+                if (result.error) {
+                    statusEl.textContent = result.error.message || 'Invalid email or password.';
+                    statusEl.className = 'auth-status error';
+                    release();
+                    return;
+                }
 
-                        if (!res.ok) {
-                            statusEl.textContent = (data && data.error) || 'Login failed';
-                            statusEl.className = 'auth-status error';
-                            release();
-                            return;
-                        }
-
-                        if (!data || !data.user || !data.sessionId) {
-                            statusEl.textContent = 'Unexpected server response. Try again.';
-                            statusEl.className = 'auth-status error';
-                            release();
-                            return;
-                        }
-
-                        var session = {
-                            provider: 'email',
-                            sub: data.user.id,
-                            email: data.user.email,
-                            name: data.user.name,
-                            handle: data.user.handle,
-                            avatar: data.user.avatar,
-                            token: data.sessionId,
-                            sessionId: data.sessionId,
-                            iat: Date.now(),
-                            exp: Date.now() + 1000 * 60 * 60 * 24 * 30
-                        };
-                        try {
-                            sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
-                            localStorage.setItem(SESSION_KEY, JSON.stringify(session));
-                        } catch (storeErr) { /* private mode etc — session just won't persist */ }
-
-                        statusEl.textContent = 'Logged in! Redirecting...';
-                        statusEl.className = 'auth-status success';
-                        setTimeout(function () { window.location.href = 'user-dashboard.html'; }, 600);
-                    } catch (err) {
-                        statusEl.textContent = 'Could not reach server. Is it running?';
-                        statusEl.className = 'auth-status error';
-                        release();
-                    }
-                });
-            }
+                statusEl.textContent = 'Logged in! Redirecting...';
+                statusEl.className = 'auth-status success';
+                setTimeout(function () { window.location.href = 'index.html'; }, 600);
+            });
         })();
     </script>
 </body>

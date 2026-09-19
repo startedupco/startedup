@@ -9,25 +9,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <script>
+        try {
+            var t = localStorage.getItem('foundable-theme');
+            if (t) document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {}
+    </script>
     <style>
-        .auth-wrap { max-width: 440px; margin: 2rem auto 4rem; }
-        .field { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
-        .field label { font-size: 0.82rem; color: var(--text-muted); font-weight: 500; }
-        .field input {
-            font-family: 'Archivo', sans-serif;
-            font-size: 0.95rem;
-            color: var(--text);
-            background-color: var(--bg);
-            border: 1.5px solid var(--border-input);
-            border-radius: 8px;
-            padding: 0.85rem 1rem;
-            outline: none;
-            transition: border-color 0.2s ease;
-        }
-        .field input::placeholder { color: var(--text-ghost); }
-        .field input:focus {
-            border-color: var(--accent);
-        }
         .field-hint {
             font-size: 0.75rem;
             color: var(--text-faint);
@@ -38,6 +26,7 @@
         .auth-check {
             display: flex;
             align-items: flex-start;
+            justify-content: center;
             gap: 0.5rem;
             font-size: 0.82rem;
             color: var(--text-dim);
@@ -47,46 +36,11 @@
         .auth-check input { margin-top: 0.2rem; accent-color: var(--accent); }
         .auth-check a { color: var(--accent); text-decoration: none; }
         .auth-check a:hover { text-decoration: underline; }
-        .btn-auth {
-            width: 100%;
-            font-family: 'Archivo', sans-serif;
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--btn-text);
-            background-color: var(--btn-bg);
-            border: 1px solid var(--btn-bg);
-            border-radius: 8px;
-            padding: 0.95rem 1.5rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .btn-auth:hover:not(:disabled) {
-            background-color: var(--btn-hover);
-            border-color: var(--btn-hover);
-        }
-        .btn-auth:disabled { opacity: 0.5; cursor: not-allowed; }
-        .auth-footer {
-            text-align: center;
-            font-size: 0.85rem;
-            color: var(--text-dim);
-            margin-top: 1.25rem;
-        }
-        .auth-footer a { color: var(--accent); }
-        .auth-footer a:hover { text-decoration: underline; }
-        .auth-status {
-            font-size: 0.85rem;
-            color: var(--text-dim);
-            margin-top: 1rem;
-            min-height: 1.2em;
-            text-align: center;
-        }
-        .auth-status.error { color: var(--danger); }
-        .auth-status.success { color: var(--accent); }
         .field-row {
             display: flex;
             gap: 0.75rem;
         }
-        .field-row .field { flex: 1; }
+        .field-row .auth-field { flex: 1; }
     </style>
 </head>
 <body data-page="register">
@@ -187,37 +141,52 @@
                 <p class="auth-sub">Join startedup.co in seconds</p>
 
                 <form id="registerForm" novalidate>
-                    <div class="field">
+                    <div class="auth-field">
                         <label for="regName">Full name</label>
-                        <input type="text" id="regName" placeholder="Jane Doe" required autocomplete="name" maxlength="120">
+                        <div class="auth-field-input">
+                            <i data-lucide="user" aria-hidden="true"></i>
+                            <input type="text" id="regName" placeholder="Jane Doe" required autocomplete="name" maxlength="120">
+                        </div>
                         <span class="field-hint" id="nameHint">First and last name.</span>
                     </div>
-                    <div class="field">
+                    <div class="auth-field">
                         <label for="regHandle">Handle</label>
-                        <input type="text" id="regHandle" placeholder="janedoe" required autocomplete="username" minlength="3" maxlength="30" pattern="[a-zA-Z][a-zA-Z0-9_-]{2,29}">
+                        <div class="auth-field-input">
+                            <i data-lucide="at-sign" aria-hidden="true"></i>
+                            <input type="text" id="regHandle" placeholder="janedoe" required autocomplete="username" minlength="3" maxlength="30" pattern="[a-zA-Z][a-zA-Z0-9_-]{2,29}">
+                        </div>
                         <span class="field-hint" id="handleHint">Letters, numbers, underscores, and dashes only.</span>
                     </div>
-                    <div class="field">
+                    <div class="auth-field">
                         <label for="regEmail">Email</label>
-                        <input type="email" id="regEmail" placeholder="you@example.com" required autocomplete="email">
+                        <div class="auth-field-input">
+                            <i data-lucide="mail" aria-hidden="true"></i>
+                            <input type="email" id="regEmail" placeholder="you@example.com" required autocomplete="email">
+                        </div>
                         <span class="field-hint" id="emailHint"></span>
                     </div>
-                    
-                    <div class="field">
+
+                    <div class="auth-field">
                         <label for="regPassword">Password</label>
-                        <input type="password" id="regPassword" placeholder="At least 6 characters" required minlength="6" autocomplete="new-password">
+                        <div class="auth-field-input">
+                            <i data-lucide="lock" aria-hidden="true"></i>
+                            <input type="password" id="regPassword" placeholder="At least 6 characters" required minlength="6" autocomplete="new-password">
+                        </div>
                         <span class="field-hint" id="pwHint">Use 6+ characters.</span>
                     </div>
-                    <div class="field">
+                    <div class="auth-field">
                         <label for="regConfirm">Confirm password</label>
-                        <input type="password" id="regConfirm" placeholder="Repeat your password" required autocomplete="new-password">
+                        <div class="auth-field-input">
+                            <i data-lucide="lock" aria-hidden="true"></i>
+                            <input type="password" id="regConfirm" placeholder="Repeat your password" required autocomplete="new-password">
+                        </div>
                         <span class="field-hint" id="confirmHint"></span>
                     </div>
                     <label class="auth-check">
                         <input type="checkbox" id="terms" required>
                         <span>I agree to the <a href="#">Terms</a> and <a href="#">Privacy Policy</a></span>
                     </label>
-                    <button type="submit" class="btn-auth" id="registerBtn">Create account</button>
+                    <button type="submit" class="auth-submit" id="registerBtn">Create account</button>
                 </form>
 
                 <p class="auth-status" id="registerStatus"></p>
@@ -275,13 +244,14 @@
     </footer>
 
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="supabase-client.js"></script>
     <script src="app.js"></script>
     <script>
         if (window.lucide) lucide.createIcons();
 
         (function () {
-            var API_BASE = 'http://localhost:3000';
-            var SESSION_KEY = 'foundable_session';
+            if (!supabase) return;
 
             var form     = document.getElementById('registerForm');
             var statusEl = document.getElementById('registerStatus');
@@ -289,7 +259,6 @@
             var nameIn   = document.getElementById('regName');
             var handleIn = document.getElementById('regHandle');
             var emailIn  = document.getElementById('regEmail');
-            
             var pwIn     = document.getElementById('regPassword');
             var confirmIn= document.getElementById('regConfirm');
             var termsIn  = document.getElementById('terms');
@@ -298,24 +267,6 @@
             var pwHint      = document.getElementById('pwHint');
             var confirmHint = document.getElementById('confirmHint');
             if (!form || !statusEl || !btn) return;
-
-            var checkSeq = 0;
-            async function checkAvailability(kind, value) {
-                var mySeq = ++checkSeq;
-                try {
-                    var res = await fetch(API_BASE + '/api/auth/check?' + kind + '=' + encodeURIComponent(value));
-                    var data = null;
-                    try { data = await res.json(); } catch (e) { data = null; }
-                    if (mySeq !== checkSeq || !res.ok || !data) return null;
-                    if (kind === 'handle') return data.handleTaken === true;
-                    return data.emailTaken === true;
-                } catch (e) { return null; }
-            }
-
-            var handleTimer = null;
-            var emailTimer = null;
-            var handleTakenNow = false;
-            var emailTakenNow = false;
 
             function validEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
 
@@ -352,65 +303,31 @@
 
             handleIn.addEventListener('input', function () {
                 var v = handleIn.value.trim().toLowerCase();
-                if (handleTimer) clearTimeout(handleTimer);
-                handleTakenNow = false;
                 if (!v) { handleHint.textContent = 'Letters, numbers, underscores, and dashes only.'; handleHint.className = 'field-hint'; return; }
                 if (!/^[a-zA-Z][a-zA-Z0-9_-]{2,29}$/.test(v)) {
                     handleHint.textContent = 'Must start with a letter, 3-30 chars, a-z 0-9 _ -';
                     handleHint.className = 'field-hint bad';
                     return;
                 }
-                handleHint.textContent = 'Checking availability...';
-                handleHint.className = 'field-hint';
-                handleTimer = setTimeout(function () {
-                    checkAvailability('handle', v).then(function (taken) {
-                        if (handleIn.value.trim().toLowerCase() !== v) return;
-                        if (taken === null) {
-                            handleHint.textContent = 'Looks good!';
-                            handleHint.className = 'field-hint ok';
-                            return;
-                        }
-                        handleTakenNow = taken;
-                        if (taken) {
-                            handleHint.textContent = 'That handle is taken. Try another.';
-                            handleHint.className = 'field-hint bad';
-                        } else {
-                            handleHint.textContent = 'Available!';
-                            handleHint.className = 'field-hint ok';
-                        }
-                    });
-                }, 400);
+                handleHint.textContent = 'Available!';
+                handleHint.className = 'field-hint ok';
             });
 
             emailIn.addEventListener('input', function () {
                 var v = emailIn.value.trim().toLowerCase();
-                if (emailTimer) clearTimeout(emailTimer);
-                emailTakenNow = false;
                 if (!v) { emailHint.textContent = ''; emailHint.className = 'field-hint'; return; }
                 if (!validEmail(v)) {
                     emailHint.textContent = 'Enter a valid email address.';
                     emailHint.className = 'field-hint bad';
                     return;
                 }
-                emailHint.textContent = 'Checking availability...';
+                emailHint.textContent = '';
                 emailHint.className = 'field-hint';
-                emailTimer = setTimeout(function () {
-                    checkAvailability('email', v).then(function (taken) {
-                        if (emailIn.value.trim().toLowerCase() !== v) return;
-                        if (taken === true) {
-                            emailTakenNow = true;
-                            emailHint.textContent = 'That email is already registered. Try logging in.';
-                            emailHint.className = 'field-hint bad';
-                        } else if (taken === false) {
-                            emailHint.textContent = 'Available!';
-                            emailHint.className = 'field-hint ok';
-                        }
-                    });
-                }, 400);
             });
 
             form.addEventListener('submit', async function (e) {
                 e.preventDefault();
+                if (form.dataset.busy === '1') return;
                 statusEl.textContent = '';
                 statusEl.className = 'auth-status';
 
@@ -425,74 +342,32 @@
                 if (!handle || handle.length < 3) { statusEl.textContent = 'Handle must be at least 3 characters.'; statusEl.className = 'auth-status error'; handleIn.focus(); return; }
                 if (!/^[a-zA-Z][a-zA-Z0-9_-]{2,29}$/.test(handle)) { statusEl.textContent = 'Handle must start with a letter, 3-30 chars (a-z 0-9 _ -).'; statusEl.className = 'auth-status error'; handleIn.focus(); return; }
                 if (!validEmail(email)) { statusEl.textContent = 'Please enter a valid email address.'; statusEl.className = 'auth-status error'; emailIn.focus(); return; }
-                if (emailTakenNow && emailIn.value.trim().toLowerCase() === email) { statusEl.textContent = 'That email is already registered. Try logging in.'; statusEl.className = 'auth-status error'; emailIn.focus(); return; }
-                if (handleTakenNow && handleIn.value.trim().toLowerCase() === handle) { statusEl.textContent = 'That handle is taken. Try another.'; statusEl.className = 'auth-status error'; handleIn.focus(); return; }
                 if (password.length < 6) { statusEl.textContent = 'Password must be at least 6 characters.'; statusEl.className = 'auth-status error'; pwIn.focus(); return; }
                 if (password !== confirm) { statusEl.textContent = 'Passwords do not match.'; statusEl.className = 'auth-status error'; confirmIn.focus(); return; }
                 if (!termsOk) { statusEl.textContent = 'Please accept the Terms and Privacy Policy.'; statusEl.className = 'auth-status error'; return; }
 
                 btn.disabled = true;
                 btn.textContent = 'Creating account...';
+                form.dataset.busy = '1';
 
-                try {
-                    var res = await fetch(API_BASE + '/api/auth/register', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            name: name,
-                            email: email,
-                            password: password,
-                            handle: handle
-                        })
-                    });
+                var result = await supabase.auth.signUp({
+                    email: email,
+                    password: password,
+                    options: { data: { name: name, handle: handle } }
+                });
 
-                    var data = null;
-                    try { data = await res.json(); } catch (e) { data = null; }
-
-                    if (!res.ok) {
-                        statusEl.textContent = (data && data.error) || 'Registration failed. Please try again.';
-                        statusEl.className = 'auth-status error';
-                        btn.disabled = false;
-                        btn.textContent = 'Create account';
-                        return;
-                    }
-
-                    if (!data || !data.user || !data.sessionId) {
-                        statusEl.textContent = 'Unexpected server response. Try again.';
-                        statusEl.className = 'auth-status error';
-                        btn.disabled = false;
-                        btn.textContent = 'Create account';
-                        return;
-                    }
-
-                    var session = {
-                        provider: 'email',
-                        sub: data.user.id,
-                        email: data.user.email,
-                        name: data.user.name,
-                        handle: data.user.handle,
-                        avatar: data.user.avatar,
-                        token: data.sessionId,
-                        sessionId: data.sessionId,
-                        iat: Date.now(),
-                        exp: Date.now() + 1000 * 60 * 60 * 24 * 30
-                    };
-
-                    try { localStorage.setItem(SESSION_KEY, JSON.stringify(session)); } catch (e) {}
-
-                    statusEl.textContent = 'Account created! Redirecting...';
-                    statusEl.className = 'auth-status success';
-
-                    setTimeout(function () {
-                        window.location.href = 'user-dashboard.html';
-                    }, 1200);
-
-                } catch (err) {
-                    statusEl.textContent = 'Network error. Please check your connection and try again.';
+                if (result.error) {
+                    statusEl.textContent = result.error.message || 'Registration failed. Please try again.';
                     statusEl.className = 'auth-status error';
                     btn.disabled = false;
                     btn.textContent = 'Create account';
+                    form.dataset.busy = '';
+                    return;
                 }
+
+                statusEl.textContent = 'Account created! Redirecting...';
+                statusEl.className = 'auth-status success';
+                setTimeout(function () { window.location.href = 'index.html'; }, 1200);
             });
         })();
     </script>
