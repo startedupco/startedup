@@ -267,7 +267,7 @@
 
                         statusEl.textContent = 'Logged in! Redirecting...';
                         statusEl.className = 'auth-status success';
-                        setTimeout(function () { window.location.href = 'index.html'; }, 600);
+                        setTimeout(function () { window.location.href = 'user-dashboard.html'; }, 600);
                     } catch (err) {
                         statusEl.textContent = 'Could not reach server. Is it running?';
                         statusEl.className = 'auth-status error';

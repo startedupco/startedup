@@ -97,95 +97,6 @@
     </style>
 </head>
 <body data-page="dashboard">
-    <header class="site-header">
-        <a href="index.html" class="logo">startedup<span>.co</span></a>
-        <ul class="nav-desktop">
-            <li><a href="index.html" data-page="start">Start</a></li>
-            <li class="has-dropdown">
-                <button class="nav-trigger" type="button">Product <i data-lucide="chevron-down"></i></button>
-                <ul class="dropdown">
-                    <li><a href="features.html" data-page="features">Features</a></li>
-                    <li><a href="pricing.html" data-page="pricing">Pricing</a></li>
-                </ul>
-            </li>
-            <li class="has-dropdown">
-                <button class="nav-trigger lang-trigger" type="button">
-                    <i data-lucide="globe"></i>
-                    <span class="code" id="currentLangDesktop">EN</span>
-                    <i data-lucide="chevron-down"></i>
-                </button>
-                <ul class="dropdown lang-dropdown" id="langMenuDesktop">
-                    <li class="active" data-lang="en"><button type="button">EN — English <i data-lucide="check"></i></button></li>
-                    <li data-lang="af"><button type="button">AF — Afrikaans <i data-lucide="check"></i></button></li>
-                    <li data-lang="zu"><button type="button">ZU — isiZulu <i data-lucide="check"></i></button></li>
-                    <li data-lang="xh"><button type="button">XH — isiXhosa <i data-lucide="check"></i></button></li>
-                    <li data-lang="fr"><button type="button">FR — Français <i data-lucide="check"></i></button></li>
-                    <li data-lang="es"><button type="button">ES — Español <i data-lucide="check"></i></button></li>
-                    <li data-lang="pt"><button type="button">PT — Português <i data-lucide="check"></i></button></li>
-                    <li data-lang="de"><button type="button">DE — Deutsch <i data-lucide="check"></i></button></li>
-                    <li data-lang="nl"><button type="button">NL — Nederlands <i data-lucide="check"></i></button></li>
-                    <li data-lang="sw"><button type="button">SW — Kiswahili <i data-lucide="check"></i></button></li>
-                </ul>
-            </li>
-            <li>
-                <button class="theme-toggle" id="themeToggleDesktop" aria-label="Toggle theme">
-                    <i data-lucide="sun" class="icon-sun"></i>
-                    <i data-lucide="moon" class="icon-moon"></i>
-                </button>
-            </li>
-            <li><a href="login.html" data-page="login" class="login-link">Log in</a></li>
-        </ul>
-        <button class="hamburger" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">
-            <span></span>
-        </button>
-    </header>
-
-    <ul class="nav-mobile" id="mobileNav">
-        <li><a href="index.html" data-page="start">Start</a></li>
-        <li>
-            <button class="mobile-dropdown-toggle" type="button" id="mobileProductToggle">
-                Product <i data-lucide="chevron-down"></i>
-            </button>
-            <ul class="mobile-dropdown" id="mobileProduct">
-                <li><a href="features.html" data-page="features">Features</a></li>
-                <li><a href="pricing.html" data-page="pricing">Pricing</a></li>
-            </ul>
-        </li>
-        <li>
-            <button class="mobile-dropdown-toggle" type="button" id="mobileLangToggle">
-                <span style="display:flex;align-items:center;gap:0.5rem;">
-                    <i data-lucide="globe"></i>
-                    <span id="currentLangMobile">EN</span>
-                </span>
-                <i data-lucide="chevron-down"></i>
-            </button>
-            <ul class="mobile-dropdown" id="mobileLang">
-                <li class="active" data-lang="en"><button type="button">EN — English <i data-lucide="check"></i></button></li>
-                <li data-lang="af"><button type="button">AF — Afrikaans <i data-lucide="check"></i></button></li>
-                <li data-lang="zu"><button type="button">ZU — isiZulu <i data-lucide="check"></i></button></li>
-                <li data-lang="xh"><button type="button">XH — isiXhosa <i data-lucide="check"></i></button></li>
-                <li data-lang="fr"><button type="button">FR — Français <i data-lucide="check"></i></button></li>
-                <li data-lang="es"><button type="button">ES — Español <i data-lucide="check"></i></button></li>
-                <li data-lang="pt"><button type="button">PT — Português <i data-lucide="check"></i></button></li>
-                <li data-lang="de"><button type="button">DE — Deutsch <i data-lucide="check"></i></button></li>
-                <li data-lang="nl"><button type="button">NL — Nederlands <i data-lucide="check"></i></button></li>
-                <li data-lang="sw"><button type="button">SW — Kiswahili <i data-lucide="check"></i></button></li>
-            </ul>
-        </li>
-        <li>
-            <button class="mobile-theme-toggle" id="themeToggleMobile" type="button">
-                <span>Theme</span>
-                <span class="theme-toggle" aria-hidden="true">
-                    <i data-lucide="sun" class="icon-sun"></i>
-                    <i data-lucide="moon" class="icon-moon"></i>
-                </span>
-            </button>
-        </li>
-        <li><a href="login.html" data-page="login" class="login-link">Log in</a></li>
-    </ul>
-
-    <div class="nav-overlay" id="navOverlay"></div>
-
     <div class="dashboard-layout">
         <aside class="sidebar">
             <div class="sidebar-header">
@@ -222,7 +133,6 @@
             </header>
             <div class="content-area">
                 <div class="dashboard-page" id="pageContent">
-                    <!-- Overview -->
                     <div class="page" id="overviewPage">
                         <div class="welcome-section">
                             <h2>Welcome back, <span id="welcomeName">John</span>! 👋</h2>
@@ -254,7 +164,6 @@
                         </div>
                     </div>
 
-                    <!-- Profile -->
                     <div class="page" id="profilePage" style="display:none;">
                         <div class="form-section">
                             <h3>Profile Picture</h3>
@@ -288,7 +197,6 @@
                         </form>
                     </div>
 
-                    <!-- Settings -->
                     <div class="page" id="settingsPage" style="display:none;">
                         <div class="settings-tabs">
                             <button class="tab-btn active" data-tab="account"><span>👤</span><span>Account</span></button>
@@ -332,34 +240,19 @@
         </main>
     </div>
 
-    <footer class="site-footer">
-        <div class="footer-top">
-            <div class="footer-brand"><a href="index.html" class="logo">startedup<span>.co</span></a><p>Tools to help you turn an idea into a business that runs on its own. Built in South Africa.</p></div>
-            <div class="footer-links">
-                <div class="footer-col"><h4>Product</h4><ul><li><a href="features.html">Features</a></li><li><a href="pricing.html">Pricing</a></li></ul></div>
-                <div class="footer-col"><h4>Company</h4><ul><li><a href="index.html">About</a></li><li><a href="index.html">Contact</a></li><li><a href="index.html">Careers</a></li><li><a href="index.html">Press</a></li></ul></div>
-                <div class="footer-col"><h4>Legal</h4><ul><li><a href="index.html">Privacy</a></li><li><a href="index.html">Terms</a></li><li><a href="index.html">Cookies</a></li><li><a href="index.html">POPIA</a></li></ul></div>
-            </div>
-        </div>
-        <div class="footer-bottom"><span>&copy; 2026 startedup.co. All rights reserved.</span><span><a href="index.html">Privacy</a> &nbsp;&middot;&nbsp; <a href="index.html">Terms</a></span></div>
-    </footer>
-
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="app.js"></script>
     <script>
         if (window.lucide) lucide.createIcons();
 
-        // Check session
         const session = JSON.parse(localStorage.getItem('foundable_session') || sessionStorage.getItem('foundable_session') || 'null');
         if (!session) { window.location.href = 'login.html'; }
 
-        // Populate user info
         document.getElementById('sidebarName').textContent = session.name;
         document.getElementById('sidebarHandle').textContent = '@' + session.handle;
         document.getElementById('sidebarAvatar').textContent = session.name[0].toUpperCase();
         document.getElementById('welcomeName').textContent = session.name.split(' ')[0];
 
-        // Navigation
         document.querySelectorAll('.nav-item[data-page]').forEach(item => {
             item.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -384,14 +277,12 @@
             document.getElementById('pageTitle').textContent = page.charAt(0).toUpperCase() + page.slice(1);
         }
 
-        // Logout
         document.getElementById('logoutBtn').addEventListener('click', () => {
             localStorage.removeItem('foundable_session');
             sessionStorage.removeItem('foundable_session');
             window.location.href = 'login.html';
         });
 
-        // Avatar upload
         document.getElementById('avatarInput').addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (file) {
@@ -401,7 +292,6 @@
             }
         });
 
-        // Forms
         document.getElementById('profileForm').addEventListener('submit', (e) => {
             e.preventDefault();
             showMessage('Profile updated successfully!', 'success');
