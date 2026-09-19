@@ -62,6 +62,7 @@
         mobileNav.classList.add('open');
         overlay.classList.add('open');
         hamburger.setAttribute('aria-expanded', 'true');
+        hamburger.setAttribute('aria-label', 'Close menu');
         document.body.style.overflow = 'hidden';
     }
 
@@ -71,6 +72,7 @@
         mobileNav.classList.remove('open');
         overlay.classList.remove('open');
         hamburger.setAttribute('aria-expanded', 'false');
+        hamburger.setAttribute('aria-label', 'Open menu');
         document.body.style.overflow = '';
     }
 
@@ -153,6 +155,7 @@
         if (!codeMap[lang]) return;
         if (currentLangDesktop) currentLangDesktop.textContent = codeMap[lang];
         if (currentLangMobile) currentLangMobile.textContent = codeMap[lang];
+        document.documentElement.lang = lang;
         try { localStorage.setItem('foundable-lang', lang); } catch (e) {}
 
         ['langMenuDesktop', 'mobileLang'].forEach(function (menuId) {

@@ -102,7 +102,7 @@
         </li>
         <li>
             <button class="mobile-dropdown-toggle" type="button" id="mobileLangToggle">
-                <span style="display:flex;align-items:center;gap:0.5rem;">
+                <span class="lang-toggle-label">
                     <i data-lucide="globe"></i>
                     <span id="currentLangMobile">EN</span>
                 </span>
@@ -142,20 +142,20 @@
 
                 <form id="registerForm" novalidate>
                     <div class="auth-field">
-                        <label for="regName">Full name</label>
+                        <label for="regFirstName">First name</label>
                         <div class="auth-field-input">
                             <i data-lucide="user" aria-hidden="true"></i>
-                            <input type="text" id="regName" placeholder="Jane Doe" required autocomplete="name" maxlength="120">
+                            <input type="text" id="regFirstName" placeholder="Jane" required autocomplete="given-name" maxlength="60">
                         </div>
-                        <span class="field-hint" id="nameHint">First and last name.</span>
+                        <span class="field-hint" id="firstNameHint"></span>
                     </div>
                     <div class="auth-field">
-                        <label for="regHandle">Handle</label>
+                        <label for="regSurname">Surname</label>
                         <div class="auth-field-input">
-                            <i data-lucide="at-sign" aria-hidden="true"></i>
-                            <input type="text" id="regHandle" placeholder="janedoe" required autocomplete="username" minlength="3" maxlength="30" pattern="[a-zA-Z][a-zA-Z0-9_-]{2,29}">
+                            <i data-lucide="user" aria-hidden="true"></i>
+                            <input type="text" id="regSurname" placeholder="Doe" required autocomplete="family-name" maxlength="60">
                         </div>
-                        <span class="field-hint" id="handleHint">Letters, numbers, underscores, and dashes only.</span>
+                        <span class="field-hint" id="surnameHint"></span>
                     </div>
                     <div class="auth-field">
                         <label for="regEmail">Email</label>
@@ -189,7 +189,7 @@
                     <button type="submit" class="auth-submit" id="registerBtn">Create account</button>
                 </form>
 
-                <p class="auth-status" id="registerStatus"></p>
+                <p class="auth-status" id="registerStatus" aria-live="polite"></p>
 
                 <p class="auth-footer">
                     Already have an account? <a href="login.html" data-page="login">Sign in</a>
@@ -225,6 +225,12 @@
                     <a href="index.html">Press</a>
                 </div>
                 <div class="footer-column">
+                    <h3>Students</h3>
+                    <a href="index.html">University</a>
+                    <a href="index.html">College</a>
+                    <a href="index.html">Bursaries</a>
+                </div>
+                <div class="footer-column">
                     <h3>Legal</h3>
                     <a href="index.html">Privacy</a>
                     <a href="index.html">Terms</a>
@@ -256,13 +262,14 @@
             var form     = document.getElementById('registerForm');
             var statusEl = document.getElementById('registerStatus');
             var btn      = document.getElementById('registerBtn');
-            var nameIn   = document.getElementById('regName');
-            var handleIn = document.getElementById('regHandle');
+            var firstNameIn = document.getElementById('regFirstName');
+            var surnameIn   = document.getElementById('regSurname');
             var emailIn  = document.getElementById('regEmail');
             var pwIn     = document.getElementById('regPassword');
             var confirmIn= document.getElementById('regConfirm');
             var termsIn  = document.getElementById('terms');
-            var handleHint = document.getElementById('handleHint');
+            var firstNameHint = document.getElementById('firstNameHint');
+            var surnameHint   = document.getElementById('surnameHint');
             var emailHint  = document.getElementById('emailHint');
             var pwHint      = document.getElementById('pwHint');
             var confirmHint = document.getElementById('confirmHint');
@@ -301,18 +308,6 @@
                 }
             });
 
-            handleIn.addEventListener('input', function () {
-                var v = handleIn.value.trim().toLowerCase();
-                if (!v) { handleHint.textContent = 'Letters, numbers, underscores, and dashes only.'; handleHint.className = 'field-hint'; return; }
-                if (!/^[a-zA-Z][a-zA-Z0-9_-]{2,29}$/.test(v)) {
-                    handleHint.textContent = 'Must start with a letter, 3-30 chars, a-z 0-9 _ -';
-                    handleHint.className = 'field-hint bad';
-                    return;
-                }
-                handleHint.textContent = 'Looks good!';
-                handleHint.className = 'field-hint ok';
-            });
-
             emailIn.addEventListener('input', function () {
                 var v = emailIn.value.trim().toLowerCase();
                 if (!v) { emailHint.textContent = ''; emailHint.className = 'field-hint'; return; }
@@ -331,16 +326,21 @@
                 statusEl.textContent = '';
                 statusEl.className = 'auth-status';
 
-                var name     = nameIn.value.trim();
-                var handle   = handleIn.value.trim().toLowerCase();
-                var email    = emailIn.value.trim().toLowerCase();
-                var password = pwIn.value;
-                var confirm  = confirmIn.value;
-                var termsOk  = termsIn.checked;
+                var firstName = firstNameIn.value.trim();
+                var surname   = surnameIn.value.trim();
+                var email     = emailIn.value.trim().toLowerCase();
+                var password  = pwIn.value;
+                var confirm   = confirmIn.value;
+                var termsOk   = termsIn.checked;
 
-                if (!name) { statusEl.textContent = 'Please enter your name.'; statusEl.className = 'auth-status error'; nameIn.focus(); return; }
-                if (!handle || handle.length < 3) { statusEl.textContent = 'Handle must be at least 3 characters.'; statusEl.className = 'auth-status error'; handleIn.focus(); return; }
-                if (!/^[a-zA-Z][a-zA-Z0-9_-]{2,29}$/.test(handle)) { statusEl.textContent = 'Handle must start with a letter, 3-30 chars (a-z 0-9 _ -).'; statusEl.className = 'auth-status error'; handleIn.focus(); return; }
+                var handle = (firstName + '.' + surname)
+                    .toLowerCase()
+                    .replace(/[^a-z0-9.]/g, '')
+                    .replace(/\.+/g, '.')
+                    .replace(/^\.|\.$/g, '');
+
+                if (!firstName) { statusEl.textContent = 'Please enter your first name.'; statusEl.className = 'auth-status error'; firstNameIn.focus(); return; }
+                if (!surname) { statusEl.textContent = 'Please enter your surname.'; statusEl.className = 'auth-status error'; surnameIn.focus(); return; }
                 if (!validEmail(email)) { statusEl.textContent = 'Please enter a valid email address.'; statusEl.className = 'auth-status error'; emailIn.focus(); return; }
                 if (password.length < 6) { statusEl.textContent = 'Password must be at least 6 characters.'; statusEl.className = 'auth-status error'; pwIn.focus(); return; }
                 if (password !== confirm) { statusEl.textContent = 'Passwords do not match.'; statusEl.className = 'auth-status error'; confirmIn.focus(); return; }
@@ -354,7 +354,14 @@
                     var result = await supabase.auth.signUp({
                         email: email,
                         password: password,
-                        options: { data: { name: name, handle: handle } }
+                        options: {
+                            data: {
+                                first_name: firstName,
+                                surname: surname,
+                                name: firstName + ' ' + surname,
+                                handle: handle
+                            }
+                        }
                     });
 
                     if (result.error) {
@@ -368,7 +375,7 @@
 
                     statusEl.textContent = 'Account created! Redirecting...';
                     statusEl.className = 'auth-status success';
-                    setTimeout(function () { window.location.href = 'index.html'; }, 1200);
+                    setTimeout(function () { window.location.href = 'dashboard.html'; }, 1200);
                 } catch (err) {
                     statusEl.textContent = 'Network error. Please try again.';
                     statusEl.className = 'auth-status error';

@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Dashboard — startedup.co</title>
+    <meta name="description" content="Your startedup.co dashboard.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        try {
+            var t = localStorage.getItem('foundable-theme');
+            if (t) document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {}
+    </script>
+</head>
+<body data-page="dashboard">
+
+    <header class="site-header">
+        <a href="index.html" class="logo">startedup<span>.co</span></a>
+
+        <ul class="nav-desktop">
+            <li class="has-dropdown">
+                <button class="nav-trigger lang-trigger" type="button">
+                    <i data-lucide="globe"></i>
+                    <span class="code" id="currentLangDesktop">EN</span>
+                    <i data-lucide="chevron-down"></i>
+                </button>
+                <ul class="dropdown lang-dropdown" id="langMenuDesktop">
+                    <li class="active" data-lang="en"><button type="button">EN — English <i data-lucide="check"></i></button></li>
+                    <li data-lang="af"><button type="button">AF — Afrikaans <i data-lucide="check"></i></button></li>
+                    <li data-lang="zu"><button type="button">ZU — isiZulu <i data-lucide="check"></i></button></li>
+                    <li data-lang="xh"><button type="button">XH — isiXhosa <i data-lucide="check"></i></button></li>
+                    <li data-lang="fr"><button type="button">FR — Français <i data-lucide="check"></i></button></li>
+                    <li data-lang="es"><button type="button">ES — Español <i data-lucide="check"></i></button></li>
+                    <li data-lang="pt"><button type="button">PT — Português <i data-lucide="check"></i></button></li>
+                    <li data-lang="de"><button type="button">DE — Deutsch <i data-lucide="check"></i></button></li>
+                    <li data-lang="nl"><button type="button">NL — Nederlands <i data-lucide="check"></i></button></li>
+                    <li data-lang="sw"><button type="button">SW — Kiswahili <i data-lucide="check"></i></button></li>
+                </ul>
+            </li>
+            <li>
+                <button class="theme-toggle" id="themeToggleDesktop" aria-label="Toggle theme">
+                    <i data-lucide="sun" class="icon-sun"></i>
+                    <i data-lucide="moon" class="icon-moon"></i>
+                </button>
+            </li>
+            <li>
+                <button class="nav-trigger" type="button" id="profileDesktopTrigger">
+                    <i data-lucide="user"></i>
+                    <span id="profileNameDesktop">Account</span>
+                    <i data-lucide="chevron-down"></i>
+                </button>
+                <ul class="dropdown">
+                    <li><a href="dashboard.html" data-page="dashboard">Dashboard</a></li>
+                    <li><a href="#" id="logoutDesktop">Log out</a></li>
+                </ul>
+            </li>
+        </ul>
+
+        <button class="hamburger" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">
+            <span></span>
+        </button>
+    </header>
+
+    <ul class="nav-mobile" id="mobileNav">
+        <li>
+            <button class="mobile-dropdown-toggle" type="button" id="mobileLangToggle">
+                <span class="lang-toggle-label">
+                    <i data-lucide="globe"></i>
+                    <span id="currentLangMobile">EN</span>
+                </span>
+                <i data-lucide="chevron-down"></i>
+            </button>
+            <ul class="mobile-dropdown" id="mobileLang">
+                <li class="active" data-lang="en"><button type="button">EN — English <i data-lucide="check"></i></button></li>
+                <li data-lang="af"><button type="button">AF — Afrikaans <i data-lucide="check"></i></button></li>
+                <li data-lang="zu"><button type="button">ZU — isiZulu <i data-lucide="check"></i></button></li>
+                <li data-lang="xh"><button type="button">XH — isiXhosa <i data-lucide="check"></i></button></li>
+                <li data-lang="fr"><button type="button">FR — Français <i data-lucide="check"></i></button></li>
+                <li data-lang="es"><button type="button">ES — Español <i data-lucide="check"></i></button></li>
+                <li data-lang="pt"><button type="button">PT — Português <i data-lucide="check"></i></button></li>
+                <li data-lang="de"><button type="button">DE — Deutsch <i data-lucide="check"></i></button></li>
+                <li data-lang="nl"><button type="button">NL — Nederlands <i data-lucide="check"></i></button></li>
+                <li data-lang="sw"><button type="button">SW — Kiswahili <i data-lucide="check"></i></button></li>
+            </ul>
+        </li>
+        <li>
+            <button class="mobile-theme-toggle" id="themeToggleMobile" type="button">
+                <span>Theme</span>
+                <span class="theme-toggle" aria-hidden="true">
+                    <i data-lucide="sun" class="icon-sun"></i>
+                    <i data-lucide="moon" class="icon-moon"></i>
+                </span>
+            </button>
+        </li>
+        <li><a href="#" id="logoutMobile">Log out</a></li>
+    </ul>
+
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <div class="dashboard">
+        <aside class="sidebar">
+            <nav class="sidebar-nav">
+                <a href="#" class="sidebar-link active" data-tab="home">
+                    <i data-lucide="home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="#" class="sidebar-link" data-tab="apply">
+                    <i data-lucide="send"></i>
+                    <span>Apply</span>
+                </a>
+                <a href="#" class="sidebar-link" data-tab="docs">
+                    <i data-lucide="file-text"></i>
+                    <span>Docs</span>
+                </a>
+                <a href="#" class="sidebar-link" data-tab="profile">
+                    <i data-lucide="user"></i>
+                    <span>Profile</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="dashboard-main">
+            <div class="dashboard-tab active" id="tab-home">
+                <div class="dash-welcome">
+                    <h1>Welcome back</h1>
+                    <p class="dash-sub" id="dashGreeting">Here's what's happening with your business today.</p>
+                </div>
+                <div class="dash-grid">
+                    <div class="dash-card">
+                        <div class="dash-card-icon"><i data-lucide="rocket"></i></div>
+                        <div>
+                            <h3>Get Started</h3>
+                            <p>Set up your business profile and start building.</p>
+                            <a href="#" class="dash-card-link" data-tab="profile">Complete profile <i data-lucide="arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="dash-card">
+                        <div class="dash-card-icon"><i data-lucide="send"></i></div>
+                        <div>
+                            <h3>Applications</h3>
+                            <p>Apply for funding, bursaries, and programs.</p>
+                            <a href="#" class="dash-card-link" data-tab="apply">View applications <i data-lucide="arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="dash-card">
+                        <div class="dash-card-icon"><i data-lucide="file-text"></i></div>
+                        <div>
+                            <h3>Documents</h3>
+                            <p>Manage your business documents and templates.</p>
+                            <a href="#" class="dash-card-link" data-tab="docs">Open docs <i data-lucide="arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="dash-card">
+                        <div class="dash-card-icon"><i data-lucide="bar-chart-3"></i></div>
+                        <div>
+                            <h3>Analytics</h3>
+                            <p>Track your progress and growth metrics.</p>
+                            <a href="#" class="dash-card-link">Coming soon <i data-lucide="arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-tab" id="tab-apply">
+                <div class="dash-header">
+                    <h1>Apply</h1>
+                    <p>Browse and apply for available programs, funding, and bursaries.</p>
+                </div>
+                <div class="apply-list">
+                    <div class="apply-card">
+                        <div class="apply-card-header">
+                            <span class="apply-badge open">Open</span>
+                            <span class="apply-deadline">Deadline: 30 Nov 2026</span>
+                        </div>
+                        <h3>Seed Funding Grant</h3>
+                        <p>R50,000 seed funding for early-stage startups in South Africa.</p>
+                        <div class="apply-meta">
+                            <span><i data-lucide="clock"></i> 4 weeks</span>
+                            <span><i data-lucide="users"></i> 120 applicants</span>
+                        </div>
+                        <button class="apply-btn">Apply now</button>
+                    </div>
+                    <div class="apply-card">
+                        <div class="apply-card-header">
+                            <span class="apply-badge open">Open</span>
+                            <span class="apply-deadline">Deadline: 15 Dec 2026</span>
+                        </div>
+                        <h3>Student Bursary Program</h3>
+                        <p>Full tuition bursary for tech and business students.</p>
+                        <div class="apply-meta">
+                            <span><i data-lucide="clock"></i> 6 weeks</span>
+                            <span><i data-lucide="users"></i> 85 applicants</span>
+                        </div>
+                        <button class="apply-btn">Apply now</button>
+                    </div>
+                    <div class="apply-card">
+                        <div class="apply-card-header">
+                            <span class="apply-badge closed">Closed</span>
+                        </div>
+                        <h3>Mentorship Cohort 3</h3>
+                        <p>12-week mentorship with SA business leaders.</p>
+                        <div class="apply-meta">
+                            <span><i data-lucide="clock"></i> 12 weeks</span>
+                            <span><i data-lucide="users"></i> 200 applicants</span>
+                        </div>
+                        <button class="apply-btn" disabled>Applications closed</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-tab" id="tab-docs">
+                <div class="dash-header">
+                    <h1>Documents</h1>
+                    <p>Templates and documents to help you build your business.</p>
+                </div>
+                <div class="docs-grid">
+                    <div class="docs-card">
+                        <i data-lucide="file-text"></i>
+                        <h3>Business Plan Template</h3>
+                        <p>A ready-to-use template for your pitch deck and business plan.</p>
+                        <a href="#" class="docs-download"><i data-lucide="download"></i> Download</a>
+                    </div>
+                    <div class="docs-card">
+                        <i data-lucide="file-text"></i>
+                        <h3>Financial Model</h3>
+                        <p>Spreadsheet template for revenue projections and budgeting.</p>
+                        <a href="#" class="docs-download"><i data-lucide="download"></i> Download</a>
+                    </div>
+                    <div class="docs-card">
+                        <i data-lucide="file-text"></i>
+                        <h3>CIPC Registration Guide</h3>
+                        <p>Step-by-step guide to registering your business with CIPC.</p>
+                        <a href="#" class="docs-download"><i data-lucide="download"></i> Download</a>
+                    </div>
+                    <div class="docs-card">
+                        <i data-lucide="file-text"></i>
+                        <h3>Tax Guide for Startups</h3>
+                        <p>Understanding SARS requirements and tax obligations.</p>
+                        <a href="#" class="docs-download"><i data-lucide="download"></i> Download</a>
+                    </div>
+                    <div class="docs-card">
+                        <i data-lucide="file-text"></i>
+                        <h3>POPIA Compliance Checklist</h3>
+                        <p>Data protection compliance checklist for your business.</p>
+                        <a href="#" class="docs-download"><i data-lucide="download"></i> Download</a>
+                    </div>
+                    <div class="docs-card">
+                        <i data-lucide="file-text"></i>
+                        <h3>Pitch Deck Template</h3>
+                        <p>Investor-ready pitch deck template with examples.</p>
+                        <a href="#" class="docs-download"><i data-lucide="download"></i> Download</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-tab" id="tab-profile">
+                <div class="dash-header">
+                    <h1>Learner's Biographic</h1>
+                    <p>Complete your biographic information and academic details.</p>
+                </div>
+                <div class="profile-card">
+                    <div class="profile-avatar">
+                        <i data-lucide="user"></i>
+                    </div>
+                    <div class="profile-info">
+                        <h3 id="profileDisplayName">—</h3>
+                        <p id="profileDisplayEmail">—</p>
+                        <p id="profileDisplayHandle" class="profile-handle">—</p>
+                    </div>
+                </div>
+                <form class="profile-form" id="profileForm" novalidate>
+                    <h2 class="profile-section-title">Personal Information</h2>
+                    <div class="profile-row">
+                        <div class="auth-field">
+                            <label for="profFirstName">First Name</label>
+                            <div class="auth-field-input">
+                                <i data-lucide="user" aria-hidden="true"></i>
+                                <input type="text" id="profFirstName" autocomplete="given-name" maxlength="60">
+                            </div>
+                        </div>
+                        <div class="auth-field">
+                            <label for="profMiddleName">Middle Name</label>
+                            <div class="auth-field-input">
+                                <i data-lucide="user" aria-hidden="true"></i>
+                                <input type="text" id="profMiddleName" autocomplete="additional-name" maxlength="60">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-row">
+                        <div class="auth-field">
+                            <label for="profSurname">Last Name</label>
+                            <div class="auth-field-input">
+                                <i data-lucide="user" aria-hidden="true"></i>
+                                <input type="text" id="profSurname" autocomplete="family-name" maxlength="60">
+                            </div>
+                        </div>
+                        <div class="auth-field">
+                            <label for="profGender">Gender</label>
+                            <div class="auth-field-input">
+                                <i data-lucide="users" aria-hidden="true"></i>
+                                <select id="profGender" autocomplete="gender">
+                                    <option value="">Select Gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                    <option value="prefer-not">Prefer not to say</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="auth-field">
+                        <label for="profMarital">Marital Status</label>
+                        <div class="auth-field-input">
+                            <i data-lucide="heart" aria-hidden="true"></i>
+                            <select id="profMarital">
+                                <option value="">Please select Marital Status</option>
+                                <option value="single">Single</option>
+                                <option value="married">Married</option>
+                                <option value="divorced">Divorced</option>
+                                <option value="widowed">Widowed</option>
+                                <option value="separated">Separated</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <h2 class="profile-section-title">Citizenship & Location</h2>
+                    <div class="profile-row">
+                        <div class="auth-field">
+                            <label for="profCitizenship">Citizenship</label>
+                            <div class="auth-field-input">
+                                <i data-lucide="globe" aria-hidden="true"></i>
+                                <select id="profCitizenship">
+                                    <option value="ZA" selected>South Africa</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="auth-field">
+                            <label for="profProvince">Province</label>
+                            <div class="auth-field-input">
+                                <i data-lucide="map-pin" aria-hidden="true"></i>
+                                <select id="profProvince">
+                                    <option value="">Please select Province</option>
+                                    <option value="EC">Eastern Cape</option>
+                                    <option value="FS">Free State</option>
+                                    <option value="GP">Gauteng</option>
+                                    <option value="KZN">KwaZulu-Natal</option>
+                                    <option value="LP">Limpopo</option>
+                                    <option value="MP">Mpumalanga</option>
+                                    <option value="NC">Northern Cape</option>
+                                    <option value="NW">North West</option>
+                                    <option value="WC">Western Cape</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="auth-field">
+                        <label for="profAddress">Address</label>
+                        <div class="auth-field-input">
+                            <i data-lucide="home" aria-hidden="true"></i>
+                            <input type="text" id="profAddress" placeholder="Street address" maxlength="200">
+                        </div>
+                    </div>
+                    <div class="profile-row">
+                        <div class="auth-field">
+                            <label for="profMunicipality">Municipality</label>
+                            <div class="auth-field-input">
+                                <i data-lucide="building" aria-hidden="true"></i>
+                                <select id="profMunicipality">
+                                    <option value="">Please select Municipality</option>
+                                    <option value="city-of-cape-town">City of Cape Town</option>
+                                    <option value="city-of-johannesburg">City of Johannesburg</option>
+                                    <option value="city-of-tshwane">City of Tshwane</option>
+                                    <option value="ethekwini">eThekwini</option>
+                                    <option value="ekurhuleni">Ekurhuleni</option>
+                                    <option value="nelson-mandela-bay">Nelson Mandela Bay</option>
+                                    <option value="buffalo-city">Buffalo City</option>
+                                    <option value="mangaung">Mangaung</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="auth-field">
+                            <label for="profPostalCode">Postal Code</label>
+                            <div class="auth-field-input">
+                                <i data-lucide="mail" aria-hidden="true"></i>
+                                <input type="text" id="profPostalCode" placeholder="e.g. 2000" maxlength="10" pattern="[0-9]*">
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 class="profile-section-title">Demographics</h2>
+                    <div class="profile-row">
+                        <div class="auth-field">
+                            <label for="profPopGroup">Population Group</label>
+                            <div class="auth-field-input">
+                                <i data-lucide="users" aria-hidden="true"></i>
+                                <select id="profPopGroup">
+                                    <option value="">Please select Population Group</option>
+                                    <option value="black-african">Black African</option>
+                                    <option value="coloured">Coloured</option>
+                                    <option value="indian-asian">Indian/Asian</option>
+                                    <option value="white">White</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="auth-field">
+                            <label for="profHomeLang">Home Language</label>
+                            <div class="auth-field-input">
+                                <i data-lucide="languages" aria-hidden="true"></i>
+                                <select id="profHomeLang">
+                                    <option value="">Please select Home Language</option>
+                                    <option value="zu">isiZulu</option>
+                                    <option value="xh">isiXhosa</option>
+                                    <option value="af">Afrikaans</option>
+                                    <option value="en">English</option>
+                                    <option value="st">Sesotho</option>
+                                    <option value="tn">Setswana</option>
+                                    <option value="ts">Xitsonga</option>
+                                    <option value="ss">siSwati</option>
+                                    <option value="ve">Tshivenda</option>
+                                    <option value="nr">isiNdebele</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-row">
+                        <div class="auth-field">
+                            <label for="profSecondLang">Second Language</label>
+                            <div class="auth-field-input">
+                                <i data-lucide="languages" aria-hidden="true"></i>
+                                <select id="profSecondLang">
+                                    <option value="">Please select Second Language</option>
+                                    <option value="zu">isiZulu</option>
+                                    <option value="xh">isiXhosa</option>
+                                    <option value="af">Afrikaans</option>
+                                    <option value="en">English</option>
+                                    <option value="st">Sesotho</option>
+                                    <option value="tn">Setswana</option>
+                                    <option value="ts">Xitsonga</option>
+                                    <option value="ss">siSwati</option>
+                                    <option value="ve">Tshivenda</option>
+                                    <option value="nr">isiNdebele</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="auth-field">
+                            <label for="profDisability">Disability</label>
+                            <div class="auth-field-input">
+                                <i data-lucide="accessibility" aria-hidden="true"></i>
+                                <select id="profDisability">
+                                    <option value="none" selected>None</option>
+                                    <option value="physical">Physical</option>
+                                    <option value="sensory">Sensory</option>
+                                    <option value="intellectual">Intellectual</option>
+                                    <option value="multiple">Multiple</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 class="profile-section-title">Contact</h2>
+                    <div class="profile-row">
+                        <div class="auth-field">
+                            <label for="profEmail">Email</label>
+                            <div class="auth-field-input">
+                                <i data-lucide="mail" aria-hidden="true"></i>
+                                <input type="email" id="profEmail" autocomplete="email" disabled>
+                            </div>
+                        </div>
+                        <div class="auth-field">
+                            <label for="profPhone">Mobile / Phone Number</label>
+                            <div class="auth-field-input">
+                                <i data-lucide="phone" aria-hidden="true"></i>
+                                <input type="tel" id="profPhone" placeholder="e.g. 082 123 4567" maxlength="15" autocomplete="tel">
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 class="profile-section-title">Education</h2>
+                    <div class="auth-field">
+                        <label for="profQualification">Highest Qualification Achieved / Last Grade Completed</label>
+                        <div class="auth-field-input">
+                            <i data-lucide="graduation-cap" aria-hidden="true"></i>
+                            <select id="profQualification">
+                                <option value="">Select Highest Qualification</option>
+                                <option value="grade-9">Grade 9</option>
+                                <option value="grade-10">Grade 10</option>
+                                <option value="grade-11">Grade 11</option>
+                                <option value="grade-12">Grade 12 / Matric</option>
+                                <option value="ncv-level-4">NCV Level 4</option>
+                                <option value="diploma">Diploma</option>
+                                <option value="degree">Bachelor's Degree</option>
+                                <option value="honours">Honours Degree</option>
+                                <option value="masters">Master's Degree</option>
+                                <option value="doctorate">Doctorate</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="auth-field">
+                        <label>Do you have a sibling or parent who studied at university or college?</label>
+                        <div class="profile-radio-group">
+                            <label class="profile-radio">
+                                <input type="radio" name="familyStudy" value="yes">
+                                <span>Yes</span>
+                            </label>
+                            <label class="profile-radio">
+                                <input type="radio" name="familyStudy" value="no" checked>
+                                <span>No</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <h2 class="profile-section-title">High School Subjects</h2>
+                    <p class="profile-section-desc">This is needed to calculate your APS score (University Entrance Requirements score).</p>
+
+                    <div class="subject-card">
+                        <h3>Life Orientation</h3>
+                        <div class="subject-row">
+                            <div class="auth-field">
+                                <label>Subject</label>
+                                <div class="auth-field-input">
+                                    <input type="text" value="Life Orientation" disabled>
+                                </div>
+                            </div>
+                            <div class="auth-field subject-pct">
+                                <label>Percentage</label>
+                                <div class="auth-field-input">
+                                    <input type="number" class="subject-pct-input" min="0" max="100" placeholder="%">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subject-card">
+                        <h3>Mathematics</h3>
+                        <div class="subject-row">
+                            <div class="auth-field">
+                                <label>Subject</label>
+                                <div class="auth-field-input">
+                                    <select id="profMathSubject">
+                                        <option value="">Choose math subject...</option>
+                                        <option value="math-core">Mathematics Core</option>
+                                        <option value="math-lit">Mathematical Literacy</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="auth-field subject-pct">
+                                <label>Percentage</label>
+                                <div class="auth-field-input">
+                                    <input type="number" class="subject-pct-input" min="0" max="100" placeholder="%">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subject-card">
+                        <h3>Languages</h3>
+                        <div class="subject-row">
+                            <div class="auth-field">
+                                <label>First Language</label>
+                                <div class="auth-field-input">
+                                    <select id="profLang1">
+                                        <option value="">Choose first language...</option>
+                                        <option value="english-home">English Home Language</option>
+                                        <option value="afrikaans-home">Afrikaans Home Language</option>
+                                        <option value="zulu-home">isiZulu Home Language</option>
+                                        <option value="xhosa-home">isiXhosa Home Language</option>
+                                        <option value="sotho-home">Sesotho Home Language</option>
+                                        <option value="tswana-home">Setswana Home Language</option>
+                                        <option value="english-fal">English First Additional</option>
+                                        <option value="afrikaans-fal">Afrikaans First Additional</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="auth-field subject-pct">
+                                <label>Percentage</label>
+                                <div class="auth-field-input">
+                                    <input type="number" class="subject-pct-input" min="0" max="100" placeholder="%">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subject-row">
+                            <div class="auth-field">
+                                <label>Second Language</label>
+                                <div class="auth-field-input">
+                                    <select id="profLang2">
+                                        <option value="">Choose second language...</option>
+                                        <option value="english-home">English Home Language</option>
+                                        <option value="afrikaans-home">Afrikaans Home Language</option>
+                                        <option value="zulu-home">isiZulu Home Language</option>
+                                        <option value="xhosa-home">isiXhosa Home Language</option>
+                                        <option value="english-fal">English First Additional</option>
+                                        <option value="afrikaans-fal">Afrikaans First Additional</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="auth-field subject-pct">
+                                <label>Percentage</label>
+                                <div class="auth-field-input">
+                                    <input type="number" class="subject-pct-input" min="0" max="100" placeholder="%">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subject-card">
+                        <h3>Elective Subjects</h3>
+                        <div class="subject-row">
+                            <div class="auth-field">
+                                <label>First Elective</label>
+                                <div class="auth-field-input">
+                                    <select id="profElective1">
+                                        <option value="">First elective subject...</option>
+                                        <option value="accounting">Accounting</option>
+                                        <option value="business-studies">Business Studies</option>
+                                        <option value="economics">Economics</option>
+                                        <option value="computer-apps">Computer Applications (CAT)</option>
+                                        <option value="it">Information Technology (IT)</option>
+                                        <option value="geography">Geography</option>
+                                        <option value="history">History</option>
+                                        <option value="life-sciences">Life Sciences</option>
+                                        <option value="physical-sciences">Physical Sciences</option>
+                                        <option value="maths-lit">Mathematical Literacy</option>
+                                        <option value="tourism">Tourism</option>
+                                        <option value="agri-sciences">Agricultural Sciences</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="auth-field subject-pct">
+                                <label>Percentage</label>
+                                <div class="auth-field-input">
+                                    <input type="number" class="subject-pct-input" min="0" max="100" placeholder="%">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subject-row">
+                            <div class="auth-field">
+                                <label>Second Elective</label>
+                                <div class="auth-field-input">
+                                    <select id="profElective2">
+                                        <option value="">Second elective subject...</option>
+                                        <option value="accounting">Accounting</option>
+                                        <option value="business-studies">Business Studies</option>
+                                        <option value="economics">Economics</option>
+                                        <option value="computer-apps">Computer Applications (CAT)</option>
+                                        <option value="it">Information Technology (IT)</option>
+                                        <option value="geography">Geography</option>
+                                        <option value="history">History</option>
+                                        <option value="life-sciences">Life Sciences</option>
+                                        <option value="physical-sciences">Physical Sciences</option>
+                                        <option value="maths-lit">Mathematical Literacy</option>
+                                        <option value="tourism">Tourism</option>
+                                        <option value="agri-sciences">Agricultural Sciences</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="auth-field subject-pct">
+                                <label>Percentage</label>
+                                <div class="auth-field-input">
+                                    <input type="number" class="subject-pct-input" min="0" max="100" placeholder="%">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subject-row">
+                            <div class="auth-field">
+                                <label>Third Elective</label>
+                                <div class="auth-field-input">
+                                    <select id="profElective3">
+                                        <option value="">Third elective subject...</option>
+                                        <option value="accounting">Accounting</option>
+                                        <option value="business-studies">Business Studies</option>
+                                        <option value="economics">Economics</option>
+                                        <option value="computer-apps">Computer Applications (CAT)</option>
+                                        <option value="it">Information Technology (IT)</option>
+                                        <option value="geography">Geography</option>
+                                        <option value="history">History</option>
+                                        <option value="life-sciences">Life Sciences</option>
+                                        <option value="physical-sciences">Physical Sciences</option>
+                                        <option value="maths-lit">Mathematical Literacy</option>
+                                        <option value="tourism">Tourism</option>
+                                        <option value="agri-sciences">Agricultural Sciences</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="auth-field subject-pct">
+                                <label>Percentage</label>
+                                <div class="auth-field-input">
+                                    <input type="number" class="subject-pct-input" min="0" max="100" placeholder="%">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-aps">
+                        <h3>APS Score: <span id="apsScore">0</span></h3>
+                        <p class="profile-section-desc">Your Admission Points Score is calculated from your best 6 subjects.</p>
+                    </div>
+
+                    <button type="submit" class="auth-submit" id="profileBtn">Save changes</button>
+                    <p class="auth-status" id="profileStatus" aria-live="polite"></p>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <div class="mobile-tab-bar">
+        <a href="#" class="active" data-tab="home"><i data-lucide="home"></i>Home</a>
+        <a href="#" data-tab="apply"><i data-lucide="send"></i>Apply</a>
+        <a href="#" data-tab="docs"><i data-lucide="file-text"></i>Docs</a>
+        <a href="#" data-tab="profile"><i data-lucide="user"></i>Profile</a>
+    </div>
+
+    <script src="https://unpkg.com/lucide@0.460.0"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2.49.1"></script>
+    <script src="supabase-client.js"></script>
+    <script src="app.js"></script>
+    <script>
+        if (window.lucide) lucide.createIcons();
+
+        (function () {
+            var tabs = document.querySelectorAll('.sidebar-link');
+            var mobileTabs = document.querySelectorAll('.mobile-tab-bar a');
+            var tabContents = document.querySelectorAll('.dashboard-tab');
+
+            function switchTab(tabName) {
+                tabs.forEach(function (t) { t.classList.remove('active'); });
+                mobileTabs.forEach(function (t) { t.classList.remove('active'); });
+                tabContents.forEach(function (c) { c.classList.remove('active'); });
+                var link = document.querySelector('.sidebar-link[data-tab="' + tabName + '"]');
+                var mobileLink = document.querySelector('.mobile-tab-bar a[data-tab="' + tabName + '"]');
+                var content = document.getElementById('tab-' + tabName);
+                if (link) link.classList.add('active');
+                if (mobileLink) mobileLink.classList.add('active');
+                if (content) content.classList.add('active');
+            }
+
+            tabs.forEach(function (tab) {
+                tab.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    switchTab(tab.getAttribute('data-tab'));
+                });
+            });
+
+            mobileTabs.forEach(function (tab) {
+                tab.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    switchTab(tab.getAttribute('data-tab'));
+                });
+            });
+
+            document.querySelectorAll('[data-tab]').forEach(function (el) {
+                if (el.classList.contains('sidebar-link')) return;
+                el.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    switchTab(el.getAttribute('data-tab'));
+                });
+            });
+
+            if (supabase) {
+                supabase.auth.getSession().then(function (res) {
+                    var user = res.data && res.data.session && res.data.session.user;
+                    if (!user) {
+                        window.location.href = 'login.html';
+                        return;
+                    }
+                    var meta = user.user_metadata || {};
+                    var firstName = meta.first_name || '';
+                    var surname = meta.surname || '';
+                    var name = firstName || surname ? (firstName + ' ' + surname).trim() : 'there';
+                    var greeting = document.getElementById('dashGreeting');
+                    if (greeting) greeting.textContent = 'Welcome, ' + name + '. Here\'s what\'s happening with your business today.';
+                    var displayName = document.getElementById('profileDisplayName');
+                    if (displayName) displayName.textContent = name || '—';
+                    var displayEmail = document.getElementById('profileDisplayEmail');
+                    if (displayEmail) displayEmail.textContent = user.email || '—';
+                    var displayHandle = document.getElementById('profileDisplayHandle');
+                    if (displayHandle) displayHandle.textContent = meta.handle ? '@' + meta.handle : '';
+                    var profFirst = document.getElementById('profFirstName');
+                    if (profFirst) profFirst.value = firstName;
+                    var profMiddle = document.getElementById('profMiddleName');
+                    if (profMiddle && meta.middle_name) profMiddle.value = meta.middle_name;
+                    var profSurname = document.getElementById('profSurname');
+                    if (profSurname) profSurname.value = surname;
+                    var profEmail = document.getElementById('profEmail');
+                    if (profEmail) profEmail.value = user.email || '';
+                    var profGender = document.getElementById('profGender');
+                    if (profGender && meta.gender) profGender.value = meta.gender;
+                    var profMarital = document.getElementById('profMarital');
+                    if (profMarital && meta.marital_status) profMarital.value = meta.marital_status;
+                    var profCitizenship = document.getElementById('profCitizenship');
+                    if (profCitizenship && meta.citizenship) profCitizenship.value = meta.citizenship;
+                    var profProvince = document.getElementById('profProvince');
+                    if (profProvince && meta.province) profProvince.value = meta.province;
+                    var profAddress = document.getElementById('profAddress');
+                    if (profAddress && meta.address) profAddress.value = meta.address;
+                    var profMunicipality = document.getElementById('profMunicipality');
+                    if (profMunicipality && meta.municipality) profMunicipality.value = meta.municipality;
+                    var profPostalCode = document.getElementById('profPostalCode');
+                    if (profPostalCode && meta.postal_code) profPostalCode.value = meta.postal_code;
+                    var profPopGroup = document.getElementById('profPopGroup');
+                    if (profPopGroup && meta.population_group) profPopGroup.value = meta.population_group;
+                    var profHomeLang = document.getElementById('profHomeLang');
+                    if (profHomeLang && meta.home_language) profHomeLang.value = meta.home_language;
+                    var profSecondLang = document.getElementById('profSecondLang');
+                    if (profSecondLang && meta.second_language) profSecondLang.value = meta.second_language;
+                    var profDisability = document.getElementById('profDisability');
+                    if (profDisability && meta.disability) profDisability.value = meta.disability;
+                    var profPhone = document.getElementById('profPhone');
+                    if (profPhone && meta.phone) profPhone.value = meta.phone;
+                    var profQualification = document.getElementById('profQualification');
+                    if (profQualification && meta.qualification) profQualification.value = meta.qualification;
+                    if (meta.family_study) {
+                        var famRadio = document.querySelector('input[name="familyStudy"][value="' + meta.family_study + '"]');
+                        if (famRadio) famRadio.checked = true;
+                    }
+                    var profMathSubject = document.getElementById('profMathSubject');
+                    if (profMathSubject && meta.math_subject) profMathSubject.value = meta.math_subject;
+                    var profLang1 = document.getElementById('profLang1');
+                    if (profLang1 && meta.lang1) profLang1.value = meta.lang1;
+                    var profLang2 = document.getElementById('profLang2');
+                    if (profLang2 && meta.lang2) profLang2.value = meta.lang2;
+                    var profElective1 = document.getElementById('profElective1');
+                    if (profElective1 && meta.elective1) profElective1.value = meta.elective1;
+                    var profElective2 = document.getElementById('profElective2');
+                    if (profElective2 && meta.elective2) profElective2.value = meta.elective2;
+                    var profElective3 = document.getElementById('profElective3');
+                    if (profElective3 && meta.elective3) profElective3.value = meta.elective3;
+                    if (meta.subjects) {
+                        var pctInputs = document.querySelectorAll('.subject-pct-input');
+                        var keys = Object.keys(meta.subjects);
+                        keys.forEach(function (k, i) { if (pctInputs[i]) pctInputs[i].value = meta.subjects[k]; });
+                    }
+                    calcAPS();
+                });
+
+                function apsFromPct(pct) {
+                    pct = parseFloat(pct) || 0;
+                    if (pct >= 90) return 8;
+                    if (pct >= 80) return 7;
+                    if (pct >= 70) return 6;
+                    if (pct >= 60) return 5;
+                    if (pct >= 50) return 4;
+                    if (pct >= 40) return 3;
+                    if (pct >= 30) return 2;
+                    if (pct >= 0) return 1;
+                    return 0;
+                }
+
+                function calcAPS() {
+                    var pcts = [];
+                    document.querySelectorAll('.subject-pct-input').forEach(function (inp) {
+                        var v = parseFloat(inp.value);
+                        if (!isNaN(v) && v >= 0) pcts.push(v);
+                    });
+                    pcts.sort(function (a, b) { return b - a; });
+                    var best = pcts.slice(0, 6);
+                    var total = 0;
+                    best.forEach(function (p) { total += apsFromPct(p); });
+                    var el = document.getElementById('apsScore');
+                    if (el) el.textContent = total;
+                }
+
+                document.querySelectorAll('.subject-pct-input').forEach(function (inp) {
+                    inp.addEventListener('input', calcAPS);
+                });
+
+                var profileForm = document.getElementById('profileForm');
+                if (profileForm) {
+                    profileForm.addEventListener('submit', async function (e) {
+                        e.preventDefault();
+                        var statusEl = document.getElementById('profileStatus');
+                        var btn = document.getElementById('profileBtn');
+                        var firstName = document.getElementById('profFirstName').value.trim();
+                        var middleName = document.getElementById('profMiddleName').value.trim();
+                        var surname = document.getElementById('profSurname').value.trim();
+                        var familyStudy = document.querySelector('input[name="familyStudy"]:checked');
+                        var subjects = {};
+                        document.querySelectorAll('.subject-pct-input').forEach(function (inp, i) {
+                            subjects['subject_' + i] = inp.value || '';
+                        });
+                        btn.disabled = true;
+                        btn.textContent = 'Saving...';
+                        statusEl.textContent = '';
+                        statusEl.className = 'auth-status';
+                        try {
+                            var result = await supabase.auth.updateUser({
+                                data: {
+                                    first_name: firstName,
+                                    middle_name: middleName,
+                                    surname: surname,
+                                    name: (firstName + ' ' + middleName + ' ' + surname).replace(/\s+/g, ' ').trim(),
+                                    gender: document.getElementById('profGender').value,
+                                    marital_status: document.getElementById('profMarital').value,
+                                    citizenship: document.getElementById('profCitizenship').value,
+                                    province: document.getElementById('profProvince').value,
+                                    address: document.getElementById('profAddress').value.trim(),
+                                    municipality: document.getElementById('profMunicipality').value,
+                                    postal_code: document.getElementById('profPostalCode').value.trim(),
+                                    population_group: document.getElementById('profPopGroup').value,
+                                    home_language: document.getElementById('profHomeLang').value,
+                                    second_language: document.getElementById('profSecondLang').value,
+                                    disability: document.getElementById('profDisability').value,
+                                    phone: document.getElementById('profPhone').value.trim(),
+                                    qualification: document.getElementById('profQualification').value,
+                                    family_study: familyStudy ? familyStudy.value : 'no',
+                                    math_subject: document.getElementById('profMathSubject').value,
+                                    lang1: document.getElementById('profLang1').value,
+                                    lang2: document.getElementById('profLang2').value,
+                                    elective1: document.getElementById('profElective1').value,
+                                    elective2: document.getElementById('profElective2').value,
+                                    elective3: document.getElementById('profElective3').value,
+                                    subjects: subjects
+                                }
+                            });
+                            if (result.error) {
+                                statusEl.textContent = result.error.message || 'Failed to update.';
+                                statusEl.className = 'auth-status error';
+                            } else {
+                                statusEl.textContent = 'Profile updated!';
+                                statusEl.className = 'auth-status success';
+                                var displayName = document.getElementById('profileDisplayName');
+                                if (displayName) displayName.textContent = (firstName + ' ' + surname).trim() || '—';
+                                var greeting = document.getElementById('dashGreeting');
+                                if (greeting) greeting.textContent = 'Welcome, ' + (firstName || 'there') + '. Here\'s what\'s happening with your business today.';
+                            }
+                        } catch (err) {
+                            statusEl.textContent = 'Network error. Please try again.';
+                            statusEl.className = 'auth-status error';
+                        }
+                        btn.disabled = false;
+                        btn.textContent = 'Save changes';
+                    });
+                }
+            }
+
+            function logout(e) {
+                e.preventDefault();
+                if (supabase) supabase.auth.signOut();
+                        window.location.href = 'login.html';
+            }
+            var logoutDesktop = document.getElementById('logoutDesktop');
+            var logoutMobile = document.getElementById('logoutMobile');
+            if (logoutDesktop) logoutDesktop.addEventListener('click', logout);
+            if (logoutMobile) logoutMobile.addEventListener('click', logout);
+        })();
+    </script>
+</body>
+</html>
