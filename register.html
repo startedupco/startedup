@@ -36,11 +36,7 @@
         .auth-check input { margin-top: 0.2rem; accent-color: var(--accent); }
         .auth-check a { color: var(--accent); text-decoration: none; }
         .auth-check a:hover { text-decoration: underline; }
-        .field-row {
-            display: flex;
-            gap: 0.75rem;
-        }
-        .field-row .auth-field { flex: 1; }
+
     </style>
 </head>
 <body data-page="register">
@@ -54,25 +50,6 @@
                 <ul class="dropdown">
                     <li><a href="features.html" data-page="features">Features</a></li>
                     <li><a href="pricing.html" data-page="pricing">Pricing</a></li>
-                </ul>
-            </li>
-            <li class="has-dropdown">
-                <button class="nav-trigger lang-trigger" type="button">
-                    <i data-lucide="globe"></i>
-                    <span class="code" id="currentLangDesktop">EN</span>
-                    <i data-lucide="chevron-down"></i>
-                </button>
-                <ul class="dropdown lang-dropdown" id="langMenuDesktop">
-                    <li class="active" data-lang="en"><button type="button">EN — English <i data-lucide="check"></i></button></li>
-                    <li data-lang="af"><button type="button">AF — Afrikaans <i data-lucide="check"></i></button></li>
-                    <li data-lang="zu"><button type="button">ZU — isiZulu <i data-lucide="check"></i></button></li>
-                    <li data-lang="xh"><button type="button">XH — isiXhosa <i data-lucide="check"></i></button></li>
-                    <li data-lang="fr"><button type="button">FR — Français <i data-lucide="check"></i></button></li>
-                    <li data-lang="es"><button type="button">ES — Español <i data-lucide="check"></i></button></li>
-                    <li data-lang="pt"><button type="button">PT — Português <i data-lucide="check"></i></button></li>
-                    <li data-lang="de"><button type="button">DE — Deutsch <i data-lucide="check"></i></button></li>
-                    <li data-lang="nl"><button type="button">NL — Nederlands <i data-lucide="check"></i></button></li>
-                    <li data-lang="sw"><button type="button">SW — Kiswahili <i data-lucide="check"></i></button></li>
                 </ul>
             </li>
             <li>
@@ -98,27 +75,6 @@
             <ul class="mobile-dropdown" id="mobileProduct">
                 <li><a href="features.html" data-page="features">Features</a></li>
                 <li><a href="pricing.html" data-page="pricing">Pricing</a></li>
-            </ul>
-        </li>
-        <li>
-            <button class="mobile-dropdown-toggle" type="button" id="mobileLangToggle">
-                <span class="lang-toggle-label">
-                    <i data-lucide="globe"></i>
-                    <span id="currentLangMobile">EN</span>
-                </span>
-                <i data-lucide="chevron-down"></i>
-            </button>
-            <ul class="mobile-dropdown" id="mobileLang">
-                <li class="active" data-lang="en"><button type="button">EN — English <i data-lucide="check"></i></button></li>
-                <li data-lang="af"><button type="button">AF — Afrikaans <i data-lucide="check"></i></button></li>
-                <li data-lang="zu"><button type="button">ZU — isiZulu <i data-lucide="check"></i></button></li>
-                <li data-lang="xh"><button type="button">XH — isiXhosa <i data-lucide="check"></i></button></li>
-                <li data-lang="fr"><button type="button">FR — Français <i data-lucide="check"></i></button></li>
-                <li data-lang="es"><button type="button">ES — Español <i data-lucide="check"></i></button></li>
-                <li data-lang="pt"><button type="button">PT — Português <i data-lucide="check"></i></button></li>
-                <li data-lang="de"><button type="button">DE — Deutsch <i data-lucide="check"></i></button></li>
-                <li data-lang="nl"><button type="button">NL — Nederlands <i data-lucide="check"></i></button></li>
-                <li data-lang="sw"><button type="button">SW — Kiswahili <i data-lucide="check"></i></button></li>
             </ul>
         </li>
         <li>
@@ -206,9 +162,9 @@
                     Built in South Africa.
                 </p>
                 <div class="button-container">
-                    <a href="#" class="button" aria-label="X"><i data-lucide="x" class="btn-svg"></i></a>
-                    <a href="#" class="button" aria-label="GitHub"><i data-lucide="github" class="btn-svg"></i></a>
-                    <a href="#" class="button" aria-label="LinkedIn"><i data-lucide="linkedin" class="btn-svg"></i></a>
+                    <a href="#" class="button" aria-label="X"><i data-lucide="x"></i></a>
+                    <a href="#" class="button" aria-label="GitHub"><i data-lucide="github"></i></a>
+                    <a href="#" class="button" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
                 </div>
             </div>
             <div class="footer-links">
@@ -250,14 +206,16 @@
     </footer>
 
     <script src="https://unpkg.com/lucide@0.460.0"></script>
-    <script src="https://unpkg.com/@supabase/supabase-js@2.49.1"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
     <script src="supabase-client.js"></script>
     <script src="app.js"></script>
     <script>
-        if (window.lucide) lucide.createIcons();
-
         (function () {
-            if (!supabase) return;
+            if (!supabase) {
+                statusEl.textContent = 'Failed to load Supabase. Check your connection and refresh.';
+                statusEl.className = 'auth-status error';
+                return;
+            }
 
             var form     = document.getElementById('registerForm');
             var statusEl = document.getElementById('registerStatus');
@@ -337,7 +295,7 @@
                     .toLowerCase()
                     .replace(/[^a-z0-9.]/g, '')
                     .replace(/\.+/g, '.')
-                    .replace(/^\.|\.$/g, '');
+                    .replace(/^\.|\.$/g, '') || 'user';
 
                 if (!firstName) { statusEl.textContent = 'Please enter your first name.'; statusEl.className = 'auth-status error'; firstNameIn.focus(); return; }
                 if (!surname) { statusEl.textContent = 'Please enter your surname.'; statusEl.className = 'auth-status error'; surnameIn.focus(); return; }
@@ -357,6 +315,7 @@
                         options: {
                             data: {
                                 first_name: firstName,
+                                last_name: surname,
                                 surname: surname,
                                 name: firstName + ' ' + surname,
                                 handle: handle
@@ -373,11 +332,24 @@
                         return;
                     }
 
+                    var user = result.data && result.data.user;
+                    var meta = (user && user.user_metadata) || {};
+                    var displayName = meta.first_name ? (meta.first_name + ' ' + (meta.surname || '')).trim() : (user ? user.email : 'User');
+
                     statusEl.textContent = 'Account created! Redirecting...';
                     statusEl.className = 'auth-status success';
-                    setTimeout(function () { window.location.href = 'dashboard.html'; }, 1200);
+
+                    var popup = document.createElement('div');
+                    popup.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9998;display:flex;align-items:center;justify-content:center;';
+                    var card = document.createElement('div');
+                    card.style.cssText = 'background:var(--bg-elev-2);border:1px solid var(--border);border-radius:12px;padding:2rem 2.5rem;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.4);max-width:360px;width:90%;';
+                    card.innerHTML = '<div style="font-size:2rem;margin-bottom:0.5rem;">&#10003;</div><div style="font-size:1.1rem;font-weight:600;margin-bottom:0.25rem;">Supabase Connected!</div><div style="color:var(--text-muted);font-size:0.9rem;">Account created for ' + displayName + '</div>';
+                    popup.appendChild(card);
+                    document.body.appendChild(popup);
+
+                    setTimeout(function () { window.location.href = 'onboarding.html'; }, 2000);
                 } catch (err) {
-                    statusEl.textContent = 'Network error. Please try again.';
+                    statusEl.textContent = 'Network error. Please try again. ' + (err.message || '');
                     statusEl.className = 'auth-status error';
                     btn.disabled = false;
                     btn.textContent = 'Create account';

@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Onboarding — startedup.co</title>
+<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="supabase-client.js"></script>
+<style>
+:root{
+  --ink:#111111;
+  --muted:#9a9a9a;
+  --border:#e2e2e5;
+  --track:#eeeeee;
+  --chip-border:#dcdcdc;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{
+  background:#fff;
+  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+}
+
+.onboard-wrap{
+  max-width:520px;margin:0 auto;
+  min-height:100vh;display:flex;flex-direction:column;
+  padding:0 24px;
+}
+
+/* Header */
+.header{padding:32px 0 16px;border-bottom:1px solid var(--track);}
+.header h1{margin:0 0 12px;font-size:22px;font-weight:700;letter-spacing:-0.3px;color:var(--ink);}
+.progress-row{display:flex;align-items:center;gap:10px;}
+.progress-track{flex:1;height:4px;background:var(--track);border-radius:3px;overflow:hidden;}
+.progress-fill{height:100%;background:var(--ink);border-radius:3px;transition:width 0.4s ease;}
+.progress-label{font-size:11px;color:var(--muted);white-space:nowrap;font-weight:500;}
+
+/* Body */
+.step-body{
+  flex:1;padding:28px 0 0;display:flex;flex-direction:column;
+  overflow-y:auto;overflow-x:hidden;
+  scrollbar-width:none;
+}
+.step-body::-webkit-scrollbar{display:none;}
+.question{font-size:15px;color:#4a4a4a;margin:0 0 18px;line-height:1.5;}
+.question-sub{font-size:12px;color:var(--muted);margin:-10px 0 18px;line-height:1.4;}
+
+/* Fields */
+.field{
+  border:none;border-bottom:1.5px solid var(--border);
+  padding:10px 2px;font-size:15px;color:var(--ink);
+  width:100%;background:transparent;outline:none;
+  transition:border-color 0.2s;
+}
+.field:focus{border-color:var(--ink);}
+.field::placeholder{color:#c7c7c7;}
+.field-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;font-weight:500;}
+.field-group{margin-bottom:18px;}
+
+/* Select */
+.field-select{
+  border:none;border-bottom:1.5px solid var(--border);
+  padding:10px 2px;font-size:15px;color:var(--ink);
+  width:100%;background:transparent;outline:none;
+  -webkit-appearance:none;appearance:none;
+  cursor:pointer;
+}
+.field-select:focus{border-color:var(--ink);}
+
+/* Date inputs row */
+.date-row{display:flex;gap:12px;}
+.date-row .field-group{flex:1;}
+
+/* Radio list */
+.radio-list{display:flex;flex-direction:column;}
+.radio-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 4px;border-bottom:1px solid var(--border);
+  font-size:14px;color:#4a4a4a;cursor:pointer;
+  transition:background 0.15s;
+}
+.radio-row:first-child{border-top:1px solid var(--border);}
+.radio-row:active{background:rgba(0,0,0,0.03);}
+.radio-row.selected{font-weight:600;color:var(--ink);}
+.radio{
+  width:18px;height:18px;border-radius:50%;
+  border:2px solid #d5d5d5;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:border-color 0.15s;
+}
+.radio.checked{border-color:var(--ink);}
+.radio.checked::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--ink);}
+
+/* Tags / chips */
+.tag-wrap{display:flex;flex-wrap:wrap;gap:8px;align-content:flex-start;}
+.tag{
+  padding:9px 14px;border-radius:20px;font-size:13px;
+  border:1.5px solid var(--chip-border);color:#8a8a8a;
+  white-space:nowrap;cursor:pointer;transition:all 0.15s;
+}
+.tag.active{background:var(--ink);color:#fff;border-color:var(--ink);font-weight:500;}
+
+/* Bottom nav */
+.bottomnav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 0 24px;margin-top:auto;
+}
+.back-link{font-size:14px;color:#8a8a8a;font-weight:500;cursor:pointer;}
+.back-link:active{opacity:0.6;}
+.next-btn{
+  width:42px;height:42px;border-radius:50%;
+  background:var(--ink);color:#fff;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;flex-shrink:0;transition:transform 0.1s,opacity 0.15s;
+}
+.next-btn:active{transform:scale(0.92);}
+.next-btn:disabled{opacity:0.3;cursor:default;}
+.next-btn svg{width:18px;height:18px;}
+
+/* Success screen */
+.success-wrap{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;gap:18px;padding-bottom:40px;
+}
+.check-circle{
+  width:72px;height:72px;border-radius:50%;background:var(--ink);
+  display:flex;align-items:center;justify-content:center;
+  animation:popIn 0.4s ease;
+}
+.check-circle svg{width:32px;height:32px;}
+@keyframes popIn{
+  0%{transform:scale(0);opacity:0;}
+  60%{transform:scale(1.15);}
+  100%{transform:scale(1);opacity:1;}
+}
+.success-title{font-size:24px;font-weight:700;color:var(--ink);margin:0;}
+.success-sub{font-size:13px;color:var(--muted);margin:0;max-width:260px;line-height:1.6;}
+.success-btn{
+  margin-top:12px;padding:12px 32px;border-radius:999px;
+  background:var(--ink);color:#fff;font-size:14px;font-weight:600;
+  border:none;cursor:pointer;text-decoration:none;
+  transition:transform 0.1s;
+}
+.success-btn:active{transform:scale(0.95);}
+
+/* Animations */
+.step-slide{animation:slideIn 0.3s ease;}
+@keyframes slideIn{
+  from{opacity:0;transform:translateX(30px);}
+  to{opacity:1;transform:translateX(0);}
+}
+.step-slide-back{animation:slideBack 0.3s ease;}
+@keyframes slideBack{
+  from{opacity:0;transform:translateX(-30px);}
+  to{opacity:1;transform:translateX(0);}
+}
+
+/* Responsive */
+@media(max-width:520px){
+  .onboard-wrap{padding:0 16px;}
+}
+</style>
+</head>
+<body>
+
+<div class="onboard-wrap">
+  <div class="header">
+    <h1 id="stepTitle">About You</h1>
+    <div class="progress-row">
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:10%"></div></div>
+      <span class="progress-label" id="progressLabel">1 / 10</span>
+    </div>
+  </div>
+
+  <div class="step-body" id="stepContainer">
+    <!-- Steps rendered by JS -->
+  </div>
+
+  <div class="bottomnav" id="bottomNav">
+    <span class="back-link" id="backBtn" style="visibility:hidden;" onclick="prevStep()">&#8249; Back</span>
+    <button class="next-btn" id="nextBtn" onclick="nextStep()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+var TOTAL_STEPS = 10;
+var currentStep = 0;
+var animClass = 'step-slide';
+var userData = {};
+
+/* ---------- Steps config ---------- */
+var steps = [
+  {
+    title: 'Full Name',
+    render: function(){ return '<div class="question">What\'s your full name?</div>'+
+      '<div class="field-group"><div class="field-label">First Name</div><input class="field" id="ob_firstName" placeholder="e.g. Ntuthuko" autocomplete="given-name"></div>'+
+      '<div class="field-group"><div class="field-label">Last Name</div><input class="field" id="ob_lastName" placeholder="e.g. Zwane" autocomplete="family-name"></div>';
+    },
+    validate: function(){
+      return (document.getElementById('ob_firstName').value.trim() && document.getElementById('ob_lastName').value.trim());
+    },
+    save: function(){
+      userData.firstName = document.getElementById('ob_firstName').value.trim();
+      userData.lastName = document.getElementById('ob_lastName').value.trim();
+      userData.fullName = userData.firstName + ' ' + userData.lastName;
+    }
+  },
+  {
+    title: 'Date of Birth',
+    render: function(){ return '<div class="question">When\'s your birthday?</div>'+
+      '<div class="date-row">'+
+      '<div class="field-group"><div class="field-label">Day</div><input class="field" id="ob_day" type="number" min="1" max="31" placeholder="DD" inputmode="numeric"></div>'+
+      '<div class="field-group"><div class="field-label">Month</div><input class="field" id="ob_month" type="number" min="1" max="12" placeholder="MM" inputmode="numeric"></div>'+
+      '<div class="field-group"><div class="field-label">Year</div><input class="field" id="ob_year" type="number" min="1950" max="2012" placeholder="YYYY" inputmode="numeric"></div>'+
+      '</div>';
+    },
+    validate: function(){
+      var d=parseInt(document.getElementById('ob_day').value),m=parseInt(document.getElementById('ob_month').value),y=parseInt(document.getElementById('ob_year').value);
+      return d>=1&&d<=31&&m>=1&&m<=12&&y>=1950&&y<=2012;
+    },
+    save: function(){
+      var d=document.getElementById('ob_day').value.padStart(2,'0');
+      var m=document.getElementById('ob_month').value.padStart(2,'0');
+      var y=document.getElementById('ob_year').value;
+      userData.dob = y+'-'+m+'-'+d;
+    }
+  },
+  {
+    title: 'ID Number',
+    render: function(){ return '<div class="question">What\'s your SA ID number?</div>'+
+      '<div class="question-sub">13-digit South African ID number</div>'+
+      '<div class="field-group"><input class="field" id="ob_idnum" type="text" maxlength="13" placeholder="e.g. 0304126099080" inputmode="numeric"></div>';
+    },
+    validate: function(){
+      var v=document.getElementById('ob_idnum').value.replace(/\s/g,'');
+      return v.length===13&&/^\d+$/.test(v);
+    },
+    save: function(){
+      userData.idNumber = document.getElementById('ob_idnum').value.replace(/\s/g,'');
+    }
+  },
+  {
+    title: 'Gender',
+    render: function(){ return '<div class="question">What\'s your gender?</div>'+
+      '<div class="radio-list">'+
+      '<div class="radio-row" data-val="male" onclick="selectRadio(this)"><span>Male</span><span class="radio"></span></div>'+
+      '<div class="radio-row" data-val="female" onclick="selectRadio(this)"><span>Female</span><span class="radio"></span></div>'+
+      '<div class="radio-row" data-val="other" onclick="selectRadio(this)"><span>Other</span><span class="radio"></span></div>'+
+      '<div class="radio-row" data-val="prefer-not" onclick="selectRadio(this)"><span>Prefer not to say</span><span class="radio"></span></div>'+
+      '</div>';
+    },
+    validate: function(){ return !!userData.gender; },
+    save: function(){}
+  },
+  {
+    title: 'Phone Number',
+    render: function(){ return '<div class="question">What\'s your phone number?</div>'+
+      '<div class="field-group"><div class="field-label">Phone</div><input class="field" id="ob_phone" type="tel" placeholder="e.g. 082 123 4567" inputmode="tel"></div>';
+    },
+    validate: function(){ return document.getElementById('ob_phone').value.trim().length >= 8; },
+    save: function(){ userData.phone = document.getElementById('ob_phone').value.trim(); }
+  },
+  {
+    title: 'Address',
+    render: function(){ return '<div class="question">Where do you live?</div>'+
+      '<div class="field-group"><div class="field-label">Street Address</div><input class="field" id="ob_street" placeholder="e.g. 2041 MSizi Dube Road"></div>'+
+      '<div class="field-group"><div class="field-label">Suburb</div><input class="field" id="ob_suburb" placeholder="e.g. Lamontville"></div>'+
+      '<div class="field-group"><div class="field-label">Town / City</div><input class="field" id="ob_city" placeholder="e.g. Durban"></div>'+
+      '<div class="field-group"><div class="field-label">Province</div>'+
+      '<select class="field-select" id="ob_province"><option value="">Select province</option>'+
+      '<option>Eastern Cape</option><option>Free State</option><option>Gauteng</option><option>KwaZulu-Natal</option>'+
+      '<option>Limpopo</option><option>Mpumalanga</option><option>Northern Cape</option><option>North West</option><option>Western Cape</option></select></div>'+
+      '<div class="field-group"><div class="field-label">Postal Code</div><input class="field" id="ob_postal" type="text" maxlength="4" placeholder="e.g. 4027" inputmode="numeric"></div>';
+    },
+    validate: function(){
+      return document.getElementById('ob_street').value.trim() &&
+             document.getElementById('ob_city').value.trim() &&
+             document.getElementById('ob_province').value;
+    },
+    save: function(){
+      userData.street = document.getElementById('ob_street').value.trim();
+      userData.suburb = document.getElementById('ob_suburb').value.trim();
+      userData.city = document.getElementById('ob_city').value.trim();
+      userData.province = document.getElementById('ob_province').value;
+      userData.postalCode = document.getElementById('ob_postal').value.trim();
+      userData.address = [userData.street,userData.suburb,userData.city,userData.province,userData.postalCode].filter(Boolean).join(', ');
+    }
+  },
+  {
+    title: 'Next of Kin',
+    render: function(){ return '<div class="question">Who\'s your next of kin?</div>'+
+      '<div class="field-group"><div class="field-label">Full Name</div><input class="field" id="ob_nokName" placeholder="e.g. Zanele Zwane"></div>'+
+      '<div class="field-group"><div class="field-label">Phone Number</div><input class="field" id="ob_nokPhone" type="tel" placeholder="e.g. 082 987 6543" inputmode="tel"></div>'+
+      '<div class="field-group"><div class="field-label">Relationship</div>'+
+      '<select class="field-select" id="ob_nokRel"><option value="">Select relationship</option>'+
+      '<option>Parent</option><option>Sibling</option><option>Spouse</option><option>Guardian</option><option>Other</option></select></div>';
+    },
+    validate: function(){
+      return document.getElementById('ob_nokName').value.trim() &&
+             document.getElementById('ob_nokPhone').value.trim() &&
+             document.getElementById('ob_nokRel').value;
+    },
+    save: function(){
+      userData.nextOfKin = document.getElementById('ob_nokName').value.trim();
+      userData.nokPhone = document.getElementById('ob_nokPhone').value.trim();
+      userData.nokRelationship = document.getElementById('ob_nokRel').value;
+    }
+  },
+  {
+    title: 'Education',
+    render: function(){ return '<div class="question">What\'s your education level?</div>'+
+      '<div class="radio-list">'+
+      '<div class="radio-row" data-val="matric" onclick="selectRadio(this)"><span>Currently in Matric</span><span class="radio"></span></div>'+
+      '<div class="radio-row" data-val="matric-completed" onclick="selectRadio(this)"><span>Matric Completed</span><span class="radio"></span></div>'+
+      '<div class="radio-row" data-val="nated" onclick="selectRadio(this)"><span>NATED / TVET</span><span class="radio"></span></div>'+
+      '<div class="radio-row" data-val="degree" onclick="selectRadio(this)"><span>University Degree / Diploma</span><span class="radio"></span></div>'+
+      '<div class="radio-row" data-val="other" onclick="selectRadio(this)"><span>Other</span><span class="radio"></span></div>'+
+      '</div>'+
+      '<div id="ob_matricFields" style="margin-top:18px;display:none;">'+
+      '<div class="field-group"><div class="field-label">School Name</div><input class="field" id="ob_school" placeholder="e.g. Durban High School"></div>'+
+      '<div class="field-group"><div class="field-label">Examination Number</div><input class="field" id="ob_examNumber" type="text" maxlength="20" placeholder="e.g. 1234567890123" inputmode="numeric"></div>'+
+      '<div class="field-group"><div class="field-label">Year Completed</div><input class="field" id="ob_yearCompleted" type="number" min="2015" max="2026" placeholder="e.g. 2022" inputmode="numeric"></div>'+
+      '<div class="field-group"><div class="field-label">NSC / Bachelor Pass?</div>'+
+      '<select class="field-select" id="ob_passType"><option value="">Select</option><option>Bachelor Degree Pass</option><option>Diploma Pass</option><option>Certificate Pass</option><option>Still writing</option></select></div>'+
+      '</div>';
+    },
+    validate: function(){ return !!userData.eduLevel; },
+    save: function(){
+      userData.school = document.getElementById('ob_school') ? document.getElementById('ob_school').value.trim() : '';
+      userData.examNumber = document.getElementById('ob_examNumber') ? document.getElementById('ob_examNumber').value.trim() : '';
+      userData.yearCompleted = document.getElementById('ob_yearCompleted') ? document.getElementById('ob_yearCompleted').value : '';
+      userData.passType = document.getElementById('ob_passType') ? document.getElementById('ob_passType').value : '';
+    }
+  },
+  {
+    title: 'Applying For',
+    render: function(){ return '<div class="question">What are you applying for?</div>'+
+      '<div class="question-sub">Select all that apply</div>'+
+      '<div class="tag-wrap" id="ob_applyTags">'+
+      '<div class="tag" data-val="University" onclick="toggleTag(this)">University</div>'+
+      '<div class="tag" data-val="TVET College" onclick="toggleTag(this)">TVET College</div>'+
+      '<div class="tag" data-val="Private College" onclick="toggleTag(this)">Private College</div>'+
+      '<div class="tag" data-val="NSFAS Funding" onclick="toggleTag(this)">NSFAS Funding</div>'+
+      '<div class="tag" data-val="Bursary" onclick="toggleTag(this)">Bursary</div>'+
+      '<div class="tag" data-val="Learnership" onclick="toggleTag(this)">Learnership</div>'+
+      '<div class="tag" data-val="Apprenticeship" onclick="toggleTag(this)">Apprenticeship</div>'+
+      '</div>';
+    },
+    validate: function(){ return userData.applyingFor && userData.applyingFor.length > 0; },
+    save: function(){
+      var tags = document.querySelectorAll('#ob_applyTags .tag.active');
+      userData.applyingFor = [];
+      tags.forEach(function(t){ userData.applyingFor.push(t.getAttribute('data-val')); });
+    }
+  }
+];
+
+/* ---------- Selection helpers ---------- */
+function selectRadio(el){
+  var rows = el.parentNode.querySelectorAll('.radio-row');
+  rows.forEach(function(r){ r.classList.remove('selected'); r.querySelector('.radio').classList.remove('checked'); });
+  el.classList.add('selected');
+  el.querySelector('.radio').classList.add('checked');
+  userData.gender = el.getAttribute('data-val');
+  userData.eduLevel = el.getAttribute('data-val');
+}
+
+function toggleTag(el){
+  el.classList.toggle('active');
+}
+
+/* ---------- Navigation ---------- */
+function renderStep(){
+  var s = steps[currentStep];
+  var container = document.getElementById('stepContainer');
+
+  if(currentStep > 0) steps[currentStep - 1].save();
+
+  document.getElementById('stepTitle').textContent = s.title;
+  document.getElementById('progressFill').style.width = ((currentStep + 1) / TOTAL_STEPS * 100) + '%';
+  document.getElementById('progressLabel').textContent = (currentStep + 1) + ' / ' + TOTAL_STEPS;
+  document.getElementById('backBtn').style.visibility = currentStep === 0 ? 'hidden' : 'visible';
+
+  container.innerHTML = '<div class="' + animClass + '">' + s.render() + '</div>';
+
+  if(currentStep === 7){
+    userData.eduLevel = null;
+    var radioRows = container.querySelectorAll('.radio-row');
+    radioRows.forEach(function(r){
+      r.addEventListener('click', function(){
+        setTimeout(function(){
+          var showMatric = (userData.eduLevel === 'matric' || userData.eduLevel === 'matric-completed');
+          var f = document.getElementById('ob_matricFields');
+          if(f) f.style.display = showMatric ? 'block' : 'none';
+        }, 10);
+      });
+    });
+  }
+
+  setTimeout(function(){
+    var first = container.querySelector('input, select');
+    if(first && first.tagName === 'INPUT') first.focus();
+  }, 350);
+}
+
+function nextStep(){
+  if(currentStep < TOTAL_STEPS - 1){
+    var s = steps[currentStep];
+    s.save();
+    if(!s.validate()){
+      document.getElementById('nextBtn').style.animation = 'none';
+      void document.getElementById('nextBtn').offsetHeight;
+      document.getElementById('nextBtn').style.animation = '';
+      return;
+    }
+    currentStep++;
+    animClass = 'step-slide';
+    if(currentStep === TOTAL_STEPS - 1){
+      renderSuccess();
+    } else {
+      renderStep();
+    }
+  }
+}
+
+function prevStep(){
+  if(currentStep > 0){
+    currentStep--;
+    animClass = 'step-slide-back';
+    renderStep();
+  }
+}
+
+function renderSuccess(){
+  var s = steps[currentStep - 1];
+  s.save();
+  if(s && !s.validate()){
+    currentStep--;
+    renderStep();
+    return;
+  }
+
+  document.getElementById('stepTitle').textContent = 'All Done!';
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('progressLabel').textContent = TOTAL_STEPS + ' / ' + TOTAL_STEPS;
+  document.getElementById('bottomNav').style.display = 'none';
+
+  var container = document.getElementById('stepContainer');
+  container.innerHTML = '<div class="success-wrap step-slide">'+
+    '<div class="check-circle"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>'+
+    '<div class="success-title">You\'re all set!</div>'+
+    '<div class="success-sub">Your profile has been saved. You can now explore universities, colleges, and bursaries.</div>'+
+    '<a href="dashboard.html" class="success-btn">Go to Dashboard</a>'+
+    '</div>';
+
+  saveToSupabase();
+}
+
+function saveToSupabase(){
+  if(!supabase) return;
+  supabase.auth.getUser().then(function(result){
+    var user = result.data.user;
+    if(!user) return;
+    supabase.auth.updateUser({
+      data: {
+        full_name: userData.fullName || '',
+        first_name: userData.firstName || '',
+        last_name: userData.lastName || '',
+        dob: userData.dob || '',
+        id_number: userData.idNumber || '',
+        gender: userData.gender || '',
+        phone: userData.phone || '',
+        address: userData.address || '',
+        street: userData.street || '',
+        suburb: userData.suburb || '',
+        city: userData.city || '',
+        province: userData.province || '',
+        postal_code: userData.postalCode || '',
+        next_of_kin: userData.nextOfKin || '',
+        nok_phone: userData.nokPhone || '',
+        nok_relationship: userData.nokRelationship || '',
+        education_level: userData.eduLevel || '',
+        school: userData.school || '',
+        exam_number: userData.examNumber || '',
+        year_completed: userData.yearCompleted || '',
+        pass_type: userData.passType || '',
+        applying_for: userData.applyingFor || [],
+        onboarded: true
+      }
+    }).then(function(){ console.log('Onboarding saved to Supabase'); });
+  });
+}
+
+/* ---------- Keyboard Enter ---------- */
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Enter' && currentStep < TOTAL_STEPS - 1){
+    e.preventDefault();
+    nextStep();
+  }
+});
+
+/* ---------- Init ---------- */
+renderStep();
+</script>
+</body>
+</html>

@@ -137,65 +137,6 @@
     }
 
     bindMobileToggle('mobileProductToggle', 'mobileProduct');
-    bindMobileToggle('mobileLangToggle', 'mobileLang');
 
-    /* ============================================================
-       LANGUAGE SELECTOR
-       ============================================================ */
-    var currentLangDesktop = document.getElementById('currentLangDesktop');
-    var currentLangMobile  = document.getElementById('currentLangMobile');
-
-    var codeMap = {
-        en: 'EN', af: 'AF', zu: 'ZU', xh: 'XH',
-        fr: 'FR', es: 'ES', pt: 'PT',
-        de: 'DE', nl: 'NL', sw: 'SW'
-    };
-
-    function setLanguage(lang) {
-        if (!codeMap[lang]) return;
-        if (currentLangDesktop) currentLangDesktop.textContent = codeMap[lang];
-        if (currentLangMobile) currentLangMobile.textContent = codeMap[lang];
-        document.documentElement.lang = lang;
-        try { localStorage.setItem('foundable-lang', lang); } catch (e) {}
-
-        ['langMenuDesktop', 'mobileLang'].forEach(function (menuId) {
-            var menu = document.getElementById(menuId);
-            if (!menu) return;
-            menu.querySelectorAll('li').forEach(function (li) {
-                if (li.getAttribute('data-lang') === lang) {
-                    li.classList.add('active');
-                } else {
-                    li.classList.remove('active');
-                }
-            });
-        });
-    }
-
-    try {
-        var savedLang = localStorage.getItem('foundable-lang');
-        if (savedLang && codeMap[savedLang]) setLanguage(savedLang);
-    } catch (e) {}
-
-    var langMenuDesktop = document.getElementById('langMenuDesktop');
-    if (langMenuDesktop) {
-        langMenuDesktop.querySelectorAll('li').forEach(function (li) {
-            li.addEventListener('click', function (e) {
-                e.preventDefault();
-                setLanguage(li.getAttribute('data-lang'));
-            });
-        });
-    }
-
-    var mobileLang = document.getElementById('mobileLang');
-    if (mobileLang) {
-        mobileLang.querySelectorAll('li').forEach(function (li) {
-            li.addEventListener('click', function (e) {
-                e.preventDefault();
-                setLanguage(li.getAttribute('data-lang'));
-                mobileLang.classList.remove('open');
-                var t = document.getElementById('mobileLangToggle');
-                if (t) t.classList.remove('open');
-            });
-        });
-    }
+    if (window.lucide) lucide.createIcons();
 })();

@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Agent Portal — startedup.co</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        try {
+            var t = localStorage.getItem('foundable-theme');
+            if (t) document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {}
+    </script>
+</head>
+<body data-page="agent">
+
+    <header class="site-header">
+        <a href="index.html" class="logo">startedup<span>.co</span></a>
+        <ul class="nav-desktop">
+            <li>
+                <button class="theme-toggle" id="themeToggleDesktop" aria-label="Toggle theme">
+                    <i data-lucide="sun" class="icon-sun"></i>
+                    <i data-lucide="moon" class="icon-moon"></i>
+                </button>
+            </li>
+            <li class="has-dropdown">
+                <button class="nav-trigger" type="button">
+                    <i data-lucide="shield"></i>
+                    <span id="agentName">Agent</span>
+                    <i data-lucide="chevron-down"></i>
+                </button>
+                <ul class="dropdown">
+                    <li><a href="agent.html">Agent Portal</a></li>
+                    <li><a href="dashboard.html">My Dashboard</a></li>
+                    <li><a href="#" id="logoutDesktop">Log out</a></li>
+                </ul>
+            </li>
+        </ul>
+        <button class="hamburger" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">
+            <span></span>
+        </button>
+    </header>
+
+    <ul class="nav-mobile" id="mobileNav">
+        <li>
+            <button class="mobile-theme-toggle" id="themeToggleMobile" type="button">
+                <span>Theme</span>
+                <span class="theme-toggle" aria-hidden="true">
+                    <i data-lucide="sun" class="icon-sun"></i>
+                    <i data-lucide="moon" class="icon-moon"></i>
+                </span>
+            </button>
+        </li>
+        <li><a href="dashboard.html">My Dashboard</a></li>
+        <li><a href="#" id="logoutMobile">Log out</a></li>
+    </ul>
+
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <main class="agent-main">
+        <div class="agent-top-bar">
+            <div class="dash-header">
+                <h1>Agent Portal</h1>
+                <p>Review and process student applications.</p>
+            </div>
+            <button class="apply-btn agent-download-all-btn" id="downloadAllBtn"><i data-lucide="download"></i> Download All Applications</button>
+        </div>
+
+        <!-- Filters -->
+        <div class="agent-filters">
+            <div class="auth-field">
+                <div class="auth-field-input">
+                    <i data-lucide="search"></i>
+                    <input type="text" id="agentSearch" placeholder="Search by name, institution, or email...">
+                </div>
+            </div>
+            <div class="agent-filter-row">
+                <select id="agentStatusFilter">
+                    <option value="all">All Status</option>
+                    <option value="Submitted">Submitted</option>
+                    <option value="Sent to Institution">Sent to Institution</option>
+                    <option value="Accepted">Accepted</option>
+                    <option value="Declined">Declined</option>
+                    <option value="Waitlisted">Waitlisted</option>
+                    <option value="Withdrawn">Withdrawn</option>
+                </select>
+                <select id="agentCategoryFilter">
+                    <option value="all">All Categories</option>
+                    <option value="university">University</option>
+                    <option value="college">College</option>
+                    <option value="bursary">Bursary</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="agent-stats" id="agentStats">
+            <div class="agent-stat-card">
+                <div class="agent-stat-num" id="statTotal">0</div>
+                <div class="agent-stat-label">Total</div>
+            </div>
+            <div class="agent-stat-card">
+                <div class="agent-stat-num" id="statSubmitted">0</div>
+                <div class="agent-stat-label">Pending</div>
+            </div>
+            <div class="agent-stat-card">
+                <div class="agent-stat-num" id="statSent">0</div>
+                <div class="agent-stat-label">Sent</div>
+            </div>
+            <div class="agent-stat-card">
+                <div class="agent-stat-num" id="statAccepted">0</div>
+                <div class="agent-stat-label">Accepted</div>
+            </div>
+            <div class="agent-stat-card">
+                <div class="agent-stat-num" id="statDeclined">0</div>
+                <div class="agent-stat-label">Declined</div>
+            </div>
+        </div>
+
+        <!-- Applications Table -->
+        <div class="agent-table-wrap">
+            <table class="agent-table" id="agentTable">
+                <thead>
+                    <tr>
+                        <th>Applicant</th>
+                        <th>Institution</th>
+                        <th>Courses</th>
+                        <th>Category</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="agentTableBody">
+                </tbody>
+            </table>
+            <p class="agent-empty" id="agentEmpty" style="display:none;">No applications found.</p>
+        </div>
+
+        <!-- Process Application Popup -->
+        <div class="apply-popup-overlay" id="processPopup" style="display:none;">
+            <div class="apply-popup apply-popup-wide">
+                <button class="apply-popup-close" id="closeProcessPopup"><i data-lucide="x"></i></button>
+                <h2>Process Application</h2>
+                <div class="process-app-info" id="processAppInfo"></div>
+                <div class="auth-field">
+                    <label for="processNotes">Agent Notes</label>
+                    <div class="auth-field-input">
+                        <i data-lucide="message-square"></i>
+                        <textarea id="processNotes" rows="3" placeholder="Add notes about this application..."></textarea>
+                    </div>
+                </div>
+                <div class="process-actions">
+                    <button class="apply-btn process-send-btn" id="sendToInstBtn"><i data-lucide="send"></i> Send to Institution</button>
+                    <button class="apply-btn apply-btn-danger" id="declineAppBtn"><i data-lucide="x-circle"></i> Decline</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Applicant Details Popup -->
+        <div class="apply-popup-overlay" id="applicantDetailsPopup" style="display:none;">
+            <div class="apply-popup apply-popup-wide">
+                <button class="apply-popup-close" id="closeApplicantDetails"><i data-lucide="x"></i></button>
+                <h2>Applicant Details</h2>
+                <div id="applicantDetailsContent"></div>
+                <div class="process-actions">
+                    <button class="apply-btn" id="downloadApplicantDocs"><i data-lucide="download"></i> Download Documents</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Download Format Choice -->
+        <div class="apply-popup-overlay" id="docFormatPopup" style="display:none;">
+            <div class="apply-popup">
+                <button class="apply-popup-close" id="closeDocFormatPopup"><i data-lucide="x"></i></button>
+                <h2>Download Documents</h2>
+                <p>Choose the format to download all applicant documents.</p>
+                <div class="apply-popup-actions">
+                    <button class="apply-btn" id="downloadAsImages"><i data-lucide="image"></i> As Images (PNG)</button>
+                    <button class="apply-btn apply-btn-outline" id="downloadAsPdf"><i data-lucide="file-text"></i> As PDF Info</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success -->
+        <div class="apply-popup-overlay" id="agentSuccess" style="display:none;">
+            <div class="apply-popup apply-popup-success">
+                <div class="apply-success-icon"><i data-lucide="check-circle"></i></div>
+                <h2 id="agentSuccessTitle">Updated!</h2>
+                <p id="agentSuccessMsg">Application status has been updated.</p>
+                <button class="apply-btn" id="agentSuccessDone">Done</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://unpkg.com/lucide@0.460.0"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script src="supabase-client.js"></script>
+    <script src="app.js"></script>
+    <script>
+        (function () {
+            if (!supabase) { document.querySelector('.agent-main').innerHTML = '<div class="dash-header"><h1>Error</h1><p>Could not connect to Supabase.</p></div>'; return; }
+
+            var allApplications = [];
+            var processIndex = -1;
+            var currentApplicantEmail = '';
+
+            async function loadAllApplications() {
+                try {
+                    var session = await supabase.auth.getSession();
+                    var user = session.data && session.data.session && session.data.session.user;
+                    if (!user) { window.location.href = 'login.html'; return; }
+                    document.getElementById('agentName').textContent = user.email;
+                    var meta = user.user_metadata || {};
+                    allApplications = meta.applications || [];
+                    var agentApps = meta.agent_applications || [];
+                    allApplications = allApplications.concat(agentApps);
+                    renderTable(allApplications);
+                } catch (e) {}
+            }
+
+            async function saveAllApplications() {
+                try {
+                    var session = await supabase.auth.getSession();
+                    var user = session.data && session.data.session && session.data.session.user;
+                    if (user) await supabase.auth.updateUser({ data: { applications: allApplications } });
+                } catch (e) {}
+            }
+
+            function renderTable(apps) {
+                var tbody = document.getElementById('agentTableBody');
+                var empty = document.getElementById('agentEmpty');
+                tbody.innerHTML = '';
+                if (!apps.length) { empty.style.display = 'block'; return; }
+                empty.style.display = 'none';
+                apps.forEach(function (app, i) {
+                    var realIndex = allApplications.indexOf(app);
+                    var tr = document.createElement('tr');
+                    var dateStr = app.date ? new Date(app.date).toLocaleDateString('en-ZA', { day: 'numeric', month: 'short', year: 'numeric' }) : '—';
+                    var statusClass = (app.status || 'submitted').toLowerCase().replace(/\s+/g, '-');
+                    var isHandled = app.status === 'Sent to Institution' || app.status === 'Accepted' || app.status === 'Declined' || app.status === 'Waitlisted';
+                    var actionBtn = isHandled
+                        ? '<button class="agent-view-btn" data-idx="' + realIndex + '"><i data-lucide="eye"></i> View</button>'
+                        : '<button class="agent-process-btn" data-idx="' + realIndex + '"><i data-lucide="edit-3"></i> Handle</button>';
+                    tr.innerHTML =
+                        '<td><strong>' + (app.applicantName || 'Applicant') + '</strong><br><span class="agent-email">' + (app.applicantEmail || '') + '</span></td>' +
+                        '<td>' + (app.institution || '') + '</td>' +
+                        '<td class="agent-courses-cell">' + (app.courses || '') + '</td>' +
+                        '<td>' + (app.category || '') + '</td>' +
+                        '<td>' + dateStr + '</td>' +
+                        '<td><span class="dash-app-status ' + statusClass + '">' + (app.status || 'Submitted') + '</span></td>' +
+                        '<td>' + actionBtn + '</td>';
+                    tbody.appendChild(tr);
+                });
+                lucide.createIcons();
+                document.querySelectorAll('.agent-process-btn').forEach(function (btn) {
+                    btn.addEventListener('click', function () {
+                        processIndex = parseInt(btn.getAttribute('data-idx'));
+                        openProcessPopup(allApplications[processIndex]);
+                    });
+                });
+                document.querySelectorAll('.agent-view-btn').forEach(function (btn) {
+                    btn.addEventListener('click', function () {
+                        var idx = parseInt(btn.getAttribute('data-idx'));
+                        openApplicantDetails(allApplications[idx]);
+                    });
+                });
+                updateStats(apps);
+            }
+
+            function updateStats(apps) {
+                document.getElementById('statTotal').textContent = apps.length;
+                document.getElementById('statSubmitted').textContent = apps.filter(function (a) { return a.status === 'Submitted'; }).length;
+                document.getElementById('statSent').textContent = apps.filter(function (a) { return a.status === 'Sent to Institution'; }).length;
+                document.getElementById('statAccepted').textContent = apps.filter(function (a) { return a.status === 'Accepted'; }).length;
+                document.getElementById('statDeclined').textContent = apps.filter(function (a) { return a.status === 'Declined' || a.status === 'Withdrawn'; }).length;
+            }
+
+            function openProcessPopup(app) {
+                if (!app) return;
+                var info = document.getElementById('processAppInfo');
+                info.innerHTML =
+                    '<div class="process-info-row"><strong>Institution:</strong> ' + (app.institution || '') + '</div>' +
+                    '<div class="process-info-row"><strong>Courses:</strong> ' + (app.courses || '') + '</div>' +
+                    '<div class="process-info-row"><strong>Category:</strong> ' + (app.category || '') + '</div>' +
+                    '<div class="process-info-row"><strong>Date:</strong> ' + (app.date ? new Date(app.date).toLocaleDateString('en-ZA') : '—') + '</div>' +
+                    '<div class="process-info-row"><strong>Payment:</strong> ' + (app.totalPaid || '—') + '</div>' +
+                    '<div class="process-info-row"><strong>Applicant:</strong> ' + (app.applicantName || '') + ' (' + (app.applicantEmail || '') + ')</div>';
+                document.getElementById('processNotes').value = app.agentNotes || '';
+                document.getElementById('processPopup').style.display = 'flex';
+                lucide.createIcons();
+            }
+
+            document.getElementById('closeProcessPopup').addEventListener('click', function () {
+                document.getElementById('processPopup').style.display = 'none';
+            });
+
+            document.getElementById('sendToInstBtn').addEventListener('click', async function () {
+                if (processIndex < 0) return;
+                var notes = document.getElementById('processNotes').value.trim();
+                allApplications[processIndex].status = 'Sent to Institution';
+                allApplications[processIndex].agentNotes = notes;
+                allApplications[processIndex].lastUpdated = new Date().toISOString();
+                allApplications[processIndex].handledBy = 'agent';
+                await saveAllApplications();
+                document.getElementById('processPopup').style.display = 'none';
+                document.getElementById('agentSuccessTitle').textContent = 'Sent to Institution';
+                document.getElementById('agentSuccessMsg').textContent = 'Application has been sent to the institution for processing.';
+                document.getElementById('agentSuccess').style.display = 'flex';
+                lucide.createIcons();
+                renderTable(filterApplications());
+            });
+
+            document.getElementById('declineAppBtn').addEventListener('click', async function () {
+                if (processIndex < 0) return;
+                var notes = document.getElementById('processNotes').value.trim();
+                allApplications[processIndex].status = 'Declined';
+                allApplications[processIndex].agentNotes = notes;
+                allApplications[processIndex].lastUpdated = new Date().toISOString();
+                allApplications[processIndex].handledBy = 'agent';
+                await saveAllApplications();
+                document.getElementById('processPopup').style.display = 'none';
+                document.getElementById('agentSuccessTitle').textContent = 'Application Declined';
+                document.getElementById('agentSuccessMsg').textContent = 'The application has been declined.';
+                document.getElementById('agentSuccess').style.display = 'flex';
+                lucide.createIcons();
+                renderTable(filterApplications());
+            });
+
+            function openApplicantDetails(app) {
+                if (!app) return;
+                currentApplicantEmail = app.applicantEmail || '';
+                var content = document.getElementById('applicantDetailsContent');
+                var statusClass = (app.status || 'submitted').toLowerCase().replace(/\s+/g, '-');
+                content.innerHTML =
+                    '<div class="process-info-row"><strong>Institution:</strong> ' + (app.institution || '') + '</div>' +
+                    '<div class="process-info-row"><strong>Courses:</strong> ' + (app.courses || '') + '</div>' +
+                    '<div class="process-info-row"><strong>Category:</strong> ' + (app.category || '') + '</div>' +
+                    '<div class="process-info-row"><strong>Date Applied:</strong> ' + (app.date ? new Date(app.date).toLocaleDateString('en-ZA', { day: 'numeric', month: 'long', year: 'numeric' }) : '—') + '</div>' +
+                    '<div class="process-info-row"><strong>Payment:</strong> ' + (app.totalPaid || '—') + '</div>' +
+                    '<div class="process-info-row"><strong>Status:</strong> <span class="dash-app-status ' + statusClass + '">' + (app.status || 'Submitted') + '</span></div>' +
+                    '<div class="process-info-row"><strong>Applicant:</strong> ' + (app.applicantName || '') + '</div>' +
+                    '<div class="process-info-row"><strong>Email:</strong> ' + (app.applicantEmail || '') + '</div>' +
+                    (app.agentNotes ? '<div class="process-info-row"><strong>Agent Notes:</strong> ' + app.agentNotes + '</div>' : '') +
+                    (app.lastUpdated ? '<div class="process-info-row"><strong>Last Updated:</strong> ' + new Date(app.lastUpdated).toLocaleString('en-ZA') + '</div>' : '');
+                document.getElementById('applicantDetailsPopup').style.display = 'flex';
+                lucide.createIcons();
+            }
+
+            document.getElementById('closeApplicantDetails').addEventListener('click', function () {
+                document.getElementById('applicantDetailsPopup').style.display = 'none';
+            });
+
+            document.getElementById('downloadApplicantDocs').addEventListener('click', function () {
+                document.getElementById('docFormatPopup').style.display = 'flex';
+                lucide.createIcons();
+            });
+            document.getElementById('closeDocFormatPopup').addEventListener('click', function () {
+                document.getElementById('docFormatPopup').style.display = 'none';
+            });
+
+            document.getElementById('downloadAsImages').addEventListener('click', function () {
+                document.getElementById('docFormatPopup').style.display = 'none';
+                var app = allApplications[processIndex] || allApplications[0];
+                generateDocSheetImage(app);
+            });
+
+            document.getElementById('downloadAsPdf').addEventListener('click', function () {
+                document.getElementById('docFormatPopup').style.display = 'none';
+                var app = allApplications[processIndex] || allApplications[0];
+                generateDocSheetText(app);
+            });
+
+            function generateDocSheetImage(app) {
+                var canvas = document.createElement('canvas');
+                canvas.width = 800;
+                canvas.height = 1000;
+                var ctx = canvas.getContext('2d');
+                var bg = '#1a1a2e';
+                var fg = '#ffffff';
+                var muted = '#aaaaaa';
+                var accent = '#00c9b1';
+                try {
+                    var cs = getComputedStyle(document.documentElement);
+                    bg = cs.getPropertyValue('--bg').trim() || bg;
+                    fg = cs.getPropertyValue('--text').trim() || fg;
+                    muted = cs.getPropertyValue('--text-muted').trim() || muted;
+                    accent = cs.getPropertyValue('--accent').trim() || accent;
+                } catch (e) {}
+                ctx.fillStyle = bg;
+                ctx.fillRect(0, 0, 800, 1000);
+                ctx.fillStyle = accent;
+                ctx.font = 'bold 22px Arial';
+                ctx.textAlign = 'left';
+                ctx.fillText('startedup.co — Application Document Sheet', 30, 45);
+                ctx.fillStyle = muted;
+                ctx.font = '12px Arial';
+                ctx.fillText('Generated: ' + new Date().toLocaleString('en-ZA'), 30, 65);
+                ctx.strokeStyle = accent;
+                ctx.lineWidth = 1;
+                ctx.beginPath(); ctx.moveTo(30, 80); ctx.lineTo(770, 80); ctx.stroke();
+                ctx.fillStyle = fg;
+                ctx.font = '13px Arial';
+                var y = 110;
+                var rows = [
+                    ['Applicant Name:', app.applicantName || ''],
+                    ['Email:', app.applicantEmail || ''],
+                    ['Institution:', app.institution || ''],
+                    ['Category:', (app.category || '').charAt(0).toUpperCase() + (app.category || '').slice(1)],
+                    ['Courses:', app.courses || ''],
+                    ['Date Applied:', app.date ? new Date(app.date).toLocaleDateString('en-ZA') : '—'],
+                    ['Status:', app.status || 'Submitted'],
+                    ['Payment:', app.totalPaid || '—'],
+                    ['Institution Fee:', app.includeInstitutionFee ? 'Included' : 'Not included'],
+                    ['Agent Notes:', app.agentNotes || 'None']
+                ];
+                rows.forEach(function (r) {
+                    ctx.fillStyle = muted;
+                    ctx.fillText(r[0], 30, y);
+                    ctx.fillStyle = fg;
+                    ctx.fillText(r[1], 200, y);
+                    y += 28;
+                });
+                y += 15;
+                ctx.fillStyle = accent;
+                ctx.font = 'bold 14px Arial';
+                ctx.fillText('Uploaded Documents:', 30, y);
+                y += 25;
+                ctx.fillStyle = muted;
+                ctx.font = '12px Arial';
+                var docs = ['Grade 9 Results', 'Grade 10 Results', 'Grade 11 Results', 'Grade 12 Results', 'ID Document', 'Proof of Address', 'Next of Kin ID'];
+                docs.forEach(function (d) {
+                    ctx.fillText('• ' + d + ': [Uploaded to Supabase Storage]', 40, y);
+                    y += 20;
+                });
+                y += 20;
+                ctx.strokeStyle = accent;
+                ctx.beginPath(); ctx.moveTo(30, y); ctx.lineTo(770, y); ctx.stroke();
+                y += 20;
+                ctx.fillStyle = muted;
+                ctx.font = '11px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('This document sheet is generated by startedup.co agent portal.', 400, y);
+                var link = document.createElement('a');
+                link.download = 'application-' + (app.institutionShort || 'app') + '-' + (app.applicantName || 'unknown').replace(/\s+/g, '-') + '.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            }
+
+            function generateDocSheetText(app) {
+                var text = '=== startedup.co — Application Document Sheet ===\n\n';
+                text += 'Generated: ' + new Date().toLocaleString('en-ZA') + '\n\n';
+                text += '--- Applicant Information ---\n';
+                text += 'Name: ' + (app.applicantName || '') + '\n';
+                text += 'Email: ' + (app.applicantEmail || '') + '\n\n';
+                text += '--- Application Details ---\n';
+                text += 'Institution: ' + (app.institution || '') + '\n';
+                text += 'Category: ' + (app.category || '') + '\n';
+                text += 'Courses: ' + (app.courses || '') + '\n';
+                text += 'Date Applied: ' + (app.date ? new Date(app.date).toLocaleDateString('en-ZA') : '—') + '\n';
+                text += 'Status: ' + (app.status || 'Submitted') + '\n\n';
+                text += '--- Payment Information ---\n';
+                text += 'Total Paid: ' + (app.totalPaid || '—') + '\n';
+                text += 'Institution Fee: ' + (app.includeInstitutionFee ? 'Included' : 'Not included') + '\n\n';
+                text += '--- Agent Notes ---\n';
+                text += (app.agentNotes || 'None') + '\n\n';
+                text += '--- Uploaded Documents ---\n';
+                text += 'Grade 9 Results: [Uploaded to Supabase Storage]\n';
+                text += 'Grade 10 Results: [Uploaded to Supabase Storage]\n';
+                text += 'Grade 11 Results: [Uploaded to Supabase Storage]\n';
+                text += 'Grade 12 Results: [Uploaded to Supabase Storage]\n';
+                text += 'ID Document: [Uploaded to Supabase Storage]\n';
+                text += 'Proof of Address: [Uploaded to Supabase Storage]\n';
+                text += 'Next of Kin ID: [Uploaded to Supabase Storage]\n\n';
+                text += '==========================================\n';
+                text += 'This document is generated by startedup.co agent portal.\n';
+                var blob = new Blob([text], { type: 'text/plain' });
+                var link = document.createElement('a');
+                link.download = 'application-' + (app.institutionShort || 'app') + '-' + (app.applicantName || 'unknown').replace(/\s+/g, '-') + '.txt';
+                link.href = URL.createObjectURL(blob);
+                link.click();
+            }
+
+            // Download All Applications Sheet
+            document.getElementById('downloadAllBtn').addEventListener('click', function () {
+                if (!allApplications.length) return;
+                var canvas = document.createElement('canvas');
+                var rows = allApplications.length;
+                var h = 120 + rows * 40 + 60;
+                canvas.width = 1200;
+                canvas.height = Math.max(h, 400);
+                var ctx = canvas.getContext('2d');
+                var bg = '#1a1a2e';
+                var fg = '#ffffff';
+                var muted = '#aaaaaa';
+                var accent = '#00c9b1';
+                try {
+                    var cs = getComputedStyle(document.documentElement);
+                    bg = cs.getPropertyValue('--bg').trim() || bg;
+                    fg = cs.getPropertyValue('--text').trim() || fg;
+                    muted = cs.getPropertyValue('--text-muted').trim() || muted;
+                    accent = cs.getPropertyValue('--accent').trim() || accent;
+                } catch (e) {}
+                ctx.fillStyle = bg;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = accent;
+                ctx.font = 'bold 20px Arial';
+                ctx.textAlign = 'left';
+                ctx.fillText('startedup.co — All Applications Report', 30, 40);
+                ctx.fillStyle = muted;
+                ctx.font = '12px Arial';
+                ctx.fillText('Generated: ' + new Date().toLocaleString('en-ZA') + ' | Total: ' + allApplications.length + ' applications', 30, 60);
+                ctx.strokeStyle = accent;
+                ctx.lineWidth = 1;
+                ctx.beginPath(); ctx.moveTo(30, 75); ctx.lineTo(canvas.width - 30, 75); ctx.stroke();
+                var headers = ['#', 'Applicant', 'Email', 'Institution', 'Courses', 'Category', 'Status', 'Payment', 'Date'];
+                var colX = [30, 60, 220, 400, 560, 750, 860, 980, 1100];
+                ctx.fillStyle = accent;
+                ctx.font = 'bold 11px Arial';
+                headers.forEach(function (h, i) { ctx.fillText(h, colX[i], 95); });
+                ctx.fillStyle = fg;
+                ctx.font = '11px Arial';
+                var y = 115;
+                allApplications.forEach(function (app, i) {
+                    if (y > canvas.height - 40) return;
+                    ctx.fillText(i + 1, colX[0], y);
+                    ctx.fillText((app.applicantName || '').substring(0, 20), colX[1], y);
+                    ctx.fillText((app.applicantEmail || '').substring(0, 22), colX[2], y);
+                    ctx.fillText((app.institution || '').substring(0, 20), colX[3], y);
+                    ctx.fillText((app.courses || '').substring(0, 22), colX[4], y);
+                    ctx.fillText(app.category || '', colX[5], y);
+                    ctx.fillText(app.status || '', colX[6], y);
+                    ctx.fillText(app.totalPaid || '', colX[7], y);
+                    ctx.fillText(app.date ? new Date(app.date).toLocaleDateString('en-ZA') : '', colX[8], y);
+                    y += 22;
+                    ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+                    ctx.beginPath(); ctx.moveTo(30, y - 8); ctx.lineTo(canvas.width - 30, y - 8); ctx.stroke();
+                });
+                y += 20;
+                ctx.fillStyle = muted;
+                ctx.font = '11px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('startedup.co — Confidential Agent Report', canvas.width / 2, y);
+                var link = document.createElement('a');
+                link.download = 'all-applications-' + new Date().toISOString().slice(0, 10) + '.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+
+            document.getElementById('agentSuccessDone').addEventListener('click', function () {
+                document.getElementById('agentSuccess').style.display = 'none';
+            });
+
+            function filterApplications() {
+                var search = document.getElementById('agentSearch').value.toLowerCase();
+                var status = document.getElementById('agentStatusFilter').value;
+                var category = document.getElementById('agentCategoryFilter').value;
+                return allApplications.filter(function (app) {
+                    var matchSearch = !search || (app.institution || '').toLowerCase().includes(search) || (app.courses || '').toLowerCase().includes(search) || (app.applicantEmail || '').toLowerCase().includes(search) || (app.applicantName || '').toLowerCase().includes(search);
+                    var matchStatus = status === 'all' || app.status === status;
+                    var matchCat = category === 'all' || app.category === category;
+                    return matchSearch && matchStatus && matchCat;
+                });
+            }
+
+            document.getElementById('agentSearch').addEventListener('input', function () { renderTable(filterApplications()); });
+            document.getElementById('agentStatusFilter').addEventListener('change', function () { renderTable(filterApplications()); });
+            document.getElementById('agentCategoryFilter').addEventListener('change', function () { renderTable(filterApplications()); });
+
+            async function logout(e) {
+                e.preventDefault();
+                if (supabase) await supabase.auth.signOut();
+                window.location.href = 'login.html';
+            }
+            var logoutDesktop = document.getElementById('logoutDesktop');
+            var logoutMobile = document.getElementById('logoutMobile');
+            if (logoutDesktop) logoutDesktop.addEventListener('click', logout);
+            if (logoutMobile) logoutMobile.addEventListener('click', logout);
+
+            loadAllApplications();
+        })();
+    </script>
+</body>
+</html>

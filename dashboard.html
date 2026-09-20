@@ -22,33 +22,14 @@
         <a href="index.html" class="logo">startedup<span>.co</span></a>
 
         <ul class="nav-desktop">
-            <li class="has-dropdown">
-                <button class="nav-trigger lang-trigger" type="button">
-                    <i data-lucide="globe"></i>
-                    <span class="code" id="currentLangDesktop">EN</span>
-                    <i data-lucide="chevron-down"></i>
-                </button>
-                <ul class="dropdown lang-dropdown" id="langMenuDesktop">
-                    <li class="active" data-lang="en"><button type="button">EN — English <i data-lucide="check"></i></button></li>
-                    <li data-lang="af"><button type="button">AF — Afrikaans <i data-lucide="check"></i></button></li>
-                    <li data-lang="zu"><button type="button">ZU — isiZulu <i data-lucide="check"></i></button></li>
-                    <li data-lang="xh"><button type="button">XH — isiXhosa <i data-lucide="check"></i></button></li>
-                    <li data-lang="fr"><button type="button">FR — Français <i data-lucide="check"></i></button></li>
-                    <li data-lang="es"><button type="button">ES — Español <i data-lucide="check"></i></button></li>
-                    <li data-lang="pt"><button type="button">PT — Português <i data-lucide="check"></i></button></li>
-                    <li data-lang="de"><button type="button">DE — Deutsch <i data-lucide="check"></i></button></li>
-                    <li data-lang="nl"><button type="button">NL — Nederlands <i data-lucide="check"></i></button></li>
-                    <li data-lang="sw"><button type="button">SW — Kiswahili <i data-lucide="check"></i></button></li>
-                </ul>
-            </li>
             <li>
                 <button class="theme-toggle" id="themeToggleDesktop" aria-label="Toggle theme">
                     <i data-lucide="sun" class="icon-sun"></i>
                     <i data-lucide="moon" class="icon-moon"></i>
                 </button>
             </li>
-            <li>
-                <button class="nav-trigger" type="button" id="profileDesktopTrigger">
+            <li class="has-dropdown">
+                <button class="nav-trigger" type="button">
                     <i data-lucide="user"></i>
                     <span id="profileNameDesktop">Account</span>
                     <i data-lucide="chevron-down"></i>
@@ -66,27 +47,6 @@
     </header>
 
     <ul class="nav-mobile" id="mobileNav">
-        <li>
-            <button class="mobile-dropdown-toggle" type="button" id="mobileLangToggle">
-                <span class="lang-toggle-label">
-                    <i data-lucide="globe"></i>
-                    <span id="currentLangMobile">EN</span>
-                </span>
-                <i data-lucide="chevron-down"></i>
-            </button>
-            <ul class="mobile-dropdown" id="mobileLang">
-                <li class="active" data-lang="en"><button type="button">EN — English <i data-lucide="check"></i></button></li>
-                <li data-lang="af"><button type="button">AF — Afrikaans <i data-lucide="check"></i></button></li>
-                <li data-lang="zu"><button type="button">ZU — isiZulu <i data-lucide="check"></i></button></li>
-                <li data-lang="xh"><button type="button">XH — isiXhosa <i data-lucide="check"></i></button></li>
-                <li data-lang="fr"><button type="button">FR — Français <i data-lucide="check"></i></button></li>
-                <li data-lang="es"><button type="button">ES — Español <i data-lucide="check"></i></button></li>
-                <li data-lang="pt"><button type="button">PT — Português <i data-lucide="check"></i></button></li>
-                <li data-lang="de"><button type="button">DE — Deutsch <i data-lucide="check"></i></button></li>
-                <li data-lang="nl"><button type="button">NL — Nederlands <i data-lucide="check"></i></button></li>
-                <li data-lang="sw"><button type="button">SW — Kiswahili <i data-lucide="check"></i></button></li>
-            </ul>
-        </li>
         <li>
             <button class="mobile-theme-toggle" id="themeToggleMobile" type="button">
                 <span>Theme</span>
@@ -120,6 +80,10 @@
                     <i data-lucide="user"></i>
                     <span>Profile</span>
                 </a>
+                <a href="agent.html" class="sidebar-link">
+                    <i data-lucide="shield"></i>
+                    <span>Agent Portal</span>
+                </a>
             </nav>
         </aside>
 
@@ -143,7 +107,7 @@
                         <div>
                             <h3>Applications</h3>
                             <p>Apply for funding, bursaries, and programs.</p>
-                            <a href="#" class="dash-card-link" data-tab="apply">View applications <i data-lucide="arrow-right"></i></a>
+                            <a href="#" class="dash-card-link" data-tab="apply">New application <i data-lucide="arrow-right"></i></a>
                         </div>
                     </div>
                     <div class="dash-card">
@@ -163,51 +127,244 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="dash-section" id="myApplicationsSection" style="display:none;">
+                    <div class="dash-section-header">
+                        <h2>My Applications</h2>
+                        <a href="#" class="dash-card-link" data-tab="apply">View all <i data-lucide="arrow-right"></i></a>
+                    </div>
+                    <div class="dash-applications-list" id="dashApplicationsList"></div>
+                </div>
             </div>
 
             <div class="dashboard-tab" id="tab-apply">
                 <div class="dash-header">
                     <h1>Apply</h1>
-                    <p>Browse and apply for available programs, funding, and bursaries.</p>
+                    <p>Apply to universities, colleges, and bursaries.</p>
                 </div>
-                <div class="apply-list">
-                    <div class="apply-card">
-                        <div class="apply-card-header">
-                            <span class="apply-badge open">Open</span>
-                            <span class="apply-deadline">Deadline: 30 Nov 2026</span>
-                        </div>
-                        <h3>Seed Funding Grant</h3>
-                        <p>R50,000 seed funding for early-stage startups in South Africa.</p>
-                        <div class="apply-meta">
-                            <span><i data-lucide="clock"></i> 4 weeks</span>
-                            <span><i data-lucide="users"></i> 120 applicants</span>
-                        </div>
-                        <button class="apply-btn">Apply now</button>
+
+                <!-- Step 1: Pick Category -->
+                <div id="applyStep1">
+                    <div class="dash-grid apply-categories">
+                        <button class="dash-card apply-category-card" data-category="university">
+                            <div class="dash-card-icon"><i data-lucide="graduation-cap"></i></div>
+                            <div>
+                                <h3>University</h3>
+                                <p>Apply to universities across South Africa.</p>
+                                <span class="dash-card-link">Select <i data-lucide="arrow-right"></i></span>
+                            </div>
+                        </button>
+                        <button class="dash-card apply-category-card" data-category="college">
+                            <div class="dash-card-icon"><i data-lucide="briefcase"></i></div>
+                            <div>
+                                <h3>College</h3>
+                                <p>TVET and private colleges near you.</p>
+                                <span class="dash-card-link">Select <i data-lucide="arrow-right"></i></span>
+                            </div>
+                        </button>
+                        <button class="dash-card apply-category-card" data-category="bursary">
+                            <div class="dash-card-icon"><i data-lucide="wallet"></i></div>
+                            <div>
+                                <h3>Bursary</h3>
+                                <p>Funding and bursary opportunities.</p>
+                                <span class="dash-card-link">Select <i data-lucide="arrow-right"></i></span>
+                            </div>
+                        </button>
                     </div>
-                    <div class="apply-card">
-                        <div class="apply-card-header">
-                            <span class="apply-badge open">Open</span>
-                            <span class="apply-deadline">Deadline: 15 Dec 2026</span>
-                        </div>
-                        <h3>Student Bursary Program</h3>
-                        <p>Full tuition bursary for tech and business students.</p>
-                        <div class="apply-meta">
-                            <span><i data-lucide="clock"></i> 6 weeks</span>
-                            <span><i data-lucide="users"></i> 85 applicants</span>
-                        </div>
-                        <button class="apply-btn">Apply now</button>
+                </div>
+
+                <!-- Step 2: Pick Institution -->
+                <div id="applyStep2" style="display:none;">
+                    <div class="apply-breadcrumb">
+                        <a href="#" id="applyBack1"><i data-lucide="arrow-left"></i> Back</a>
+                        <span id="applyCategoryLabel"></span>
                     </div>
-                    <div class="apply-card">
-                        <div class="apply-card-header">
-                            <span class="apply-badge closed">Closed</span>
+                    <div class="apply-list" id="institutionList"></div>
+                </div>
+
+                <!-- Step 3: Pick Courses -->
+                <div id="applyStep3" style="display:none;">
+                    <div class="apply-breadcrumb">
+                        <a href="#" id="applyBack2"><i data-lucide="arrow-left"></i> Back</a>
+                        <span id="applyInstitutionLabel"></span>
+                    </div>
+                    <div class="change-of-mind-banner" id="changeOfMindBanner" style="display:none;">
+                        <i data-lucide="alert-circle"></i>
+                        <div>
+                            <strong>Change of Mind</strong>
+                            <p>You already have an application to this institution for <span id="comYear"></span>. Updating will replace your current application.</p>
                         </div>
-                        <h3>Mentorship Cohort 3</h3>
-                        <p>12-week mentorship with SA business leaders.</p>
-                        <div class="apply-meta">
-                            <span><i data-lucide="clock"></i> 12 weeks</span>
-                            <span><i data-lucide="users"></i> 200 applicants</span>
+                    </div>
+                    <div class="apply-courses-info">
+                        <p>Select up to <strong>3 courses</strong> you'd like to apply for.</p>
+                        <span class="apply-selected-count" id="courseCount">0 / 3 selected</span>
+                    </div>
+                    <div class="apply-list" id="courseList"></div>
+                    <button class="apply-btn apply-submit-btn" id="applyNowBtn" disabled>Apply now</button>
+                </div>
+
+                <!-- Popup: Applied Before? -->
+                <div class="apply-popup-overlay" id="appliedPopup" style="display:none;">
+                    <div class="apply-popup">
+                        <button class="apply-popup-close" id="closeAppliedPopup"><i data-lucide="x"></i></button>
+                        <h2>Have you applied here before?</h2>
+                        <p>If yes, enter your existing student details. If not, continue as a new applicant.</p>
+                        <div class="apply-popup-actions">
+                            <button class="apply-btn" id="appliedYes">Yes, I have</button>
+                            <button class="apply-btn apply-btn-outline" id="appliedNo">No, new applicant</button>
                         </div>
-                        <button class="apply-btn" disabled>Applications closed</button>
+                        <div id="appliedForm" style="display:none;">
+                            <div class="auth-field">
+                                <label>Student Number or ID Number</label>
+                                <div class="auth-field-input">
+                                    <i data-lucide="credit-card"></i>
+                                    <input type="text" id="appliedStudentId" placeholder="Enter student or ID number">
+                                </div>
+                            </div>
+                            <div class="auth-field">
+                                <label>PIN or Password</label>
+                                <div class="auth-field-input">
+                                    <i data-lucide="lock"></i>
+                                    <input type="password" id="appliedPin" placeholder="Enter PIN or password">
+                                </div>
+                            </div>
+                            <button class="apply-btn" id="appliedContinue">Continue</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Popup: Payment -->
+                <div class="apply-popup-overlay" id="paymentPopup" style="display:none;">
+                    <div class="apply-popup">
+                        <button class="apply-popup-close" id="closePaymentPopup"><i data-lucide="x"></i></button>
+                        <h2>Application Payment</h2>
+                        <div class="payment-breakdown">
+                            <div class="payment-row">
+                                <span>Application fee</span>
+                                <span id="payAppFee">R0.00</span>
+                            </div>
+                            <div class="payment-row">
+                                <span>Paystack fee (2.7% + R1)</span>
+                                <span id="payGatewayFee">R0.00</span>
+                            </div>
+                            <div class="payment-row payment-total">
+                                <span>Total</span>
+                                <span id="payTotal">R0.00</span>
+                            </div>
+                        </div>
+                        <div class="payment-institution-fee">
+                            <label class="payment-checkbox-label">
+                                <input type="checkbox" id="payInclInstitution">
+                                <span>Include institution application fee (+<span id="payInstitutionFee">R0.00</span>)</span>
+                            </label>
+                            <p class="payment-note" id="payInstitutionNote"></p>
+                        </div>
+                        <div class="payment-grand-total">
+                            <span>Grand Total</span>
+                            <span id="payGrandTotal">R0.00</span>
+                        </div>
+                        <button class="apply-btn apply-pay-btn" id="payNowBtn">Pay now</button>
+                        <p class="payment-secure"><i data-lucide="lock"></i> Secured by Paystack</p>
+                    </div>
+                </div>
+
+                <!-- Success -->
+                <div class="apply-popup-overlay" id="successPopup" style="display:none;">
+                    <div class="apply-popup apply-popup-success">
+                        <div class="apply-success-icon"><i data-lucide="check-circle"></i></div>
+                        <h2>Application Submitted!</h2>
+                        <p id="successMessage">Your application has been submitted successfully.</p>
+                        <button class="apply-btn" id="successDone">Done</button>
+                    </div>
+                </div>
+
+                <!-- View Application -->
+                <div class="apply-popup-overlay" id="viewAppPopup" style="display:none;">
+                    <div class="apply-popup apply-popup-wide">
+                        <button class="apply-popup-close" id="closeViewApp"><i data-lucide="x"></i></button>
+                        <div class="view-app-header">
+                            <div id="viewAppLogo"></div>
+                            <div>
+                                <h2 id="viewAppName"></h2>
+                                <p id="viewAppCategory" class="view-app-sub"></p>
+                            </div>
+                        </div>
+                        <div class="view-app-grid">
+                            <div class="view-app-field">
+                                <label>Status</label>
+                                <span id="viewAppStatus" class="dash-app-status"></span>
+                            </div>
+                            <div class="view-app-field">
+                                <label>Applied</label>
+                                <span id="viewAppDate"></span>
+                            </div>
+                            <div class="view-app-field">
+                                <label>Payment</label>
+                                <span id="viewAppPayment"></span>
+                            </div>
+                            <div class="view-app-field">
+                                <label>Category</label>
+                                <span id="viewAppCatText"></span>
+                            </div>
+                        </div>
+                        <div class="view-app-courses">
+                            <label>Courses Applied For</label>
+                            <ul id="viewAppCourses"></ul>
+                        </div>
+                        <div class="view-app-actions">
+                            <button class="apply-btn" id="viewAppReceipt"><i data-lucide="download"></i> Download Receipt</button>
+                            <button class="apply-btn apply-btn-danger" id="viewAppWithdraw"><i data-lucide="x-circle"></i> Withdraw Application</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Withdraw Confirmation -->
+                <div class="apply-popup-overlay" id="withdrawPopup" style="display:none;">
+                    <div class="apply-popup">
+                        <button class="apply-popup-close" id="closeWithdrawPopup"><i data-lucide="x"></i></button>
+                        <h2>Withdraw Application?</h2>
+                        <p>Are you sure you want to withdraw your application? This action cannot be undone.</p>
+                        <div class="apply-popup-actions">
+                            <button class="apply-btn apply-btn-danger" id="confirmWithdraw">Yes, Withdraw</button>
+                            <button class="apply-btn apply-btn-outline" id="cancelWithdraw">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Receipt Download -->
+                <div class="apply-popup-overlay" id="receiptPopup" style="display:none;">
+                    <div class="apply-popup apply-popup-receipt" id="receiptContent">
+                        <button class="apply-popup-close" id="closeReceiptPopup"><i data-lucide="x"></i></button>
+                        <div class="receipt-header">
+                            <h2>Payment Receipt</h2>
+                            <p>startedup.co</p>
+                        </div>
+                        <div class="receipt-divider"></div>
+                        <div class="receipt-row"><span>Receipt No:</span><span id="receiptNo"></span></div>
+                        <div class="receipt-row"><span>Date:</span><span id="receiptDate"></span></div>
+                        <div class="receipt-divider"></div>
+                        <div class="receipt-row"><span>Institution:</span><span id="receiptInstitution"></span></div>
+                        <div class="receipt-row"><span>Courses:</span><span id="receiptCourses"></span></div>
+                        <div class="receipt-row"><span>Category:</span><span id="receiptCategory"></span></div>
+                        <div class="receipt-divider"></div>
+                        <div class="receipt-row"><span>Application Fee:</span><span id="receiptAppFee"></span></div>
+                        <div class="receipt-row" id="receiptInstFeeRow" style="display:none;"><span>Institution Fee:</span><span id="receiptInstFee"></span></div>
+                        <div class="receipt-row receipt-total"><span>Total Paid:</span><span id="receiptTotal"></span></div>
+                        <div class="receipt-footer">
+                            <p>Thank you for using startedup.co</p>
+                            <p>This is a digital receipt. No signature required.</p>
+                        </div>
+                        <button class="apply-btn" id="downloadReceiptBtn"><i data-lucide="download"></i> Save as Image</button>
+                    </div>
+                </div>
+
+                <!-- Withdrawn Success -->
+                <div class="apply-popup-overlay" id="withdrawnSuccess" style="display:none;">
+                    <div class="apply-popup apply-popup-success">
+                        <div class="apply-success-icon"><i data-lucide="check-circle"></i></div>
+                        <h2>Application Withdrawn</h2>
+                        <p>Your application has been successfully withdrawn.</p>
+                        <button class="apply-btn" id="withdrawnDone">Done</button>
                     </div>
                 </div>
             </div>
@@ -215,44 +372,64 @@
             <div class="dashboard-tab" id="tab-docs">
                 <div class="dash-header">
                     <h1>Documents</h1>
-                    <p>Templates and documents to help you build your business.</p>
+                    <p>Upload and manage your important documents.</p>
                 </div>
                 <div class="docs-grid">
                     <div class="docs-card">
                         <i data-lucide="file-text"></i>
-                        <h3>Business Plan Template</h3>
-                        <p>A ready-to-use template for your pitch deck and business plan.</p>
-                        <a href="#" class="docs-download"><i data-lucide="download"></i> Download</a>
+                        <h3>Grade 9 Results</h3>
+                        <p>Your Grade 9 final report or certificate.</p>
+                        <input type="file" id="doc-grade9" class="doc-file-input" accept="image/*,.pdf">
+                        <label for="doc-grade9" class="docs-download"><i data-lucide="upload"></i> Upload</label>
+                        <span class="doc-status" id="doc-grade9-status"></span>
                     </div>
                     <div class="docs-card">
                         <i data-lucide="file-text"></i>
-                        <h3>Financial Model</h3>
-                        <p>Spreadsheet template for revenue projections and budgeting.</p>
-                        <a href="#" class="docs-download"><i data-lucide="download"></i> Download</a>
+                        <h3>Grade 10 Results</h3>
+                        <p>Your Grade 10 June or final report.</p>
+                        <input type="file" id="doc-grade10" class="doc-file-input" accept="image/*,.pdf">
+                        <label for="doc-grade10" class="docs-download"><i data-lucide="upload"></i> Upload</label>
+                        <span class="doc-status" id="doc-grade10-status"></span>
                     </div>
                     <div class="docs-card">
                         <i data-lucide="file-text"></i>
-                        <h3>CIPC Registration Guide</h3>
-                        <p>Step-by-step guide to registering your business with CIPC.</p>
-                        <a href="#" class="docs-download"><i data-lucide="download"></i> Download</a>
+                        <h3>Grade 11 Results</h3>
+                        <p>Your Grade 11 June or final report.</p>
+                        <input type="file" id="doc-grade11" class="doc-file-input" accept="image/*,.pdf">
+                        <label for="doc-grade11" class="docs-download"><i data-lucide="upload"></i> Upload</label>
+                        <span class="doc-status" id="doc-grade11-status"></span>
                     </div>
                     <div class="docs-card">
                         <i data-lucide="file-text"></i>
-                        <h3>Tax Guide for Startups</h3>
-                        <p>Understanding SARS requirements and tax obligations.</p>
-                        <a href="#" class="docs-download"><i data-lucide="download"></i> Download</a>
+                        <h3>Grade 12 June/Final</h3>
+                        <p>Your Grade 12 June or final matric results.</p>
+                        <input type="file" id="doc-grade12" class="doc-file-input" accept="image/*,.pdf">
+                        <label for="doc-grade12" class="docs-download"><i data-lucide="upload"></i> Upload</label>
+                        <span class="doc-status" id="doc-grade12-status"></span>
                     </div>
                     <div class="docs-card">
                         <i data-lucide="file-text"></i>
-                        <h3>POPIA Compliance Checklist</h3>
-                        <p>Data protection compliance checklist for your business.</p>
-                        <a href="#" class="docs-download"><i data-lucide="download"></i> Download</a>
+                        <h3>ID Document</h3>
+                        <p>Copy of your South African ID or passport.</p>
+                        <input type="file" id="doc-id" class="doc-file-input" accept="image/*,.pdf">
+                        <label for="doc-id" class="docs-download"><i data-lucide="upload"></i> Upload</label>
+                        <span class="doc-status" id="doc-id-status"></span>
                     </div>
                     <div class="docs-card">
                         <i data-lucide="file-text"></i>
-                        <h3>Pitch Deck Template</h3>
-                        <p>Investor-ready pitch deck template with examples.</p>
-                        <a href="#" class="docs-download"><i data-lucide="download"></i> Download</a>
+                        <h3>Proof of Address</h3>
+                        <p>Recent utility bill or bank statement as proof of address.</p>
+                        <input type="file" id="doc-address" class="doc-file-input" accept="image/*,.pdf">
+                        <label for="doc-address" class="docs-download"><i data-lucide="upload"></i> Upload</label>
+                        <span class="doc-status" id="doc-address-status"></span>
+                    </div>
+                    <div class="docs-card">
+                        <i data-lucide="file-text"></i>
+                        <h3>Next of Kin ID</h3>
+                        <p>Copy of your next of kin's ID document.</p>
+                        <input type="file" id="doc-nok" class="doc-file-input" accept="image/*,.pdf">
+                        <label for="doc-nok" class="docs-download"><i data-lucide="upload"></i> Upload</label>
+                        <span class="doc-status" id="doc-nok-status"></span>
                     </div>
                 </div>
             </div>
@@ -296,6 +473,14 @@
                             <div class="auth-field-input">
                                 <i data-lucide="user" aria-hidden="true"></i>
                                 <input type="text" id="profSurname" autocomplete="family-name" maxlength="60">
+                        </div>
+                    </div>
+                    <div class="profile-row">
+                        <div class="auth-field">
+                            <label for="profIdNumber">ID Number</label>
+                            <div class="auth-field-input">
+                                <i data-lucide="credit-card" aria-hidden="true"></i>
+                                <input type="text" id="profIdNumber" placeholder="e.g. 0304126099080" maxlength="13">
                             </div>
                         </div>
                         <div class="auth-field">
@@ -306,43 +491,49 @@
                                     <option value="">Select Gender</option>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
-                                    <option value="other">Other</option>
-                                    <option value="prefer-not">Prefer not to say</option>
                                 </select>
                             </div>
-                        </div>
-                    </div>
-                    <div class="auth-field">
-                        <label for="profMarital">Marital Status</label>
-                        <div class="auth-field-input">
-                            <i data-lucide="heart" aria-hidden="true"></i>
-                            <select id="profMarital">
-                                <option value="">Please select Marital Status</option>
-                                <option value="single">Single</option>
-                                <option value="married">Married</option>
-                                <option value="divorced">Divorced</option>
-                                <option value="widowed">Widowed</option>
-                                <option value="separated">Separated</option>
-                            </select>
                         </div>
                     </div>
 
-                    <h2 class="profile-section-title">Citizenship & Location</h2>
+                    <h2 class="profile-section-title">Address</h2>
                     <div class="profile-row">
                         <div class="auth-field">
-                            <label for="profCitizenship">Citizenship</label>
+                            <label for="profStreetNumber">Street Number</label>
                             <div class="auth-field-input">
-                                <i data-lucide="globe" aria-hidden="true"></i>
-                                <select id="profCitizenship">
-                                    <option value="ZA" selected>South Africa</option>
-                                    <option value="other">Other</option>
-                                </select>
+                                <i data-lucide="hash" aria-hidden="true"></i>
+                                <input type="text" id="profStreetNumber" placeholder="e.g. 42" maxlength="10">
                             </div>
                         </div>
                         <div class="auth-field">
-                            <label for="profProvince">Province</label>
+                            <label for="profStreetName">Street Name</label>
                             <div class="auth-field-input">
                                 <i data-lucide="map-pin" aria-hidden="true"></i>
+                                <input type="text" id="profStreetName" placeholder="e.g. Main Road" maxlength="100">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-row">
+                        <div class="auth-field">
+                            <label for="profSuburb">Suburb</label>
+                            <div class="auth-field-input">
+                                <i data-lucide="home" aria-hidden="true"></i>
+                                <input type="text" id="profSuburb" placeholder="e.g. Umhlanga" maxlength="100">
+                            </div>
+                        </div>
+                        <div class="auth-field">
+                            <label for="profTown">Town</label>
+                            <div class="auth-field-input">
+                                <i data-lucide="building" aria-hidden="true"></i>
+                                <input type="text" id="profTown" placeholder="e.g. Durban" maxlength="100">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-row">
+                        <div class="auth-field">
+                            <label for="profProvince">Province</label>
+                            <div class="auth-field-input">
+                                <i data-lucide="map" aria-hidden="true"></i>
                                 <select id="profProvince">
                                     <option value="">Please select Province</option>
                                     <option value="EC">Eastern Cape</option>
@@ -357,38 +548,93 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="auth-field">
-                        <label for="profAddress">Address</label>
-                        <div class="auth-field-input">
-                            <i data-lucide="home" aria-hidden="true"></i>
-                            <input type="text" id="profAddress" placeholder="Street address" maxlength="200">
-                        </div>
-                    </div>
-                    <div class="profile-row">
-                        <div class="auth-field">
-                            <label for="profMunicipality">Municipality</label>
-                            <div class="auth-field-input">
-                                <i data-lucide="building" aria-hidden="true"></i>
-                                <select id="profMunicipality">
-                                    <option value="">Please select Municipality</option>
-                                    <option value="city-of-cape-town">City of Cape Town</option>
-                                    <option value="city-of-johannesburg">City of Johannesburg</option>
-                                    <option value="city-of-tshwane">City of Tshwane</option>
-                                    <option value="ethekwini">eThekwini</option>
-                                    <option value="ekurhuleni">Ekurhuleni</option>
-                                    <option value="nelson-mandela-bay">Nelson Mandela Bay</option>
-                                    <option value="buffalo-city">Buffalo City</option>
-                                    <option value="mangaung">Mangaung</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
-                        </div>
                         <div class="auth-field">
                             <label for="profPostalCode">Postal Code</label>
                             <div class="auth-field-input">
                                 <i data-lucide="mail" aria-hidden="true"></i>
                                 <input type="text" id="profPostalCode" placeholder="e.g. 2000" maxlength="10" pattern="[0-9]*">
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 class="profile-section-title">Next of Kin</h2>
+                    <div class="profile-row">
+                        <div class="auth-field">
+                            <label for="profNokName">Full Name</label>
+                            <div class="auth-field-input">
+                                <i data-lucide="user" aria-hidden="true"></i>
+                                <input type="text" id="profNokName" placeholder="e.g. Jane Doe" maxlength="100">
+                            </div>
+                        </div>
+                        <div class="auth-field">
+                            <label for="profNokId">ID Number</label>
+                            <div class="auth-field-input">
+                                <i data-lucide="credit-card" aria-hidden="true"></i>
+                                <input type="text" id="profNokId" placeholder="e.g. 9001011234088" maxlength="13">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-row">
+                        <div class="auth-field">
+                            <label for="profNokRelation">Relationship</label>
+                            <div class="auth-field-input">
+                                <i data-lucide="users" aria-hidden="true"></i>
+                                <select id="profNokRelation">
+                                    <option value="">Select Relationship</option>
+                                    <option value="parent">Parent</option>
+                                    <option value="sibling">Sibling</option>
+                                    <option value="spouse">Spouse</option>
+                                    <option value="child">Child</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="auth-field">
+                            <label for="profNokPhone">Phone Number</label>
+                            <div class="auth-field-input">
+                                <i data-lucide="phone" aria-hidden="true"></i>
+                                <input type="tel" id="profNokPhone" placeholder="e.g. 082 123 4567" maxlength="15">
+                            </div>
+                        </div>
+                        <div class="auth-field">
+                            <label for="profNokEmail">Email</label>
+                            <div class="auth-field-input">
+                                <i data-lucide="mail" aria-hidden="true"></i>
+                                <input type="email" id="profNokEmail" placeholder="e.g. jane@example.com" maxlength="100">
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 class="profile-section-title">Learner Information</h2>
+                    <div class="profile-row">
+                        <div class="auth-field">
+                            <label for="profLearnerId">Learner ID</label>
+                            <div class="auth-field-input">
+                                <i data-lucide="credit-card" aria-hidden="true"></i>
+                                <input type="text" id="profLearnerId" placeholder="e.g. STU001234" maxlength="50">
+                            </div>
+                        </div>
+                        <div class="auth-field">
+                            <label for="profLearnerIdNum">ID Number</label>
+                            <div class="auth-field-input">
+                                <i data-lucide="credit-card" aria-hidden="true"></i>
+                                <input type="text" id="profLearnerIdNum" placeholder="e.g. 0101011234088" maxlength="13">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-row">
+                        <div class="auth-field">
+                            <label for="profLearnerEmail">Learner Email</label>
+                            <div class="auth-field-input">
+                                <i data-lucide="mail" aria-hidden="true"></i>
+                                <input type="email" id="profLearnerEmail" placeholder="e.g. student@university.ac.za" maxlength="100">
+                            </div>
+                        </div>
+                        <div class="auth-field">
+                            <label for="profLearnerPhone">Learner Phone</label>
+                            <div class="auth-field-input">
+                                <i data-lucide="phone" aria-hidden="true"></i>
+                                <input type="tel" id="profLearnerPhone" placeholder="e.g. 073 987 6543" maxlength="15">
                             </div>
                         </div>
                     </div>
@@ -696,6 +942,34 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="subject-row">
+                            <div class="auth-field">
+                                <label>Fourth Elective</label>
+                                <div class="auth-field-input">
+                                    <select id="profElective4">
+                                        <option value="">Fourth elective subject...</option>
+                                        <option value="accounting">Accounting</option>
+                                        <option value="business-studies">Business Studies</option>
+                                        <option value="economics">Economics</option>
+                                        <option value="computer-apps">Computer Applications (CAT)</option>
+                                        <option value="it">Information Technology (IT)</option>
+                                        <option value="geography">Geography</option>
+                                        <option value="history">History</option>
+                                        <option value="life-sciences">Life Sciences</option>
+                                        <option value="physical-sciences">Physical Sciences</option>
+                                        <option value="maths-lit">Mathematical Literacy</option>
+                                        <option value="tourism">Tourism</option>
+                                        <option value="agri-sciences">Agricultural Sciences</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="auth-field subject-pct">
+                                <label>Percentage</label>
+                                <div class="auth-field-input">
+                                    <input type="number" class="subject-pct-input" min="0" max="100" placeholder="%">
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="profile-aps">
@@ -718,12 +992,10 @@
     </div>
 
     <script src="https://unpkg.com/lucide@0.460.0"></script>
-    <script src="https://unpkg.com/@supabase/supabase-js@2.49.1"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
     <script src="supabase-client.js"></script>
     <script src="app.js"></script>
     <script>
-        if (window.lucide) lucide.createIcons();
-
         (function () {
             var tabs = document.querySelectorAll('.sidebar-link');
             var mobileTabs = document.querySelectorAll('.mobile-tab-bar a');
@@ -739,6 +1011,7 @@
                 if (link) link.classList.add('active');
                 if (mobileLink) mobileLink.classList.add('active');
                 if (content) content.classList.add('active');
+                if (window.lucide) lucide.createIcons();
             }
 
             tabs.forEach(function (tab) {
@@ -771,11 +1044,17 @@
                         return;
                     }
                     var meta = user.user_metadata || {};
+                    if (!meta.onboarded) {
+                        window.location.href = 'onboarding.html';
+                        return;
+                    }
                     var firstName = meta.first_name || '';
                     var surname = meta.surname || '';
                     var name = firstName || surname ? (firstName + ' ' + surname).trim() : 'there';
                     var greeting = document.getElementById('dashGreeting');
                     if (greeting) greeting.textContent = 'Welcome, ' + name + '. Here\'s what\'s happening with your business today.';
+                    var profileNameDesktop = document.getElementById('profileNameDesktop');
+                    if (profileNameDesktop) profileNameDesktop.textContent = firstName || 'Account';
                     var displayName = document.getElementById('profileDisplayName');
                     if (displayName) displayName.textContent = name || '—';
                     var displayEmail = document.getElementById('profileDisplayEmail');
@@ -788,22 +1067,42 @@
                     if (profMiddle && meta.middle_name) profMiddle.value = meta.middle_name;
                     var profSurname = document.getElementById('profSurname');
                     if (profSurname) profSurname.value = surname;
+                    var profIdNumber = document.getElementById('profIdNumber');
+                    if (profIdNumber && meta.id_number) profIdNumber.value = meta.id_number;
                     var profEmail = document.getElementById('profEmail');
                     if (profEmail) profEmail.value = user.email || '';
                     var profGender = document.getElementById('profGender');
                     if (profGender && meta.gender) profGender.value = meta.gender;
-                    var profMarital = document.getElementById('profMarital');
-                    if (profMarital && meta.marital_status) profMarital.value = meta.marital_status;
-                    var profCitizenship = document.getElementById('profCitizenship');
-                    if (profCitizenship && meta.citizenship) profCitizenship.value = meta.citizenship;
+                    var profStreetNumber = document.getElementById('profStreetNumber');
+                    if (profStreetNumber && meta.street_number) profStreetNumber.value = meta.street_number;
+                    var profStreetName = document.getElementById('profStreetName');
+                    if (profStreetName && meta.street_name) profStreetName.value = meta.street_name;
+                    var profSuburb = document.getElementById('profSuburb');
+                    if (profSuburb && meta.suburb) profSuburb.value = meta.suburb;
+                    var profTown = document.getElementById('profTown');
+                    if (profTown && meta.town) profTown.value = meta.town;
                     var profProvince = document.getElementById('profProvince');
                     if (profProvince && meta.province) profProvince.value = meta.province;
-                    var profAddress = document.getElementById('profAddress');
-                    if (profAddress && meta.address) profAddress.value = meta.address;
-                    var profMunicipality = document.getElementById('profMunicipality');
-                    if (profMunicipality && meta.municipality) profMunicipality.value = meta.municipality;
                     var profPostalCode = document.getElementById('profPostalCode');
                     if (profPostalCode && meta.postal_code) profPostalCode.value = meta.postal_code;
+                    var profNokName = document.getElementById('profNokName');
+                    if (profNokName && meta.nok_name) profNokName.value = meta.nok_name;
+                    var profNokRelation = document.getElementById('profNokRelation');
+                    if (profNokRelation && meta.nok_relation) profNokRelation.value = meta.nok_relation;
+                    var profNokPhone = document.getElementById('profNokPhone');
+                    if (profNokPhone && meta.nok_phone) profNokPhone.value = meta.nok_phone;
+                    var profNokEmail = document.getElementById('profNokEmail');
+                    if (profNokEmail && meta.nok_email) profNokEmail.value = meta.nok_email;
+                    var profNokId = document.getElementById('profNokId');
+                    if (profNokId && meta.nok_id) profNokId.value = meta.nok_id;
+                    var profLearnerId = document.getElementById('profLearnerId');
+                    if (profLearnerId && meta.learner_id) profLearnerId.value = meta.learner_id;
+                    var profLearnerEmail = document.getElementById('profLearnerEmail');
+                    if (profLearnerEmail && meta.learner_email) profLearnerEmail.value = meta.learner_email;
+                    var profLearnerPhone = document.getElementById('profLearnerPhone');
+                    if (profLearnerPhone && meta.learner_phone) profLearnerPhone.value = meta.learner_phone;
+                    var profLearnerIdNum = document.getElementById('profLearnerIdNum');
+                    if (profLearnerIdNum && meta.learner_id_num) profLearnerIdNum.value = meta.learner_id_num;
                     var profPopGroup = document.getElementById('profPopGroup');
                     if (profPopGroup && meta.population_group) profPopGroup.value = meta.population_group;
                     var profHomeLang = document.getElementById('profHomeLang');
@@ -832,6 +1131,8 @@
                     if (profElective2 && meta.elective2) profElective2.value = meta.elective2;
                     var profElective3 = document.getElementById('profElective3');
                     if (profElective3 && meta.elective3) profElective3.value = meta.elective3;
+                    var profElective4 = document.getElementById('profElective4');
+                    if (profElective4 && meta.elective4) profElective4.value = meta.elective4;
                     if (meta.subjects) {
                         var pctInputs = document.querySelectorAll('.subject-pct-input');
                         var keys = Object.keys(meta.subjects);
@@ -896,13 +1197,23 @@
                                     middle_name: middleName,
                                     surname: surname,
                                     name: (firstName + ' ' + middleName + ' ' + surname).replace(/\s+/g, ' ').trim(),
+                                    id_number: document.getElementById('profIdNumber').value.trim(),
                                     gender: document.getElementById('profGender').value,
-                                    marital_status: document.getElementById('profMarital').value,
-                                    citizenship: document.getElementById('profCitizenship').value,
+                                    street_number: document.getElementById('profStreetNumber').value.trim(),
+                                    street_name: document.getElementById('profStreetName').value.trim(),
+                                    suburb: document.getElementById('profSuburb').value.trim(),
+                                    town: document.getElementById('profTown').value.trim(),
                                     province: document.getElementById('profProvince').value,
-                                    address: document.getElementById('profAddress').value.trim(),
-                                    municipality: document.getElementById('profMunicipality').value,
                                     postal_code: document.getElementById('profPostalCode').value.trim(),
+                                    nok_name: document.getElementById('profNokName').value.trim(),
+                                    nok_relation: document.getElementById('profNokRelation').value,
+                                    nok_phone: document.getElementById('profNokPhone').value.trim(),
+                                    nok_email: document.getElementById('profNokEmail').value.trim(),
+                                    nok_id: document.getElementById('profNokId').value.trim(),
+                                    learner_id: document.getElementById('profLearnerId').value.trim(),
+                                    learner_email: document.getElementById('profLearnerEmail').value.trim(),
+                                    learner_phone: document.getElementById('profLearnerPhone').value.trim(),
+                                    learner_id_num: document.getElementById('profLearnerIdNum').value.trim(),
                                     population_group: document.getElementById('profPopGroup').value,
                                     home_language: document.getElementById('profHomeLang').value,
                                     second_language: document.getElementById('profSecondLang').value,
@@ -916,6 +1227,7 @@
                                     elective1: document.getElementById('profElective1').value,
                                     elective2: document.getElementById('profElective2').value,
                                     elective3: document.getElementById('profElective3').value,
+                                    elective4: document.getElementById('profElective4').value,
                                     subjects: subjects
                                 }
                             });
@@ -928,7 +1240,7 @@
                                 var displayName = document.getElementById('profileDisplayName');
                                 if (displayName) displayName.textContent = (firstName + ' ' + surname).trim() || '—';
                                 var greeting = document.getElementById('dashGreeting');
-                                if (greeting) greeting.textContent = 'Welcome, ' + (firstName || 'there') + '. Here\'s what\'s happening with your business today.';
+                                if (greeting) greeting.textContent = 'Welcome, ' + ((firstName + ' ' + surname).trim() || 'there') + '. Here\'s what\'s happening with your business today.';
                             }
                         } catch (err) {
                             statusEl.textContent = 'Network error. Please try again.';
@@ -940,15 +1252,760 @@
                 }
             }
 
-            function logout(e) {
+            async function logout(e) {
                 e.preventDefault();
-                if (supabase) supabase.auth.signOut();
-                        window.location.href = 'login.html';
+                if (supabase) await supabase.auth.signOut();
+                window.location.href = 'login.html';
             }
             var logoutDesktop = document.getElementById('logoutDesktop');
             var logoutMobile = document.getElementById('logoutMobile');
             if (logoutDesktop) logoutDesktop.addEventListener('click', logout);
             if (logoutMobile) logoutMobile.addEventListener('click', logout);
+
+            var docMap = {
+                'doc-grade9': 'grade9',
+                'doc-grade10': 'grade10',
+                'doc-grade11': 'grade11',
+                'doc-grade12': 'grade12',
+                'doc-id': 'id_document',
+                'doc-address': 'proof_of_address',
+                'doc-nok': 'nok_id'
+            };
+
+            Object.keys(docMap).forEach(function (inputId) {
+                var input = document.getElementById(inputId);
+                if (!input) return;
+                input.addEventListener('change', async function () {
+                    var file = input.files[0];
+                    if (!file) return;
+                    var statusEl = document.getElementById(inputId + '-status');
+                    if (statusEl) { statusEl.textContent = 'Uploading...'; statusEl.className = 'doc-status'; }
+                    try {
+                        var session = await supabase.auth.getSession();
+                        var user = session.data && session.data.session && session.data.session.user;
+                        if (!user) { if (statusEl) { statusEl.textContent = 'Not logged in'; statusEl.className = 'doc-status error'; } return; }
+                        var path = user.id + '/' + docMap[inputId] + '_' + file.name;
+                        var result = await supabase.storage.from('documents').upload(path, file, { upsert: true });
+                        if (result.error) { if (statusEl) { statusEl.textContent = result.error.message; statusEl.className = 'doc-status error'; } return; }
+                        if (statusEl) { statusEl.textContent = file.name + ' ✓'; statusEl.className = 'doc-status'; }
+                    } catch (err) {
+                        if (statusEl) { statusEl.textContent = 'Upload failed'; statusEl.className = 'doc-status error'; }
+                    }
+                });
+            });
+
+            // ====== APPLY TAB ======
+            var applyState = { category: '', institution: null, courses: [], selectedCourses: [], changeOfMindIndex: -1 };
+
+            var institutions = {
+                university: [
+                    { id: 'unisa', name: 'University of South Africa', short: 'UNISA', location: 'Pretoria', appFee: 60, instFee: 120,
+                      logo: 'https://usaf.ac.za/wp-content/uploads/2023/08/University_of_South_Africa-logo-400x150.webp',
+                      courses: [
+                          { code: 'BAC', name: 'Bachelor of Accounting Sciences', req: 'APS 24+, Maths L3', duration: '3 years' },
+                          { code: 'BCC', name: 'Bachelor of Commerce (Computer Science)', req: 'APS 24+, Maths L3', duration: '3 years' },
+                          { code: 'BCS', name: 'Bachelor of Computer Science', req: 'APS 26+, Maths L3', duration: '3 years' },
+                          { code: 'BAC50', name: 'Bachelor of Arts', req: 'APS 22+', duration: '3 years' },
+                          { code: 'BED', name: 'Bachelor of Education', req: 'APS 22+', duration: '4 years' },
+                          { code: 'BNS', name: 'Bachelor of Nursing Science', req: 'APS 24+, Life Sciences', duration: '4 years' },
+                          { code: 'LLB', name: 'Bachelor of Laws', req: 'APS 26+', duration: '4 years' },
+                          { code: 'BSC', name: 'Bachelor of Science', req: 'APS 26+, Maths L3', duration: '3 years' }
+                      ]},
+                    { id: 'uct', name: 'University of Cape Town', short: 'UCT', location: 'Cape Town', appFee: 100, instFee: 150,
+                      logo: 'https://usaf.ac.za/wp-content/uploads/2023/08/University_of_Cape_Town-logo-400x150.webp',
+                      courses: [
+                          { code: 'BSC', name: 'Bachelor of Science', req: 'APS 28+, Maths L3', duration: '3 years' },
+                          { code: 'BCom', name: 'Bachelor of Commerce', req: 'APS 28+, Maths L3', duration: '3 years' },
+                          { code: 'LLB', name: 'Bachelor of Laws', req: 'APS 30+', duration: '4 years' },
+                          { code: 'MBChB', name: 'Bachelor of Medicine', req: 'APS 32+, Maths L3, Physical Sciences', duration: '6 years' },
+                          { code: 'BE', name: 'Bachelor of Engineering', req: 'APS 30+, Maths L3, Physical Sciences', duration: '4 years' },
+                          { code: 'BED', name: 'Bachelor of Education', req: 'APS 26+', duration: '4 years' }
+                      ]},
+                    { id: 'wits', name: 'University of the Witwatersrand', short: 'Wits', location: 'Johannesburg', appFee: 100, instFee: 160,
+                      logo: 'https://usaf.ac.za/wp-content/uploads/2023/08/University_of_Witwatersrand_logo-400x150.webp',
+                      courses: [
+                          { code: 'BSC', name: 'Bachelor of Science', req: 'APS 28+, Maths L3', duration: '3 years' },
+                          { code: 'BCom', name: 'Bachelor of Commerce', req: 'APS 26+, Maths L3', duration: '3 years' },
+                          { code: 'LLB', name: 'Bachelor of Laws', req: 'APS 28+', duration: '4 years' },
+                          { code: 'MBChB', name: 'Bachelor of Medicine', req: 'APS 32+, Maths & Science', duration: '6 years' },
+                          { code: 'BE', name: 'Bachelor of Engineering (Mining)', req: 'APS 28+, Maths L3', duration: '4 years' },
+                          { code: 'BA', name: 'Bachelor of Arts (PPE)', req: 'APS 26+', duration: '3 years' }
+                      ]},
+                    { id: 'ukzn', name: 'University of KwaZulu-Natal', short: 'UKZN', location: 'Durban', appFee: 60, instFee: 100,
+                      logo: 'https://usaf.ac.za/wp-content/uploads/2023/08/University_of_KwaZulu_Natal-logo-400x150.webp',
+                      courses: [
+                          { code: 'BSC', name: 'Bachelor of Science', req: 'APS 26+, Maths L3', duration: '3 years' },
+                          { code: 'BCom', name: 'Bachelor of Commerce', req: 'APS 24+, Maths L3', duration: '3 years' },
+                          { code: 'LLB', name: 'Bachelor of Laws', req: 'APS 26+', duration: '4 years' },
+                          { code: 'MBChB', name: 'Bachelor of Medicine', req: 'APS 30+, Maths & Science', duration: '6 years' },
+                          { code: 'BED', name: 'Bachelor of Education', req: 'APS 22+', duration: '4 years' },
+                          { code: 'BACS', name: 'Bachelor of Arts (Computer Science)', req: 'APS 24+', duration: '3 years' }
+                      ]},
+                    { id: 'ufs', name: 'University of the Free State', short: 'UFS', location: 'Bloemfontein', appFee: 50, instFee: 120,
+                      logo: 'https://usaf.ac.za/wp-content/uploads/2023/08/University_of_the_Free_State-logo-400x150.webp',
+                      courses: [
+                          { code: 'BSC', name: 'Bachelor of Science', req: 'APS 24+, Maths L3', duration: '3 years' },
+                          { code: 'BCom', name: 'Bachelor of Commerce', req: 'APS 24+, Maths L3', duration: '3 years' },
+                          { code: 'LLB', name: 'Bachelor of Laws', req: 'APS 26+', duration: '4 years' },
+                          { code: 'MBChB', name: 'Bachelor of Medicine', req: 'APS 28+, Maths & Science', duration: '6 years' },
+                          { code: 'BED', name: 'Bachelor of Education', req: 'APS 22+', duration: '4 years' }
+                      ]},
+                    { id: 'up', name: 'University of Pretoria', short: 'UP', location: 'Pretoria', appFee: 75, instFee: 130,
+                      logo: 'https://usaf.ac.za/wp-content/uploads/2023/08/University_of_Pretoria-logo-400x150.webp',
+                      courses: [
+                          { code: 'BSC', name: 'Bachelor of Science', req: 'APS 28+, Maths L3', duration: '3 years' },
+                          { code: 'BCom', name: 'Bachelor of Commerce', req: 'APS 26+, Maths L3', duration: '3 years' },
+                          { code: 'LLB', name: 'Bachelor of Laws', req: 'APS 28+', duration: '4 years' },
+                          { code: 'BVSc', name: 'Bachelor of Veterinary Science', req: 'APS 30+, Life Sciences', duration: '5 years' },
+                          { code: 'BArch', name: 'Bachelor of Architecture', req: 'APS 26+, Maths L3', duration: '5 years' }
+                      ]},
+                    { id: 'sun', name: 'Stellenbosch University', short: 'SU', location: 'Stellenbosch', appFee: 75, instFee: 130,
+                      logo: 'https://usaf.ac.za/wp-content/uploads/2023/08/University_of_Stellenbosch-logo-400x150.webp',
+                      courses: [
+                          { code: 'BSC', name: 'Bachelor of Science', req: 'APS 28+, Maths L3', duration: '3 years' },
+                          { code: 'BCom', name: 'Bachelor of Commerce', req: 'APS 26+, Maths L3', duration: '3 years' },
+                          { code: 'LLB', name: 'Bachelor of Laws', req: 'APS 26+', duration: '4 years' },
+                          { code: 'MBChB', name: 'Bachelor of Medicine', req: 'APS 30+, Maths & Science', duration: '6 years' }
+                      ]},
+                    { id: 'nwu', name: 'North-West University', short: 'NWU', location: 'Potchefstroom', appFee: 50, instFee: 100,
+                      logo: 'https://usaf.ac.za/wp-content/uploads/2023/08/North_West_University-logo-400x150.webp',
+                      courses: [
+                          { code: 'BSC', name: 'Bachelor of Science', req: 'APS 24+, Maths L3', duration: '3 years' },
+                          { code: 'BCom', name: 'Bachelor of Commerce', req: 'APS 24+, Maths L3', duration: '3 years' },
+                          { code: 'LLB', name: 'Bachelor of Laws', req: 'APS 26+', duration: '4 years' },
+                          { code: 'BED', name: 'Bachelor of Education', req: 'APS 22+', duration: '4 years' }
+                      ]},
+                    { id: 'uj', name: 'University of Johannesburg', short: 'UJ', location: 'Johannesburg', appFee: 60, instFee: 110,
+                      logo: 'https://usaf.ac.za/wp-content/uploads/2023/08/University_of_Johannesburg-logo-400x150.webp',
+                      courses: [
+                          { code: 'BSC', name: 'Bachelor of Science', req: 'APS 24+, Maths L3', duration: '3 years' },
+                          { code: 'BCom', name: 'Bachelor of Commerce', req: 'APS 24+, Maths L3', duration: '3 years' },
+                          { code: 'LLB', name: 'Bachelor of Laws', req: 'APS 26+', duration: '4 years' },
+                          { code: 'BE', name: 'Bachelor of Engineering', req: 'APS 26+, Maths L3', duration: '4 years' },
+                          { code: 'BED', name: 'Bachelor of Education', req: 'APS 22+', duration: '4 years' }
+                      ]},
+                    { id: 'ufh', name: 'University of Fort Hare', short: 'UFH', location: 'East London', appFee: 40, instFee: 80,
+                      logo: 'https://usaf.ac.za/wp-content/uploads/2023/08/University_of_Fort_Hare-logo-400x150.webp',
+                      courses: [
+                          { code: 'BSC', name: 'Bachelor of Science', req: 'APS 22+, Maths L3', duration: '3 years' },
+                          { code: 'BA', name: 'Bachelor of Arts', req: 'APS 20+', duration: '3 years' },
+                          { code: 'LLB', name: 'Bachelor of Laws', req: 'APS 24+', duration: '4 years' },
+                          { code: 'BED', name: 'Bachelor of Education', req: 'APS 20+', duration: '4 years' }
+                      ]},
+                    { id: 'uwc', name: 'University of the Western Cape', short: 'UWC', location: 'Cape Town', appFee: 50, instFee: 100,
+                      logo: 'https://usaf.ac.za/wp-content/uploads/2023/08/University_of_the_Western_Cape-logo-400x150.webp',
+                      courses: [
+                          { code: 'BSC', name: 'Bachelor of Science', req: 'APS 24+, Maths L3', duration: '3 years' },
+                          { code: 'BA', name: 'Bachelor of Arts', req: 'APS 22+', duration: '3 years' },
+                          { code: 'LLB', name: 'Bachelor of Laws', req: 'APS 26+', duration: '4 years' },
+                          { code: 'BED', name: 'Bachelor of Education', req: 'APS 22+', duration: '4 years' }
+                      ]},
+                    { id: 'ul', name: 'University of Limpopo', short: 'UL', location: 'Polokwane', appFee: 40, instFee: 80,
+                      logo: 'https://usaf.ac.za/wp-content/uploads/2023/08/University_of_Limpopo-logo-400x150.webp',
+                      courses: [
+                          { code: 'BSC', name: 'Bachelor of Science', req: 'APS 22+, Maths L3', duration: '3 years' },
+                          { code: 'BA', name: 'Bachelor of Arts', req: 'APS 20+', duration: '3 years' },
+                          { code: 'MBChB', name: 'Bachelor of Medicine', req: 'APS 26+, Maths & Science', duration: '6 years' },
+                          { code: 'BED', name: 'Bachelor of Education', req: 'APS 20+', duration: '4 years' }
+                      ]},
+                    { id: 'uv', name: 'University of Venda', short: 'UV', location: 'Thohoyandou', appFee: 40, instFee: 70,
+                      logo: 'https://usaf.ac.za/wp-content/uploads/2023/08/University_of_Venda-logo-400x150.webp',
+                      courses: [
+                          { code: 'BSC', name: 'Bachelor of Science', req: 'APS 22+, Maths L3', duration: '3 years' },
+                          { code: 'BA', name: 'Bachelor of Arts', req: 'APS 20+', duration: '3 years' },
+                          { code: 'BED', name: 'Bachelor of Education', req: 'APS 20+', duration: '4 years' }
+                      ]},
+                    { id: 'ump', name: 'University of Mpumalanga', short: 'UMP', location: 'Mbombela', appFee: 40, instFee: 70,
+                      logo: 'https://usaf.ac.za/wp-content/uploads/2023/08/University_of_Mpumalanga-logo-400x150.webp',
+                      courses: [
+                          { code: 'BSC', name: 'Bachelor of Science', req: 'APS 22+, Maths L3', duration: '3 years' },
+                          { code: 'BA', name: 'Bachelor of Arts', req: 'APS 20+', duration: '3 years' },
+                          { code: 'BED', name: 'Bachelor of Education', req: 'APS 20+', duration: '4 years' }
+                      ]},
+                    { id: 'spu', name: 'Sol Plaatje University', short: 'SPU', location: 'Kimberley', appFee: 40, instFee: 70,
+                      logo: 'https://usaf.ac.za/wp-content/uploads/2023/08/Sol_Plaatje_University-logo-400x150.webp',
+                      courses: [
+                          { code: 'BA', name: 'Bachelor of Arts', req: 'APS 20+', duration: '3 years' },
+                          { code: 'BSC', name: 'Bachelor of Science', req: 'APS 22+', duration: '3 years' },
+                          { code: 'BED', name: 'Bachelor of Education', req: 'APS 20+', duration: '4 years' }
+                      ]},
+                    { id: 'smu', name: 'Sefako Makgatho Health Sciences University', short: 'SMU', location: 'Pretoria', appFee: 50, instFee: 100,
+                      logo: 'https://usaf.ac.za/wp-content/uploads/2023/08/Sefako_Makgatho_University-logo-400x150.webp',
+                      courses: [
+                          { code: 'MBChB', name: 'Bachelor of Medicine', req: 'APS 26+, Maths & Science', duration: '6 years' },
+                          { code: 'BSC', name: 'Bachelor of Science (Health Sciences)', req: 'APS 24+, Life Sciences', duration: '3 years' },
+                          { code: 'BNS', name: 'Bachelor of Nursing Science', req: 'APS 22+, Life Sciences', duration: '4 years' }
+                      ]},
+                    { id: 'cput', name: 'Cape Peninsula University of Technology', short: 'CPUT', location: 'Cape Town', appFee: 0, instFee: 0,
+                      logo: 'https://usaf.ac.za/wp-content/uploads/2023/08/Cape_Peninsula_University_of_Technology-logo-400x150.webp',
+                      courses: [
+                          { code: 'DIP-IT', name: 'Diploma in Information Technology', req: 'APS 22+', duration: '3 years' },
+                          { code: 'DIP-EE', name: 'Diploma in Electrical Engineering', req: 'APS 22+, Maths L3', duration: '3 years' },
+                          { code: 'DIP-BM', name: 'Diploma in Business Management', req: 'APS 20+', duration: '3 years' }
+                      ]},
+                    { id: 'cut', name: 'Central University of Technology', short: 'CUT', location: 'Bloemfontein', appFee: 0, instFee: 0,
+                      logo: 'https://usaf.ac.za/wp-content/uploads/2023/08/Central_University_of_Technology_logo-400x150.webp',
+                      courses: [
+                          { code: 'DIP-IT', name: 'Diploma in Information Technology', req: 'APS 22+', duration: '3 years' },
+                          { code: 'DIP-ME', name: 'Diploma in Mechanical Engineering', req: 'APS 22+, Maths L3', duration: '3 years' },
+                          { code: 'DIP-AC', name: 'Diploma in Accounting', req: 'APS 20+', duration: '3 years' }
+                      ]},
+                    { id: 'dut', name: 'Durban University of Technology', short: 'DUT', location: 'Durban', appFee: 0, instFee: 0,
+                      logo: 'https://usaf.ac.za/wp-content/uploads/2023/08/Durban_University_of_Technology-logo-400x150.webp',
+                      courses: [
+                          { code: 'DIP-IT', name: 'Diploma in Information Technology', req: 'APS 22+', duration: '3 years' },
+                          { code: 'DIP-EE', name: 'Diploma in Electrical Engineering', req: 'APS 22+, Maths L3', duration: '3 years' },
+                          { code: 'DIP-HR', name: 'Diploma in Human Resource Management', req: 'APS 20+', duration: '3 years' }
+                      ]},
+                    { id: 'tut', name: 'Tshwane University of Technology', short: 'TUT', location: 'Pretoria', appFee: 0, instFee: 0,
+                      logo: 'https://usaf.ac.za/wp-content/uploads/2023/08/Tshwane_University_of_Technology-logo-400x150.webp',
+                      courses: [
+                          { code: 'DIP-IT', name: 'Diploma in Information Technology', req: 'APS 22+', duration: '3 years' },
+                          { code: 'DIP-EE', name: 'Diploma in Electrical Engineering', req: 'APS 22+, Maths L3', duration: '3 years' },
+                          { code: 'DIP-TM', name: 'Diploma in Tourism Management', req: 'APS 20+', duration: '3 years' }
+                      ]},
+                    { id: 'mut', name: 'Mangosuthu University of Technology', short: 'MUT', location: 'Durban', appFee: 0, instFee: 0,
+                      logo: 'https://usaf.ac.za/wp-content/uploads/2023/08/Mangosuthu_University_of_Technology-logo-400x150.webp',
+                      courses: [
+                          { code: 'DIP-IT', name: 'Diploma in Information Technology', req: 'APS 20+', duration: '3 years' },
+                          { code: 'DIP-EE', name: 'Diploma in Electrical Engineering', req: 'APS 20+, Maths L3', duration: '3 years' },
+                          { code: 'DIP-BM', name: 'Diploma in Business Management', req: 'APS 18+', duration: '3 years' }
+                      ]},
+                    { id: 'vut', name: 'Vaal University of Technology', short: 'VUT', location: 'Vanderbijlpark', appFee: 0, instFee: 0,
+                      logo: 'https://usaf.ac.za/wp-content/uploads/2023/08/Vaal_University_of_Technology-logo-400x150.webp',
+                      courses: [
+                          { code: 'DIP-IT', name: 'Diploma in Information Technology', req: 'APS 22+', duration: '3 years' },
+                          { code: 'DIP-EE', name: 'Diploma in Electrical Engineering', req: 'APS 22+, Maths L3', duration: '3 years' },
+                          { code: 'DIP-AC', name: 'Diploma in Accounting', req: 'APS 20+', duration: '3 years' }
+                      ]},
+                    { id: 'wsu', name: 'Walter Sisulu University', short: 'WSU', location: 'Mthatha', appFee: 0, instFee: 0,
+                      logo: 'https://usaf.ac.za/wp-content/uploads/2023/08/Walter_Sisulu_University-logo-400x150.webp',
+                      courses: [
+                          { code: 'BSC', name: 'Bachelor of Science', req: 'APS 22+', duration: '3 years' },
+                          { code: 'BA', name: 'Bachelor of Arts', req: 'APS 20+', duration: '3 years' },
+                          { code: 'MBChB', name: 'Bachelor of Medicine', req: 'APS 26+, Maths & Science', duration: '6 years' }
+                      ]},
+                    { id: 'uz', name: 'University of Zululand', short: 'UZ', location: 'Richards Bay', appFee: 40, instFee: 80,
+                      logo: 'https://usaf.ac.za/wp-content/uploads/2023/08/University-of-Zululand-logo-400x150.webp',
+                      courses: [
+                          { code: 'BSC', name: 'Bachelor of Science', req: 'APS 22+, Maths L3', duration: '3 years' },
+                          { code: 'BA', name: 'Bachelor of Arts', req: 'APS 20+', duration: '3 years' },
+                          { code: 'LLB', name: 'Bachelor of Laws', req: 'APS 24+', duration: '4 years' }
+                      ]}
+                ],
+                college: [
+                    { id: 'tshwane', name: 'Tshwane North TVET College', short: 'TNC', location: 'Pretoria', appFee: 0, instFee: 0,
+                      courses: [
+                          { code: 'NC(V)-IT', name: 'Information Technology (NATED)', req: 'Grade 12 or N3', duration: '18 months' },
+                          { code: 'NC(V)-BM', name: 'Business Management', req: 'Grade 12 or N3', duration: '18 months' },
+                          { code: 'NC(V)-HR', name: 'Human Resource Management', req: 'Grade 12 or N3', duration: '18 months' },
+                          { code: 'NC(V)-EM', name: 'Electrical Infrastructure Construction', req: 'Grade 12 or N3', duration: '18 months' }
+                      ]},
+                    { id: 'capepeninsula', name: 'Cape Peninsula TVET College', short: 'CPC', location: 'Cape Town', appFee: 0, instFee: 0,
+                      courses: [
+                          { code: 'NC(V)-TM', name: 'Tourism', req: 'Grade 12', duration: '18 months' },
+                          { code: 'NC(V)-IT', name: 'Information Technology', req: 'Grade 12', duration: '18 months' },
+                          { code: 'NC(V)-BS', name: 'Building and Construction', req: 'Grade 12', duration: '18 months' }
+                      ]},
+                    { id: 'boston', name: 'Boston City Campus', short: 'Boston', location: 'Nationwide', appFee: 300, instFee: 500,
+                      courses: [
+                          { code: 'DIP-IT', name: 'Diploma in IT', req: 'Grade 12', duration: '1 year' },
+                          { code: 'DIP-BM', name: 'Diploma in Business Management', req: 'Grade 12', duration: '1 year' },
+                          { code: 'CET-AC', name: 'National Diploma: Accounting', req: 'Grade 12', duration: '1 year' }
+                      ]},
+                    { id: 'dam', name: 'Damelin', short: 'Damelin', location: 'Nationwide', appFee: 250, instFee: 400,
+                      courses: [
+                          { code: 'DIP-MKT', name: 'Diploma in Marketing', req: 'Grade 12', duration: '1 year' },
+                          { code: 'DIP-IT', name: 'Diploma in Information Technology', req: 'Grade 12', duration: '1 year' }
+                      ]}
+                ],
+                bursary: [
+                    { id: 'nsf', name: 'NSFAS (National Student Financial Aid Scheme)', short: 'NSFAS', location: 'Nationwide', appFee: 0, instFee: 0,
+                      courses: [
+                          { code: 'ALL', name: 'All public university programmes', req: 'South African citizen, household income < R350,000', duration: 'Duration of study' }
+                      ]},
+                    { id: 'funza', name: 'Funza Lushaka Bursary', short: 'Funza', location: 'Nationwide', appFee: 0, instFee: 0,
+                      courses: [
+                          { code: 'BED-FET', name: 'Bachelor of Education (FET Phase)', req: 'South African citizen, teaching career', duration: 'Duration of study' },
+                          { code: 'BED-GET', name: 'Bachelor of Education (GET Phase)', req: 'South African citizen, teaching career', duration: 'Duration of study' }
+                      ]},
+                    { id: 'thuthuka', name: 'Thuthuka Bursary (SAICA)', short: 'Thuthuka', location: 'Nationwide', appFee: 0, instFee: 0,
+                      courses: [
+                          { code: 'BACC-CTA', name: 'Accounting (CA route)', req: 'APS 28+, Maths L5, Black student', duration: '3-4 years' },
+                          { code: 'BACC-CTA2', name: 'Accounting (CTA programme)', req: 'APS 26+, Maths L4', duration: '1 year' }
+                      ]},
+                    { id: 'sappw', name: 'South African Police Service (SAPS) Bursary', short: 'SAPS', location: 'Nationwide', appFee: 0, instFee: 0,
+                      courses: [
+                          { code: 'CRJ', name: 'Criminology', req: 'South African citizen, no criminal record', duration: '3 years' },
+                          { code: 'PUB', name: 'Public Administration', req: 'South African citizen', duration: '3 years' }
+                      ]},
+                    { id: 'transnet', name: 'Transnet Bursary', short: 'Transnet', location: 'Nationwide', appFee: 0, instFee: 0,
+                      courses: [
+                          { code: 'BE-MECH', name: 'Mechanical Engineering', req: 'APS 24+, Maths L3', duration: '4 years' },
+                          { code: 'BE-ELEC', name: 'Electrical Engineering', req: 'APS 24+, Maths L3', duration: '4 years' },
+                          { code: 'BSC-CIV', name: 'Civil Engineering', req: 'APS 24+, Maths L3', duration: '4 years' }
+                      ]}
+                ]
+            };
+
+            function formatR(n) { return 'R' + n.toFixed(2); }
+
+            function calcPaystack(total) {
+                if (total <= 0) return 0;
+                var fee = total * 0.027 + 1;
+                return Math.ceil(fee * 100) / 100;
+            }
+
+            // Category click
+            document.querySelectorAll('.apply-category-card').forEach(function (card) {
+                card.addEventListener('click', function () {
+                    var cat = card.getAttribute('data-category');
+                    applyState.category = cat;
+                    document.getElementById('applyStep1').style.display = 'none';
+                    document.getElementById('applyStep2').style.display = 'block';
+                    document.getElementById('applyCategoryLabel').textContent = cat.charAt(0).toUpperCase() + cat.slice(1) + 's';
+                    renderInstitutions(cat);
+                    lucide.createIcons();
+                });
+            });
+
+            function renderInstitutions(cat) {
+                var list = institutions[cat] || [];
+                var el = document.getElementById('institutionList');
+                el.innerHTML = '';
+                var currentYear = new Date().getFullYear();
+                list.forEach(function (inst) {
+                    var hasApp = false;
+                    var appStatus = '';
+                    var isHandled = false;
+                    for (var j = 0; j < allApps.length; j++) {
+                        if (allApps[j].institution === inst.name && allApps[j].status !== 'Withdrawn') {
+                            var y = allApps[j].date ? new Date(allApps[j].date).getFullYear() : 0;
+                            if (y === currentYear) {
+                                hasApp = true;
+                                appStatus = allApps[j].status || 'Submitted';
+                                var s = allApps[j].status;
+                                isHandled = s === 'Sent to Institution' || s === 'Accepted' || s === 'Declined' || s === 'Waitlisted';
+                                break;
+                            }
+                        }
+                    }
+                    var badgeClass = isHandled ? 'apply-inst-badge handled' : 'apply-inst-badge';
+                    var badge = hasApp ? '<span class="' + badgeClass + '">' + appStatus + '</span>' : '';
+                    var card = document.createElement('button');
+                    card.className = 'apply-institution-card';
+                    card.innerHTML = (inst.logo ? '<div class="apply-institution-logo"><img src="' + inst.logo + '" alt="' + inst.name + '" loading="lazy"></div>' : '<div class="apply-institution-icon">' + inst.short.charAt(0) + '</div>') +
+                        '<div class="apply-institution-info">' +
+                        '<h3>' + inst.name + badge + '</h3>' +
+                        '<p>' + inst.courses.length + ' programmes available</p>' +
+                        '<div class="apply-institution-meta">' + inst.location + (inst.appFee > 0 ? ' &middot; Application fee: ' + formatR(inst.appFee) : ' &middot; Free application') + '</div>' +
+                        '</div>';
+                    card.addEventListener('click', function () {
+                        applyState.institution = inst;
+                        applyState.selectedCourses = [];
+                        applyState.changeOfMindIndex = -1;
+                        var currentYear = new Date().getFullYear();
+                        var existingIdx = -1;
+                        var handledIdx = -1;
+                        for (var i = 0; i < allApps.length; i++) {
+                            if (allApps[i].institution === inst.name && allApps[i].status !== 'Withdrawn') {
+                                var appYear = allApps[i].date ? new Date(allApps[i].date).getFullYear() : 0;
+                                if (appYear === currentYear) {
+                                    var s = allApps[i].status;
+                                    if (s === 'Sent to Institution' || s === 'Accepted' || s === 'Declined' || s === 'Waitlisted') {
+                                        handledIdx = i;
+                                    } else {
+                                        existingIdx = i;
+                                    }
+                                }
+                            }
+                        }
+                        if (handledIdx >= 0) {
+                            alert('Your application to ' + inst.name + ' has already been ' + allApps[handledIdx].status.toLowerCase() + '. You cannot change your mind at this stage.');
+                            return;
+                        }
+                        var banner = document.getElementById('changeOfMindBanner');
+                        var yearEl = document.getElementById('comYear');
+                        if (existingIdx >= 0) {
+                            applyState.changeOfMindIndex = existingIdx;
+                            banner.style.display = 'flex';
+                            yearEl.textContent = currentYear;
+                            var existingCourses = (allApps[existingIdx].courses || '').split(', ');
+                            inst.courses.forEach(function (c) {
+                                if (existingCourses.indexOf(c.name) >= 0) {
+                                    applyState.selectedCourses.push(c);
+                                }
+                            });
+                        } else {
+                            banner.style.display = 'none';
+                        }
+                        document.getElementById('applyStep2').style.display = 'none';
+                        document.getElementById('applyStep3').style.display = 'block';
+                        document.getElementById('applyInstitutionLabel').textContent = inst.name;
+                        renderCourses(inst);
+                        lucide.createIcons();
+                    });
+                    el.appendChild(card);
+                });
+            }
+
+            function renderCourses(inst) {
+                var el = document.getElementById('courseList');
+                el.innerHTML = '';
+                var countEl = document.getElementById('courseCount');
+                if (countEl) countEl.textContent = applyState.selectedCourses.length + ' / 3 selected';
+                var btn = document.getElementById('applyNowBtn');
+                if (btn) btn.disabled = applyState.selectedCourses.length === 0;
+                inst.courses.forEach(function (course) {
+                    var card = document.createElement('div');
+                    card.className = 'apply-course-card';
+                    var isSelected = applyState.selectedCourses.indexOf(course) >= 0;
+                    if (isSelected) card.classList.add('selected');
+                    card.innerHTML = '<div class="apply-course-check"><i data-lucide="check"></i></div>' +
+                        '<div class="apply-course-info">' +
+                        '<h3>' + course.name + '</h3>' +
+                        '<p>' + course.req + ' &middot; ' + course.duration + '</p>' +
+                        '</div>' +
+                        '<span class="apply-course-code">' + course.code + '</span>';
+                    card.addEventListener('click', function () {
+                        var idx = applyState.selectedCourses.indexOf(course);
+                        if (idx >= 0) {
+                            applyState.selectedCourses.splice(idx, 1);
+                            card.classList.remove('selected');
+                        } else if (applyState.selectedCourses.length < 3) {
+                            applyState.selectedCourses.push(course);
+                            card.classList.add('selected');
+                        }
+                        var countEl2 = document.getElementById('courseCount');
+                        if (countEl2) countEl2.textContent = applyState.selectedCourses.length + ' / 3 selected';
+                        var btn2 = document.getElementById('applyNowBtn');
+                        if (btn2) btn2.disabled = applyState.selectedCourses.length === 0;
+                    });
+                    el.appendChild(card);
+                });
+                lucide.createIcons();
+            }
+
+            document.getElementById('applyBack1').addEventListener('click', function (e) {
+                e.preventDefault();
+                document.getElementById('applyStep2').style.display = 'none';
+                document.getElementById('applyStep1').style.display = 'block';
+            });
+            document.getElementById('applyBack2').addEventListener('click', function (e) {
+                e.preventDefault();
+                document.getElementById('applyStep3').style.display = 'none';
+                document.getElementById('applyStep2').style.display = 'block';
+                applyState.selectedCourses = [];
+            });
+
+            // Apply Now → Applied Before popup
+            document.getElementById('applyNowBtn').addEventListener('click', function () {
+                document.getElementById('appliedPopup').style.display = 'flex';
+                document.getElementById('appliedForm').style.display = 'none';
+                lucide.createIcons();
+            });
+
+            document.getElementById('appliedYes').addEventListener('click', function () {
+                document.getElementById('appliedForm').style.display = 'block';
+                lucide.createIcons();
+            });
+
+            document.getElementById('appliedNo').addEventListener('click', function () {
+                document.getElementById('appliedPopup').style.display = 'none';
+                showPayment();
+            });
+
+            document.getElementById('closeAppliedPopup').addEventListener('click', function () {
+                document.getElementById('appliedPopup').style.display = 'none';
+            });
+
+            document.getElementById('appliedContinue').addEventListener('click', function () {
+                var sid = document.getElementById('appliedStudentId').value.trim();
+                var pin = document.getElementById('appliedPin').value.trim();
+                if (!sid || !pin) return;
+                document.getElementById('appliedPopup').style.display = 'none';
+                showPayment();
+            });
+
+            // Payment
+            function showPayment() {
+                var inst = applyState.institution;
+                if (!inst) return;
+                var appFee = inst.appFee || 0;
+                var gwFee = calcPaystack(appFee);
+                var total = appFee + gwFee;
+                var instFee = inst.instFee || 0;
+                var gwFeeInst = calcPaystack(instFee);
+                var instTotal = instFee + gwFeeInst;
+
+                document.getElementById('payAppFee').textContent = formatR(appFee);
+                document.getElementById('payGatewayFee').textContent = formatR(gwFee);
+                document.getElementById('payTotal').textContent = formatR(total);
+                document.getElementById('payInstitutionFee').textContent = formatR(instFee + gwFeeInst);
+                document.getElementById('payInstitutionNote').textContent = instFee > 0 ? 'Includes ' + inst.name + ' application fee of ' + formatR(instFee) : 'No additional institution fee';
+                document.getElementById('payGrandTotal').textContent = formatR(total);
+                document.getElementById('payInclInstitution').checked = false;
+
+                document.getElementById('payInclInstitution').onchange = function () {
+                    var grand = total;
+                    if (this.checked) grand += instTotal;
+                    document.getElementById('payGrandTotal').textContent = formatR(grand);
+                };
+
+                document.getElementById('paymentPopup').style.display = 'flex';
+                lucide.createIcons();
+            }
+
+            document.getElementById('closePaymentPopup').addEventListener('click', function () {
+                document.getElementById('paymentPopup').style.display = 'none';
+            });
+
+            // Save application to user_metadata
+            async function saveApplication(appData, existingIndex) {
+                try {
+                    var session = await supabase.auth.getSession();
+                    var user = session.data && session.data.session && session.data.session.user;
+                    if (!user) return;
+                    var meta = user.user_metadata || {};
+                    var apps = meta.applications || [];
+                    if (typeof existingIndex === 'number' && existingIndex >= 0 && existingIndex < apps.length) {
+                        appData.date = apps[existingIndex].date;
+                        appData.originalDate = apps[existingIndex].originalDate || apps[existingIndex].date;
+                        apps[existingIndex] = appData;
+                    } else {
+                        apps.push(appData);
+                    }
+                    await supabase.auth.updateUser({ data: { applications: apps } });
+                } catch (e) {}
+            }
+
+            // Load and render applications on Home tab
+            var currentViewAppIndex = -1;
+            var allApps = [];
+
+            function renderDashApplications(apps) {
+                allApps = apps || [];
+                var section = document.getElementById('myApplicationsSection');
+                var list = document.getElementById('dashApplicationsList');
+                if (!allApps.length) { section.style.display = 'none'; return; }
+                section.style.display = 'block';
+                list.innerHTML = '';
+                var shown = allApps.slice(-5).reverse();
+                shown.forEach(function (app, i) {
+                    var realIndex = allApps.length - 1 - i;
+                    var item = document.createElement('div');
+                    item.className = 'dash-application-item';
+                    item.setAttribute('data-index', realIndex);
+                    item.style.cursor = 'pointer';
+                    var initials = app.institutionShort ? app.institutionShort.substring(0, 2).toUpperCase() : 'AP';
+                    var dateStr = app.date ? new Date(app.date).toLocaleDateString('en-ZA', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
+                    var statusClass = (app.status || 'submitted').toLowerCase().replace(/\s+/g, '-');
+                    var logoHtml = app.logo ? '<div class="dash-app-logo"><img src="' + app.logo + '" alt="' + (app.institution || '') + '" loading="lazy"></div>' : '<div class="dash-app-icon">' + initials + '</div>';
+                    item.innerHTML =
+                        logoHtml +
+                        '<div class="dash-app-info">' +
+                        '<h3>' + (app.institution || 'Institution') + '</h3>' +
+                        '<p>' + (app.courses || 'Courses') + '</p>' +
+                        '</div>' +
+                        '<span class="dash-app-status ' + statusClass + '">' + (app.status || 'Submitted') + '</span>' +
+                        '<span class="dash-app-date">' + dateStr + '</span>';
+                    item.addEventListener('click', function () { openViewApp(realIndex); });
+                    list.appendChild(item);
+                });
+            }
+
+            function openViewApp(index) {
+                currentViewAppIndex = index;
+                var app = allApps[index];
+                if (!app) return;
+                var logoEl = document.getElementById('viewAppLogo');
+                logoEl.innerHTML = app.logo ? '<img src="' + app.logo + '" alt="' + (app.institution || '') + '">' : '<div class="dash-app-icon">' + (app.institutionShort || 'AP').substring(0, 2).toUpperCase() + '</div>';
+                document.getElementById('viewAppName').textContent = app.institution || '';
+                document.getElementById('viewAppCategory').textContent = (app.category || '').charAt(0).toUpperCase() + (app.category || '').slice(1);
+                var statusEl = document.getElementById('viewAppStatus');
+                statusEl.textContent = app.status || 'Submitted';
+                statusEl.className = 'dash-app-status ' + (app.status || 'submitted').toLowerCase().replace(/\s+/g, '-');
+                document.getElementById('viewAppDate').textContent = app.date ? new Date(app.date).toLocaleDateString('en-ZA', { day: 'numeric', month: 'long', year: 'numeric' }) : '—';
+                document.getElementById('viewAppPayment').textContent = app.totalPaid || '—';
+                document.getElementById('viewAppCatText').textContent = (app.category || '').charAt(0).toUpperCase() + (app.category || '').slice(1);
+                var coursesList = document.getElementById('viewAppCourses');
+                coursesList.innerHTML = '';
+                var courseArr = (app.courses || '').split(', ');
+                courseArr.forEach(function (c) {
+                    if (c) {
+                        var li = document.createElement('li');
+                        li.textContent = c;
+                        coursesList.appendChild(li);
+                    }
+                });
+                document.getElementById('viewAppPopup').style.display = 'flex';
+                lucide.createIcons();
+            }
+
+            document.getElementById('closeViewApp').addEventListener('click', function () {
+                document.getElementById('viewAppPopup').style.display = 'none';
+            });
+
+            // Withdraw
+            document.getElementById('viewAppWithdraw').addEventListener('click', function () {
+                document.getElementById('withdrawPopup').style.display = 'flex';
+                lucide.createIcons();
+            });
+            document.getElementById('closeWithdrawPopup').addEventListener('click', function () {
+                document.getElementById('withdrawPopup').style.display = 'none';
+            });
+            document.getElementById('cancelWithdraw').addEventListener('click', function () {
+                document.getElementById('withdrawPopup').style.display = 'none';
+            });
+            document.getElementById('confirmWithdraw').addEventListener('click', async function () {
+                if (currentViewAppIndex < 0) return;
+                allApps.splice(currentViewAppIndex, 1);
+                try {
+                    var session = await supabase.auth.getSession();
+                    var user = session.data && session.data.session && session.data.session.user;
+                    if (user) await supabase.auth.updateUser({ data: { applications: allApps } });
+                } catch (e) {}
+                document.getElementById('withdrawPopup').style.display = 'none';
+                document.getElementById('viewAppPopup').style.display = 'none';
+                document.getElementById('withdrawnSuccess').style.display = 'flex';
+                lucide.createIcons();
+                renderDashApplications(allApps);
+            });
+            document.getElementById('withdrawnDone').addEventListener('click', function () {
+                document.getElementById('withdrawnSuccess').style.display = 'none';
+            });
+
+            // Receipt
+            document.getElementById('viewAppReceipt').addEventListener('click', function () {
+                if (currentViewAppIndex < 0) return;
+                var app = allApps[currentViewAppIndex];
+                if (!app) return;
+                var receiptNum = 'STU-' + (app.date ? new Date(app.date).getTime().toString(36).toUpperCase() : '0000');
+                document.getElementById('receiptNo').textContent = receiptNum;
+                document.getElementById('receiptDate').textContent = app.date ? new Date(app.date).toLocaleDateString('en-ZA', { day: 'numeric', month: 'long', year: 'numeric' }) : '—';
+                document.getElementById('receiptInstitution').textContent = app.institution || '';
+                document.getElementById('receiptCourses').textContent = app.courses || '';
+                document.getElementById('receiptCategory').textContent = (app.category || '').charAt(0).toUpperCase() + (app.category || '').slice(1);
+                document.getElementById('receiptAppFee').textContent = app.totalPaid || 'R0.00';
+                var instFeeRow = document.getElementById('receiptInstFeeRow');
+                if (app.includeInstitutionFee) {
+                    instFeeRow.style.display = 'flex';
+                    document.getElementById('receiptInstFee').textContent = 'Included';
+                } else {
+                    instFeeRow.style.display = 'none';
+                }
+                document.getElementById('receiptTotal').textContent = app.totalPaid || 'R0.00';
+                document.getElementById('receiptPopup').style.display = 'flex';
+                lucide.createIcons();
+            });
+            document.getElementById('closeReceiptPopup').addEventListener('click', function () {
+                document.getElementById('receiptPopup').style.display = 'none';
+            });
+            document.getElementById('downloadReceiptBtn').addEventListener('click', function () {
+                var el = document.getElementById('receiptContent');
+                var canvas = document.createElement('canvas');
+                canvas.width = 420;
+                canvas.height = 600;
+                var ctx = canvas.getContext('2d');
+                ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--bg-elev').trim() || '#1a1a2e';
+                ctx.fillRect(0, 0, 420, 600);
+                ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text').trim() || '#ffffff';
+                ctx.font = 'bold 18px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('Payment Receipt', 210, 40);
+                ctx.font = '12px Arial';
+                ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-muted').trim() || '#aaaaaa';
+                ctx.fillText('startedup.co', 210, 58);
+                ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--border').trim() || '#333';
+                ctx.setLineDash([4, 4]);
+                ctx.beginPath(); ctx.moveTo(20, 75); ctx.lineTo(400, 75); ctx.stroke();
+                ctx.setLineDash([]);
+                ctx.textAlign = 'left';
+                ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text').trim() || '#ffffff';
+                ctx.font = '12px Arial';
+                var y = 100;
+                var app = allApps[currentViewAppIndex];
+                var rows = [
+                    ['Receipt No:', 'STU-' + (app.date ? new Date(app.date).getTime().toString(36).toUpperCase() : '0000')],
+                    ['Date:', app.date ? new Date(app.date).toLocaleDateString('en-ZA') : '—'],
+                    ['', ''],
+                    ['Institution:', app.institution || ''],
+                    ['Courses:', app.courses || ''],
+                    ['Category:', (app.category || '').charAt(0).toUpperCase() + (app.category || '').slice(1)],
+                    ['', ''],
+                    ['Total Paid:', app.totalPaid || 'R0.00']
+                ];
+                rows.forEach(function (r) {
+                    if (!r[0] && !r[1]) { y += 10; return; }
+                    ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-faint').trim() || '#888';
+                    ctx.fillText(r[0], 30, y);
+                    ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text').trim() || '#fff';
+                    ctx.textAlign = 'right';
+                    ctx.fillText(r[1], 390, y);
+                    ctx.textAlign = 'left';
+                    y += 25;
+                });
+                ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-faint').trim() || '#888';
+                ctx.font = '10px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('Thank you for using startedup.co', 210, 560);
+                var link = document.createElement('a');
+                link.download = 'receipt-' + (app.institutionShort || 'app') + '.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+
+            document.getElementById('payNowBtn').addEventListener('click', async function () {
+                document.getElementById('paymentPopup').style.display = 'none';
+                var inst = applyState.institution;
+                var courseNames = applyState.selectedCourses.map(function (c) { return c.name; }).join(', ');
+                var inclInst = document.getElementById('payInclInstitution').checked;
+                var grandText = document.getElementById('payGrandTotal').textContent;
+                var userSession = await supabase.auth.getSession();
+                var currentUser = userSession.data && userSession.data.session && userSession.data.session.user;
+                var userMeta = currentUser ? (currentUser.user_metadata || {}) : {};
+                var appData = {
+                    institution: inst.name,
+                    institutionShort: inst.short,
+                    logo: inst.logo || '',
+                    category: applyState.category,
+                    courses: courseNames,
+                    courseCodes: applyState.selectedCourses.map(function (c) { return c.code; }),
+                    status: 'Submitted',
+                    date: new Date().toISOString(),
+                    totalPaid: grandText,
+                    includeInstitutionFee: inclInst,
+                    applicantName: ((userMeta.first_name || '') + ' ' + (userMeta.surname || '')).trim() || currentUser.email,
+                    applicantEmail: currentUser.email || ''
+                };
+                var isChangeOfMind = applyState.changeOfMindIndex >= 0;
+                await saveApplication(appData, applyState.changeOfMindIndex);
+                document.getElementById('successMessage').textContent = isChangeOfMind
+                    ? 'Your application to ' + inst.name + ' has been updated for ' + courseNames + '.'
+                    : 'Your application to ' + inst.name + ' for ' + courseNames + ' has been submitted. You will receive a confirmation email shortly.';
+                document.getElementById('successPopup').style.display = 'flex';
+                loadDashApplications();
+                lucide.createIcons();
+            });
+
+            document.getElementById('successDone').addEventListener('click', function () {
+                document.getElementById('successPopup').style.display = 'none';
+                document.getElementById('applyStep3').style.display = 'none';
+                document.getElementById('applyStep1').style.display = 'block';
+                applyState = { category: '', institution: null, courses: [], selectedCourses: [], changeOfMindIndex: -1 };
+            });
+
+            // Load applications on dashboard load
+            async function loadDashApplications() {
+                try {
+                    var session = await supabase.auth.getSession();
+                    var user = session.data && session.data.session && session.data.session.user;
+                    if (!user) return;
+                    var meta = user.user_metadata || {};
+                    renderDashApplications(meta.applications || []);
+                } catch (e) {}
+            }
+            loadDashApplications();
         })();
     </script>
 </body>

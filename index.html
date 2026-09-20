@@ -20,28 +20,33 @@
     <style>
         .hero .splitting { cursor: pointer; }
 
-        /* Animations for hero text only */
-        .hero .blur-it .char { color: rgba(255,255,255,1); transition: opacity 0.2s linear; }
-        .hero .blur-it .char:before, .hero .blur-it .char:after { visibility: visible; opacity: 0; }
+        .hero .splitting .char {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .hero.loaded .splitting .char {
+            opacity: 1;
+            transition-delay: calc(0.8s + 0.03s * var(--char-index));
+        }
+
+        .hero-cta {
+            opacity: 1;
+        }
         .hero .blur-it:hover .char { color: rgba(255,255,255,0.5); }
         .hero .blur-it:hover .char:before, .hero .blur-it:hover .char:after { opacity: 0.8; animation: blur 0.6s linear infinite alternate; animation-delay: calc( -0.2s * var(--distance-percent) ); }
         .hero .blur-it:hover .char:after { animation-delay: calc( 0.3s + (-0.2s * var(--distance-percent)) ); }
         @keyframes blur { 0% { transform: translate(-0.1em, 0) scale(0.9) rotate(-2deg); } 50% { transform: translate(0,0) scale(1.1) rotate(0deg); } 100% { transform: translate(0.1em, 0) scale(0.9) rotate(2deg); } }
 
-        .hero .plop-it { perspective: 500px; transform-style: preserve-3d; }
-        .hero .plop-it:hover .char { animation: plop 2s ease-out infinite both; animation-delay: calc( 0.05s * var(--char-index) ); }
-        @keyframes plop { 0% { opacity: 0; transform: translate3d(0px, 10px, 400px) rotate(180deg); animation-timing-function: cubic-bezier(.5,0,.8,.25); } 20% { transform: translate3d(0px, -20px, 200px) rotate(90deg); animation-timing-function: cubic-bezier(0,.5,.5,1.1); } 40%, 70% { opacity: 1; transform: translate3d(0px, 0px, 0px) rotate(0deg); } 90%, 100% { opacity: 0; transform: translate3d(0px, 10px, -200px) rotate(-90deg); animation-timing-function: cubic-bezier(.5,0,.8,.25); } }
-
         .hero .stagger-it .char { transition: color 0.5s linear; transition-delay: calc( 0.04s * var(--char-index) ); }
-        .hero .stagger-it:hover { color: #00C9B1; }
+        .hero .stagger-it:hover { color: var(--accent); }
 
         .hero .stretch-it .char { transition: transform 0.5s cubic-bezier(.8,0,0,.9); }
         .hero .stretch-it:hover .char { transform: scale(0.8, 0.8); }
         .hero .stretch-it .char:hover { transform: scale(0.9,1.5); transition-duration: 0.3s; }
 
         .hero .slide-vertical .char, .hero .slide-horizontal .char { overflow: hidden; color: transparent; }
-        .hero .slide-vertical .char:before, .hero .slide-vertical .char:after, .hero .slide-horizontal .char:before, .hero .slide-horizontal .char:after { visibility: visible; color: #FFF; transition: transform 0.5s cubic-bezier(0.9,0,.2,1); transition-delay: calc( 0.2s + ( 0.02s * ( var(--char-index)) ) ); }
-        .hero .slide-vertical .char:before, .hero .slide-horizontal .char:before { color: #00C9B1; transition-delay: calc( 0.02s * ( var(--char-index)) ); }
+        .hero .slide-vertical .char:before, .hero .slide-vertical .char:after, .hero .slide-horizontal .char:before, .hero .slide-horizontal .char:after { visibility: visible; color: var(--text); transition: transform 0.5s cubic-bezier(0.9,0,.2,1); transition-delay: calc( 0.2s + ( 0.02s * ( var(--char-index)) ) ); }
+        .hero .slide-vertical .char:before, .hero .slide-horizontal .char:before { color: var(--accent); transition-delay: calc( 0.02s * ( var(--char-index)) ); }
         .hero .slide-vertical:hover .char:before, .hero .slide-horizontal:hover .char:before { transition-delay: calc( 0.2s + ( 0.02s * ( var(--char-index)) ) ); }
         .hero .slide-vertical:hover .char:after, .hero .slide-horizontal:hover .char:after { transition-delay: calc( 0.02s * ( var(--char-index)) ); }
         .hero .slide-vertical .char:before { transform: translateY(-100%); }
@@ -52,7 +57,7 @@
         .hero .slide-horizontal:hover .char:after { transform: translateX(-110%); }
 
         .hero .fall-out .char { transition: transform 0.5s cubic-bezier(.86,.01,.14,.98); color: transparent; }
-        .hero .fall-out .char:before, .hero .fall-out .char:after { visibility: visible; color: #FFF; animation-timing-function: cubic-bezier(.77,.02,.11,.97); animation-fill-mode: both; animation-delay: calc(0.75s + (0.05s * var(--char-index)) ); animation-duration: 1s; }
+        .hero .fall-out .char:before, .hero .fall-out .char:after { visibility: visible; color: var(--text); animation-timing-function: cubic-bezier(.77,.02,.11,.97); animation-fill-mode: both; animation-delay: calc(0.75s + (0.05s * var(--char-index)) ); animation-duration: 1s; }
         .hero .fall-out .char:after { animation-delay: calc(0.05s * var(--char-index) ); }
         .hero .fall-out:hover .char:before { animation-name: fall-in; }
         .hero .fall-out:hover .char:after { animation-name: fall-out; }
@@ -76,7 +81,7 @@
         .hero .run-out { width: 100%; overflow: hidden; pointer-events: none; }
         .hero .run-out .word { pointer-events: auto; }
         .hero .run-out .char { color: transparent; }
-        .hero .run-out .char:before, .hero .run-out .char:after { visibility: visible; color: #FFF; transition: transform 1.2s cubic-bezier(.77,.02,.11,.97); transition-delay: calc( 0.04s * var(--char-total) + (0.08s * var(--char-index)) ); }
+        .hero .run-out .char:before, .hero .run-out .char:after { visibility: visible; color: var(--text); transition: transform 1.2s cubic-bezier(.77,.02,.11,.97); transition-delay: calc( 0.04s * var(--char-total) + (0.08s * var(--char-index)) ); }
         .hero .run-out .char:before { transform: translateX(-100vw) rotate(-35deg); transition-delay: calc(0.04s * var(--char-index) ); }
         .hero .run-out:hover .char:before { transform: translateX(0) rotate(0deg); transition-delay: calc( 0.04s * var(--char-total) + (0.08s * (var(--char-total) - var(--char-index))) ); }
         .hero .run-out:hover .char:after { transform: translateX(100vw) rotate(35deg); transition-delay: calc( (0.04s * (var(--char-total) - var(--char-index))) ); }
@@ -100,11 +105,11 @@
         .hero .bounce-it:hover .char { animation-name: bounce-char; }
         @keyframes bounce-char { 20% { transform: translateY(0%) scale(1.3, .8); } 70% { transform: translateY(-40%) scale(.8, 1.2); } }
 
-        .hero .zip-it .char, .hero .split-it .char { color: #00C9B1; }
+        .hero .zip-it .char, .hero .split-it .char { color: var(--accent); }
         .hero .zip-it .char, .hero .zip-it .char:before, .hero .zip-it .char:after,
         .hero .split-it .char, .hero .split-it .char:before, .hero .split-it .char:after { transition: transform 0.8s cubic-bezier(.75,0,.25,1); transition-delay: calc( 0.2s * var(--distance-percent) ); }
         .hero .zip-it .char:before, .hero .zip-it .char:after,
-        .hero .split-it .char:before, .hero .split-it .char:after { visibility: visible; color: #FFF; }
+        .hero .split-it .char:before, .hero .split-it .char:after { visibility: visible; color: var(--text); }
         .hero .zip-it .char:before, .hero .split-it .char:before { clip-path: polygon(0 0, 100% 0, 100% 54%, 0 54%); }
         .hero .zip-it .char:after, .hero .split-it .char:after { clip-path: polygon(0 46%, 100% 46%, 100% 100%, 0 100%); }
         .hero .zip-it:hover .char:before, .hero .split-it:hover .char:before { transform: translateY(-45%) scaleY(0); }
@@ -132,19 +137,19 @@
         .hero .elevate-it { perspective: 400px; transform-style: preserve-3d; }
         .hero .elevate-it .char { transition: transform 0.8s cubic-bezier(.5,0,0,.9); transition-delay: calc( 0.1s * (1 - var(--distance-percent)) ); color: transparent; }
         .hero .elevate-it .char:before, .hero .elevate-it .char:after { visibility: visible; }
-        .hero .elevate-it .char:before { color: #000; opacity: 0.85; transform: translateY(0%) rotateX(45deg) scale(1,0); transform-origin: center 80%; }
-        .hero .elevate-it .char:after { color: #FFF; }
+        .hero .elevate-it .char:before { color: var(--bg); opacity: 0.85; transform: translateY(0%) rotateX(45deg) scale(1,0); transform-origin: center 80%; }
+        .hero .elevate-it .char:after { color: var(--text); }
         .hero .elevate-it:hover .char:before { transform: translateY(0%) rotateX(55deg) scale(0.8, calc( 0.4 + (0.4 * ( 1 - var(--distance-percent))) ) ); }
         .hero .elevate-it:hover .char:after { transform: translateY(-50%) translateY( calc(30% * var(--distance-percent) ) ) rotateX(55deg); }
 
-        .hero .pop-out .char { color: #00C9B1; }
-        .hero .pop-out .char:after { visibility: visible; color: #FFF; z-index: 2; animation-timing-function: cubic-bezier(.5,0.5,1), linear; animation-iteration-count: infinite; animation-duration: calc( 0.08s * calc( var(--char-total) ) ); animation-delay: calc( 0.08s * var(--char-index) ); }
+        .hero .pop-out .char { color: var(--accent); }
+        .hero .pop-out .char:after { visibility: visible; color: var(--text); z-index: 2; animation-timing-function: cubic-bezier(.5,0.5,1), linear; animation-iteration-count: infinite; animation-duration: calc( 0.08s * calc( var(--char-total) ) ); animation-delay: calc( 0.08s * var(--char-index) ); }
         .hero .pop-out:hover .char:after { animation-name: pop-char-out; }
         @keyframes pop-char-out { 0%, 70%, 100% { transform: translate(0em, 0em); } 35% { transform: translate( 0.05em, -0.1em); } }
 
-        .hero .pop-out-color .char { color: #000; animation-timing-function: cubic-bezier(.5,0,.5,1), linear; animation-iteration-count: infinite; animation-duration: calc( 0.08s * calc( var(--char-total) ) ); animation-delay: calc( 0.08s * var(--char-index) ); }
-        .hero .pop-out-color .char:before, .hero .pop-out-color .char:after { visibility: visible; color: #FFF; z-index: 1; animation: inherit; }
-        .hero .pop-out-color .char:after { color: #FFF; z-index: 2; }
+        .hero .pop-out-color .char { color: var(--bg); animation-timing-function: cubic-bezier(.5,0,.5,1), linear; animation-iteration-count: infinite; animation-duration: calc( 0.08s * calc( var(--char-total) ) ); animation-delay: calc( 0.08s * var(--char-index) ); }
+        .hero .pop-out-color .char:before, .hero .pop-out-color .char:after { visibility: visible; color: var(--text); z-index: 1; animation: inherit; }
+        .hero .pop-out-color .char:after { color: var(--text); z-index: 2; }
         .hero .pop-out-color:hover .char { animation-name: color-cycle; }
         .hero .pop-out-color:hover .char:after { animation-name: pop-char-out }
         .hero .pop-out-color:hover .char:before { animation-name: pop-char-out2, color-cycle; }
@@ -162,25 +167,6 @@
                 <ul class="dropdown">
                     <li><a href="features.html" data-page="features">Features</a></li>
                     <li><a href="pricing.html" data-page="pricing">Pricing</a></li>
-                </ul>
-            </li>
-            <li class="has-dropdown">
-                <button class="nav-trigger lang-trigger" type="button">
-                    <i data-lucide="globe"></i>
-                    <span class="code" id="currentLangDesktop">EN</span>
-                    <i data-lucide="chevron-down"></i>
-                </button>
-                <ul class="dropdown lang-dropdown" id="langMenuDesktop">
-                    <li class="active" data-lang="en"><button type="button">EN — English <i data-lucide="check"></i></button></li>
-                    <li data-lang="af"><button type="button">AF — Afrikaans <i data-lucide="check"></i></button></li>
-                    <li data-lang="zu"><button type="button">ZU — isiZulu <i data-lucide="check"></i></button></li>
-                    <li data-lang="xh"><button type="button">XH — isiXhosa <i data-lucide="check"></i></button></li>
-                    <li data-lang="fr"><button type="button">FR — Français <i data-lucide="check"></i></button></li>
-                    <li data-lang="es"><button type="button">ES — Español <i data-lucide="check"></i></button></li>
-                    <li data-lang="pt"><button type="button">PT — Português <i data-lucide="check"></i></button></li>
-                    <li data-lang="de"><button type="button">DE — Deutsch <i data-lucide="check"></i></button></li>
-                    <li data-lang="nl"><button type="button">NL — Nederlands <i data-lucide="check"></i></button></li>
-                    <li data-lang="sw"><button type="button">SW — Kiswahili <i data-lucide="check"></i></button></li>
                 </ul>
             </li>
             <li>
@@ -209,27 +195,6 @@
             </ul>
         </li>
         <li>
-            <button class="mobile-dropdown-toggle" type="button" id="mobileLangToggle">
-                <span class="lang-toggle-label">
-                    <i data-lucide="globe"></i>
-                    <span id="currentLangMobile">EN</span>
-                </span>
-                <i data-lucide="chevron-down"></i>
-            </button>
-            <ul class="mobile-dropdown" id="mobileLang">
-                <li class="active" data-lang="en"><button type="button">EN — English <i data-lucide="check"></i></button></li>
-                <li data-lang="af"><button type="button">AF — Afrikaans <i data-lucide="check"></i></button></li>
-                <li data-lang="zu"><button type="button">ZU — isiZulu <i data-lucide="check"></i></button></li>
-                <li data-lang="xh"><button type="button">XH — isiXhosa <i data-lucide="check"></i></button></li>
-                <li data-lang="fr"><button type="button">FR — Français <i data-lucide="check"></i></button></li>
-                <li data-lang="es"><button type="button">ES — Español <i data-lucide="check"></i></button></li>
-                <li data-lang="pt"><button type="button">PT — Português <i data-lucide="check"></i></button></li>
-                <li data-lang="de"><button type="button">DE — Deutsch <i data-lucide="check"></i></button></li>
-                <li data-lang="nl"><button type="button">NL — Nederlands <i data-lucide="check"></i></button></li>
-                <li data-lang="sw"><button type="button">SW — Kiswahili <i data-lucide="check"></i></button></li>
-            </ul>
-        </li>
-        <li>
             <button class="mobile-theme-toggle" id="themeToggleMobile" type="button">
                 <span>Theme</span>
                 <span class="theme-toggle" aria-hidden="true">
@@ -244,7 +209,7 @@
     <div class="nav-overlay" id="navOverlay"></div>
 
     <main class="container">
-            <div class="hero" id="start">
+            <div class="hero">
                 <h1 class="splitting" data-splitting>
                     Go to sleep with an idea, wake up to a <span class="jordy">business that runs on its own.</span>
                 </h1>
@@ -263,9 +228,9 @@
                     Built in South Africa.
                 </p>
                 <div class="button-container">
-                    <a href="#" class="button" aria-label="X"><i data-lucide="x" class="btn-svg"></i></a>
-                    <a href="#" class="button" aria-label="GitHub"><i data-lucide="github" class="btn-svg"></i></a>
-                    <a href="#" class="button" aria-label="LinkedIn"><i data-lucide="linkedin" class="btn-svg"></i></a>
+                    <a href="#" class="button" aria-label="X"><i data-lucide="x"></i></a>
+                    <a href="#" class="button" aria-label="GitHub"><i data-lucide="github"></i></a>
+                    <a href="#" class="button" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
                 </div>
             </div>
             <div class="footer-links">
@@ -309,11 +274,9 @@
     <script src="https://unpkg.com/lucide@0.460.0"></script>
     <script src="app.js"></script>
     <script>
-        if (window.lucide) lucide.createIcons();
-
         const animations = [
-            'blur-it', 'plop-it', 'plump-it', 'pinch-it', 'stagger-it',
-            'stretch-it', 'slide-vertical', 'slide-horizontal', 'fall-out',
+            'blur-it', 'plump-it', 'pinch-it', 'stagger-it', 'stretch-it',
+            'slide-vertical', 'slide-horizontal', 'fall-out',
             'run-out', 'shift-right', 'spread-out', 'pull-in', 'inflate-it',
             'bounce-it', 'wiggle-it', 'zip-it', 'split-it', 'glitch-it',
             'frown-it', 'smile-it', 'flip-it', 'flip-3d', 'elevate-it',
@@ -321,10 +284,14 @@
         ];
 
         const randomAnimation = animations[Math.floor(Math.random() * animations.length)];
+        const hero = document.querySelector('.hero');
         const h1 = document.querySelector('.hero h1[data-splitting]');
         if (h1) {
             h1.classList.add(randomAnimation);
             if (typeof Splitting === 'function') Splitting();
+            requestAnimationFrame(function() {
+                hero.classList.add('loaded');
+            });
         }
     </script>
 </body>
